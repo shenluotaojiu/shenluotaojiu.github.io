@@ -1115,6 +1115,37 @@ a {
     color: var(--accent-blue);
 }
 
+/* 展开/收起全部按钮 */
+.sidebar-toggle-all {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-toggle-all button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sidebar-toggle-all button:hover {
+    background: var(--bg-highlight);
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.sidebar-toggle-all button i {
+    font-size: 0.65rem;
+}
+
 /* 侧边栏切换按钮 - 放在分界线上 */
 .sidebar-toggle {
     position: fixed;
@@ -1222,6 +1253,9 @@ a {
 .sidebar-cat-items {
     overflow: hidden;
     transition: max-height 0.3s ease, opacity 0.3s ease;
+    margin-left: 15px;  /* 整体缩进 */
+    border-left: 1px solid var(--bg-highlight);  /* 左侧连接线 */
+    padding-left: 0;
 }
 
 .sidebar-cat-items.collapsed {
@@ -1231,7 +1265,7 @@ a {
 
 .sidebar-item {
     display: block;
-    padding: 6px 15px;
+    padding: 6px 15px 6px 15px;  /* 因为父级已有缩进，这里不需要额外左缩进 */
     font-size: 0.8rem;
     color: #ffffff;
     transition: var(--transition);
@@ -1239,6 +1273,7 @@ a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: -1px;  /* 覆盖父级的边框 */
 }
 
 .sidebar-item:hover {
@@ -1282,7 +1317,7 @@ a {
 }
 
 .reading-progress {
-    margin-left: auto;
+    margin-left: 8px;
     font-size: 0.75rem;
     color: var(--accent-cyan);
     font-weight: normal;
@@ -1290,7 +1325,7 @@ a {
 
 /* 目录样式 */
 .toc-content {
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .toc-empty {
@@ -1300,15 +1335,16 @@ a {
     text-align: left;
 }
 
-.toc-list,
-.toc-sublist {
+.toc-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
 .toc-sublist {
-    padding-left: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .toc-item {
@@ -1326,12 +1362,15 @@ a {
 .toc-link {
     display: flex;
     align-items: center;
-    padding: 5px 12px;
+    padding: 5px 8px;
     font-size: 0.8rem;
     color: #ffffff;
     transition: var(--transition);
-    border-left: 2px solid transparent;
     text-align: left;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .toc-link:hover {
@@ -1341,7 +1380,6 @@ a {
 
 .toc-link.active {
     color: var(--accent-blue);
-    border-left-color: var(--accent-blue);
     background: var(--bg-highlight);
 }
 
@@ -1375,11 +1413,13 @@ a {
     text-align: left;
 }
 
-/* 不同层级的目录缩进 */
-.toc-level-1 > .toc-link { padding-left: 12px; font-weight: 600; }
-.toc-level-2 > .toc-link { padding-left: 12px; }
-.toc-level-3 > .toc-link { padding-left: 24px; font-size: 0.75rem; }
-.toc-level-4 > .toc-link { padding-left: 50px; font-size: 0.8rem; }
+/* 不同层级的目录样式 - 用padding-left控制缩进 */
+.toc-item.toc-level-1 > .toc-link { font-weight: 600; font-size: 0.85rem; padding-left: 8px; }
+.toc-item.toc-level-2 > .toc-link { font-size: 0.8rem; padding-left: 8px; }
+.toc-item.toc-level-3 > .toc-link { font-size: 0.78rem; color: rgba(255,255,255,0.85); padding-left: 24px; }
+.toc-item.toc-level-4 > .toc-link { font-size: 0.75rem; color: rgba(255,255,255,0.7); padding-left: 40px; }
+.toc-item.toc-level-5 > .toc-link { font-size: 0.72rem; color: rgba(255,255,255,0.6); padding-left: 56px; }
+.toc-item.toc-level-6 > .toc-link { font-size: 0.7rem; color: rgba(255,255,255,0.5); padding-left: 72px; }
 
 /* 三栏布局响应式 */
 @media (max-width: 1400px) {

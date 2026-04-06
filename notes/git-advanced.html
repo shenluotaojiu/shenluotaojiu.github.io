@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Git 进阶技巧 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
+    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -38,6 +38,11 @@
             <div class="sidebar-header">
                 <i class="fas fa-list"></i>
                 <span>所有笔记</span>
+                <div class="sidebar-toggle-all">
+                    <button id="leftToggleAll" title="展开/收起全部">
+                        <i class="fas fa-expand-alt"></i>
+                    </button>
+                </div>
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
@@ -102,17 +107,17 @@
 
 <h4>Merge</h4>
 
-<pre><code class="language-bash">git checkout main
-git merge feature/new-feature</code></pre>
+<p><pre><code class="language-bash">git checkout main
+git merge feature/new-feature</code></pre></p>
 
 <h4>Rebase</h4>
 
-<pre><code class="language-bash">git checkout feature/new-feature
-git rebase main</code></pre>
+<p><pre><code class="language-bash">git checkout feature/new-feature
+git rebase main</code></pre></p>
 
 <h4>Squash</h4>
 
-<pre><code class="language-bash">git merge --squash feature/new-feature</code></pre>
+<p><pre><code class="language-bash">git merge --squash feature/new-feature</code></pre></p>
 
 <h2>高级命令</h2>
 
@@ -120,7 +125,7 @@ git rebase main</code></pre>
 
 <p>整理提交历史：</p>
 
-<pre><code class="language-bash">git rebase -i HEAD~5</code></pre>
+<p><pre><code class="language-bash">git rebase -i HEAD~5</code></pre></p>
 
 <p>可用操作：<br><ul><br><li>pick：保留提交</li><br><li>reword：修改提交信息</li><br><li>squash：合并到上一个提交</li><br><li>drop：删除提交</li><br></ul></p>
 
@@ -128,83 +133,83 @@ git rebase main</code></pre>
 
 <p>选择性合并提交：</p>
 
-<pre><code class="language-bash">git cherry-pick abc123
-git cherry-pick abc123..def456</code></pre>
+<p><pre><code class="language-bash">git cherry-pick abc123
+git cherry-pick abc123..def456</code></pre></p>
 
 <h3>Stash</h3>
 
 <p>暂存工作区：</p>
 
-<pre><code class="language-bash"># 暂存
+<p><pre><code class="language-bash"># 暂存
 git stash
 git stash save &quot;work in progress&quot;
 
-<h1>查看</h1>
+# 查看
 git stash list
 
-<h1>恢复</h1>
+# 恢复
 git stash pop
-git stash apply stash@{1}</code></pre>
+git stash apply stash@{1}</code></pre></p>
 
 <h3>Bisect</h3>
 
 <p>二分查找问题提交：</p>
 
-<pre><code class="language-bash">git bisect start
+<p><pre><code class="language-bash">git bisect start
 git bisect bad HEAD
 git bisect good v1.0
-<h1>测试后标记</h1>
+# 测试后标记
 git bisect good/bad
-git bisect reset</code></pre>
+git bisect reset</code></pre></p>
 
 <h2>撤销操作</h2>
 
 <h3>撤销工作区</h3>
 
-<pre><code class="language-bash">git checkout -- file.txt
-git restore file.txt</code></pre>
+<p><pre><code class="language-bash">git checkout -- file.txt
+git restore file.txt</code></pre></p>
 
 <h3>撤销暂存区</h3>
 
-<pre><code class="language-bash">git reset HEAD file.txt
-git restore --staged file.txt</code></pre>
+<p><pre><code class="language-bash">git reset HEAD file.txt
+git restore --staged file.txt</code></pre></p>
 
 <h3>撤销提交</h3>
 
-<pre><code class="language-bash"># 软重置（保留更改）
+<p><pre><code class="language-bash"># 软重置（保留更改）
 git reset --soft HEAD~1
 
-<h1>硬重置（丢弃更改）</h1>
+# 硬重置（丢弃更改）
 git reset --hard HEAD~1
 
-<h1>创建撤销提交</h1>
-git revert abc123</code></pre>
+# 创建撤销提交
+git revert abc123</code></pre></p>
 
 <h2>远程操作</h2>
 
 <h3>多远程仓库</h3>
 
-<pre><code class="language-bash">git remote add upstream https://github.com/original/repo.git
+<p><pre><code class="language-bash">git remote add upstream https://github.com/original/repo.git
 git fetch upstream
-git merge upstream/main</code></pre>
+git merge upstream/main</code></pre></p>
 
 <h3>推送技巧</h3>
 
-<pre><code class="language-bash"># 强制推送（慎用）
+<p><pre><code class="language-bash"># 强制推送（慎用）
 git push --force-with-lease
 
-<h1>推送标签</h1>
-git push --tags</code></pre>
+# 推送标签
+git push --tags</code></pre></p>
 
 <h2>子模块</h2>
 
 <h3>添加子模块</h3>
 
-<pre><code class="language-bash">git submodule add https://github.com/lib/lib.git libs/lib</code></pre>
+<p><pre><code class="language-bash">git submodule add https://github.com/lib/lib.git libs/lib</code></pre></p>
 
 <h3>更新子模块</h3>
 
-<pre><code class="language-bash">git submodule update --init --recursive</code></pre>
+<p><pre><code class="language-bash">git submodule update --init --recursive</code></pre></p>
 
 <h2>Git Hooks</h2>
 
@@ -218,25 +223,25 @@ git push --tags</code></pre>
 
 <h3>示例</h3>
 
-<pre><code class="language-bash">#!/bin/sh
-<h1>.git/hooks/pre-commit</h1>
+<p><pre><code class="language-bash">#!/bin/sh
+# .git/hooks/pre-commit
 npm run lint
-npm run test</code></pre>
+npm run test</code></pre></p>
 
 <h2>配置优化</h2>
 
 <h3>常用别名</h3>
 
-<pre><code class="language-bash">git config --global alias.co checkout
+<p><pre><code class="language-bash">git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
 git config --global alias.st status
-git config --global alias.lg &quot;log --oneline --graph&quot;</code></pre>
+git config --global alias.lg &quot;log --oneline --graph&quot;</code></pre></p>
 
 <h3>其他配置</h3>
 
-<pre><code class="language-bash">git config --global pull.rebase true
-git config --global push.default current</code></pre>
+<p><pre><code class="language-bash">git config --global pull.rebase true
+git config --global push.default current</code></pre></p>
 
 <h2>总结</h2>
 
@@ -268,7 +273,7 @@ git config --global push.default current</code></pre>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2d01bd7b"></script>
+    <script src="../js/main.js?v=39d5852a"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -279,6 +284,8 @@ git config --global push.default current</code></pre>
             initAjaxNavigation();
             // 初始化左侧栏分类折叠
             initCategoryToggle();
+            // 初始化展开/收起全部按钮
+            initToggleAllButtons();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -417,7 +424,6 @@ git config --global push.default current</code></pre>
             }
 
             let tocHtml = '<ul class="toc-list">';
-            let prevLevel = 0;
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
@@ -425,31 +431,15 @@ git config --global push.default current</code></pre>
                 heading.id = id;
                 const text = heading.textContent;
 
-                // 处理层级
-                if (level > prevLevel) {
-                    for (let i = prevLevel; i < level; i++) {
-                        tocHtml += '<ul class="toc-sublist">';
-                    }
-                } else if (level < prevLevel) {
-                    for (let i = level; i < prevLevel; i++) {
-                        tocHtml += '</ul></li>';
-                    }
-                } else if (prevLevel > 0) {
-                    tocHtml += '</li>';
-                }
-
+                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
                         <span class="toc-text">${text}</span>
-                    </a>`;
-
-                prevLevel = level;
+                    </a>
+                </li>`;
             });
 
-            // 关闭所有未关闭的标签
-            for (let i = 0; i < prevLevel; i++) {
-                tocHtml += '</li></ul>';
-            }
+            tocHtml += '</ul>';
 
             toc.innerHTML = tocHtml;
 
@@ -566,6 +556,42 @@ git config --global push.default current</code></pre>
                     });
                 }
             });
+        }
+
+        // 展开/收起全部按钮
+        function initToggleAllButtons() {
+            // 左侧目录 - 切换按钮
+            const leftToggleAll = document.getElementById('leftToggleAll');
+            let leftExpanded = true;  // 默认展开
+            
+            if (leftToggleAll) {
+                leftToggleAll.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (leftExpanded) {
+                        // 收起全部
+                        document.querySelectorAll('.sidebar-category').forEach(cat => {
+                            cat.classList.add('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items').forEach(items => {
+                            items.classList.add('collapsed');
+                        });
+                        icon.className = 'fas fa-compress-alt';
+                        this.title = '展开全部';
+                    } else {
+                        // 展开全部
+                        document.querySelectorAll('.sidebar-category.collapsed').forEach(cat => {
+                            cat.classList.remove('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items.collapsed').forEach(items => {
+                            items.classList.remove('collapsed');
+                            items.style.maxHeight = items.scrollHeight + 'px';
+                        });
+                        icon.className = 'fas fa-expand-alt';
+                        this.title = '收起全部';
+                    }
+                    leftExpanded = !leftExpanded;
+                });
+            }
         }
     </script>
 </body>

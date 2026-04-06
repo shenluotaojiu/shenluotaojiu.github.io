@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go 语言最佳实践指南 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
+    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -38,6 +38,11 @@
             <div class="sidebar-header">
                 <i class="fas fa-list"></i>
                 <span>所有文章</span>
+                <div class="sidebar-toggle-all">
+                    <button id="leftToggleAll" title="展开/收起全部">
+                        <i class="fas fa-expand-alt"></i>
+                    </button>
+                </div>
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-year">2026</div>
@@ -78,7 +83,7 @@
 
 <p>始终使用 <code>gofmt</code> 格式化代码，保持一致的代码风格。</p>
 
-<pre><code class="language-bash">gofmt -w .</code></pre>
+<p><pre><code class="language-bash">gofmt -w .</code></pre></p>
 
 <h3>命名规范</h3>
 
@@ -88,78 +93,107 @@
 <li>接口：单方法接口通常以 <code>er</code> 结尾</li>
 </ul>
 
-<pre><code class="language-go">// Good
+<p><pre><code class="language-go">// Good
 type Reader interface {
     Read(p []byte) (n int, err error)
 }
 
-<p>// 包级变量<br>var maxRetries = 3</p>
+// 包级变量
+var maxRetries = 3
 
-<p>// 导出变量<br>var MaxConnections = 100</code></pre></p>
+// 导出变量
+var MaxConnections = 100</code></pre></p>
 
 <h2>错误处理</h2>
 
 <h3>总是检查错误</h3>
 
-<pre><code class="language-go">// Bad
+<p><pre><code class="language-go">// Bad
 file, _ := os.Open(&quot;file.txt&quot;)
 
-<p>// Good<br>file, err := os.Open(&quot;file.txt&quot;)<br>if err != nil {<br>    return fmt.Errorf(&quot;failed to open file: %w&quot;, err)<br>}<br>defer file.Close()</code></pre></p>
+// Good
+file, err := os.Open(&quot;file.txt&quot;)
+if err != nil {
+    return fmt.Errorf(&quot;failed to open file: %w&quot;, err)
+}
+defer file.Close()</code></pre></p>
 
 <h3>使用 errors.Is 和 errors.As</h3>
 
-<pre><code class="language-go">if errors.Is(err, os.ErrNotExist) {
+<p><pre><code class="language-go">if errors.Is(err, os.ErrNotExist) {
     // 处理文件不存在
 }
 
-<p>var pathErr *os.PathError<br>if errors.As(err, &amp;pathErr) {<br>    fmt.Println(pathErr.Path)<br>}</code></pre></p>
+var pathErr *os.PathError
+if errors.As(err, &amp;pathErr) {
+    fmt.Println(pathErr.Path)
+}</code></pre></p>
 
 <h2>并发安全</h2>
 
 <h3>使用 sync 包</h3>
 
-<pre><code class="language-go">var (
+<p><pre><code class="language-go">var (
     mu      sync.RWMutex
     counter int
 )
 
-<p>func increment() {<br>    mu.Lock()<br>    defer mu.Unlock()<br>    counter++<br>}</p>
+func increment() {
+    mu.Lock()
+    defer mu.Unlock()
+    counter++
+}
 
-<p>func getCount() int {<br>    mu.RLock()<br>    defer mu.RUnlock()<br>    return counter<br>}</code></pre></p>
+func getCount() int {
+    mu.RLock()
+    defer mu.RUnlock()
+    return counter
+}</code></pre></p>
 
 <h3>使用 atomic 包</h3>
 
-<pre><code class="language-go">var counter int64
+<p><pre><code class="language-go">var counter int64
 
-<p>func increment() {<br>    atomic.AddInt64(&amp;counter, 1)<br>}</code></pre></p>
+func increment() {
+    atomic.AddInt64(&amp;counter, 1)
+}</code></pre></p>
 
 <h2>性能优化</h2>
 
 <h3>预分配切片容量</h3>
 
-<pre><code class="language-go">// Bad - 多次扩容
+<p><pre><code class="language-go">// Bad - 多次扩容
 var result []int
 for i := 0; i &lt; 1000; i++ {
     result = append(result, i)
 }
 
-<p>// Good - 一次分配<br>result := make([]int, 0, 1000)<br>for i := 0; i &lt; 1000; i++ {<br>    result = append(result, i)<br>}</code></pre></p>
+// Good - 一次分配
+result := make([]int, 0, 1000)
+for i := 0; i &lt; 1000; i++ {
+    result = append(result, i)
+}</code></pre></p>
 
 <h3>使用 strings.Builder</h3>
 
-<pre><code class="language-go">// Bad
+<p><pre><code class="language-go">// Bad
 var s string
 for i := 0; i &lt; 1000; i++ {
     s += &quot;a&quot;
 }
 
-<p>// Good<br>var sb strings.Builder<br>for i := 0; i &lt; 1000; i++ {<br>    sb.WriteString(&quot;a&quot;)<br>}<br>result := sb.String()</code></pre></p>
+// Good
+var sb strings.Builder
+for i := 0; i &lt; 1000; i++ {
+    sb.WriteString(&quot;a&quot;)
+}
+result := sb.String()</code></pre></p>
 
 <h2>测试</h2>
 
 <h3>表驱动测试</h3>
 
-<pre><code class="language-go">func TestAdd(t *testing.T) {
+<p><pre><code class="language-go">func TestAdd(t *testing.T) {
     tests := []struct {
         name     string
         a, b     int
@@ -170,7 +204,16 @@ for i := 0; i &lt; 1000; i++ {
         {&quot;zero&quot;, 0, 0, 0},
     }
 
-<p>for _, tt := range tests {<br>        t.Run(tt.name, func(t *testing.T) {<br>            result := Add(tt.a, tt.b)<br>            if result != tt.expected {<br>                t.Errorf(&quot;Add(%d, %d) = %d; want %d&quot;, <br>                    tt.a, tt.b, result, tt.expected)<br>            }<br>        })<br>    }<br>}</code></pre></p>
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            result := Add(tt.a, tt.b)
+            if result != tt.expected {
+                t.Errorf(&quot;Add(%d, %d) = %d; want %d&quot;, 
+                    tt.a, tt.b, result, tt.expected)
+            }
+        })
+    }
+}</code></pre></p>
 
 <hr>
 
@@ -202,7 +245,7 @@ for i := 0; i &lt; 1000; i++ {
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2d01bd7b"></script>
+    <script src="../js/main.js?v=39d5852a"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -213,6 +256,8 @@ for i := 0; i &lt; 1000; i++ {
             initAjaxNavigation();
             // 初始化左侧栏分类折叠
             initCategoryToggle();
+            // 初始化展开/收起全部按钮
+            initToggleAllButtons();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -351,7 +396,6 @@ for i := 0; i &lt; 1000; i++ {
             }
 
             let tocHtml = '<ul class="toc-list">';
-            let prevLevel = 0;
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
@@ -359,31 +403,15 @@ for i := 0; i &lt; 1000; i++ {
                 heading.id = id;
                 const text = heading.textContent;
 
-                // 处理层级
-                if (level > prevLevel) {
-                    for (let i = prevLevel; i < level; i++) {
-                        tocHtml += '<ul class="toc-sublist">';
-                    }
-                } else if (level < prevLevel) {
-                    for (let i = level; i < prevLevel; i++) {
-                        tocHtml += '</ul></li>';
-                    }
-                } else if (prevLevel > 0) {
-                    tocHtml += '</li>';
-                }
-
+                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
                         <span class="toc-text">${text}</span>
-                    </a>`;
-
-                prevLevel = level;
+                    </a>
+                </li>`;
             });
 
-            // 关闭所有未关闭的标签
-            for (let i = 0; i < prevLevel; i++) {
-                tocHtml += '</li></ul>';
-            }
+            tocHtml += '</ul>';
 
             toc.innerHTML = tocHtml;
 
@@ -500,6 +528,42 @@ for i := 0; i &lt; 1000; i++ {
                     });
                 }
             });
+        }
+
+        // 展开/收起全部按钮
+        function initToggleAllButtons() {
+            // 左侧目录 - 切换按钮
+            const leftToggleAll = document.getElementById('leftToggleAll');
+            let leftExpanded = true;  // 默认展开
+            
+            if (leftToggleAll) {
+                leftToggleAll.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (leftExpanded) {
+                        // 收起全部
+                        document.querySelectorAll('.sidebar-category').forEach(cat => {
+                            cat.classList.add('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items').forEach(items => {
+                            items.classList.add('collapsed');
+                        });
+                        icon.className = 'fas fa-compress-alt';
+                        this.title = '展开全部';
+                    } else {
+                        // 展开全部
+                        document.querySelectorAll('.sidebar-category.collapsed').forEach(cat => {
+                            cat.classList.remove('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items.collapsed').forEach(items => {
+                            items.classList.remove('collapsed');
+                            items.style.maxHeight = items.scrollHeight + 'px';
+                        });
+                        icon.className = 'fas fa-expand-alt';
+                        this.title = '收起全部';
+                    }
+                    leftExpanded = !leftExpanded;
+                });
+            }
         }
     </script>
 </body>

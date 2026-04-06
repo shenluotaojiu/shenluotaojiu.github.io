@@ -164,8 +164,18 @@ class MarkdownRenderer:
         """将 Markdown 转换为 HTML"""
         html_content = markdown
         
-        # 处理代码块
-        html_content = self._process_code_blocks(html_content)
+        # 先提取代码块并用占位符替换，避免代码块内的 # 被误识别为标题
+        code_blocks = []
+        def save_code_block(match):
+            lang = match.group(1) or ''
+            code = match.group(2).strip()
+            escaped_code = html.escape(code)
+            lang_attr = f' class="language-{lang}"' if lang else ''
+            code_html = f'<pre><code{lang_attr}>{escaped_code}</code></pre>'
+            code_blocks.append(code_html)
+            return f'___CODE_BLOCK_{len(code_blocks) - 1}___'
+        
+        html_content = re.sub(r'```(\w*)\n([\s\S]*?)```', save_code_block, html_content)
         
         # 处理引用
         html_content = self._process_blockquotes(html_content)
@@ -207,6 +217,10 @@ class MarkdownRenderer:
         
         # 处理段落
         html_content = self._process_paragraphs(html_content)
+        
+        # 恢复代码块
+        for i, code_html in enumerate(code_blocks):
+            html_content = html_content.replace(f'___CODE_BLOCK_{i}___', code_html)
         
         return html_content
     

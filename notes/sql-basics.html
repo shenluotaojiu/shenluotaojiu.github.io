@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL 基础语法笔记 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
+    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -38,6 +38,11 @@
             <div class="sidebar-header">
                 <i class="fas fa-list"></i>
                 <span>所有笔记</span>
+                <div class="sidebar-toggle-all">
+                    <button id="leftToggleAll" title="展开/收起全部">
+                        <i class="fas fa-expand-alt"></i>
+                    </button>
+                </div>
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
@@ -90,166 +95,196 @@
 
 <h3>创建表</h3>
 
-<pre><code class="language-sql">CREATE TABLE users (
+<p><pre><code class="language-sql">CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL,
     age INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);</code></pre>
+);</code></pre></p>
 
 <h3>修改表</h3>
 
-<pre><code class="language-sql">-- 添加列
+<p><pre><code class="language-sql">-- 添加列
 ALTER TABLE users ADD COLUMN phone VARCHAR(20);
 
-<p>-- 修改列<br>ALTER TABLE users MODIFY COLUMN phone VARCHAR(30);</p>
+-- 修改列
+ALTER TABLE users MODIFY COLUMN phone VARCHAR(30);
 
-<p>-- 删除列<br>ALTER TABLE users DROP COLUMN phone;</p>
+-- 删除列
+ALTER TABLE users DROP COLUMN phone;
 
-<p>-- 重命名表<br>RENAME TABLE users TO members;</code></pre></p>
+-- 重命名表
+RENAME TABLE users TO members;</code></pre></p>
 
 <h3>删除表</h3>
 
-<pre><code class="language-sql">DROP TABLE IF EXISTS users;</code></pre>
+<p><pre><code class="language-sql">DROP TABLE IF EXISTS users;</code></pre></p>
 
 <h3>索引</h3>
 
-<pre><code class="language-sql">-- 创建索引
+<p><pre><code class="language-sql">-- 创建索引
 CREATE INDEX idx_username ON users(username);
 CREATE UNIQUE INDEX idx_email ON users(email);
 
-<p>-- 删除索引<br>DROP INDEX idx_username ON users;</code></pre></p>
+-- 删除索引
+DROP INDEX idx_username ON users;</code></pre></p>
 
 <h2>数据操作 (DML)</h2>
 
 <h3>插入数据</h3>
 
-<pre><code class="language-sql">-- 单行插入
+<p><pre><code class="language-sql">-- 单行插入
 INSERT INTO users (username, email, age)
 VALUES (&#x27;alice&#x27;, &#x27;alice@example.com&#x27;, 25);
 
-<p>-- 多行插入<br>INSERT INTO users (username, email, age)<br>VALUES <br>    (&#x27;bob&#x27;, &#x27;bob@example.com&#x27;, 30),<br>    (&#x27;charlie&#x27;, &#x27;charlie@example.com&#x27;, 28);</code></pre></p>
+-- 多行插入
+INSERT INTO users (username, email, age)
+VALUES 
+    (&#x27;bob&#x27;, &#x27;bob@example.com&#x27;, 30),
+    (&#x27;charlie&#x27;, &#x27;charlie@example.com&#x27;, 28);</code></pre></p>
 
 <h3>更新数据</h3>
 
-<pre><code class="language-sql">UPDATE users 
+<p><pre><code class="language-sql">UPDATE users 
 SET age = 26, email = &#x27;newemail@example.com&#x27;
-WHERE username = &#x27;alice&#x27;;</code></pre>
+WHERE username = &#x27;alice&#x27;;</code></pre></p>
 
 <h3>删除数据</h3>
 
-<pre><code class="language-sql">DELETE FROM users WHERE age &lt; 18;
+<p><pre><code class="language-sql">DELETE FROM users WHERE age &lt; 18;
 
-<p>-- 清空表<br>TRUNCATE TABLE users;</code></pre></p>
+-- 清空表
+TRUNCATE TABLE users;</code></pre></p>
 
 <h2>数据查询 (DQL)</h2>
 
 <h3>基本查询</h3>
 
-<pre><code class="language-sql">-- 查询所有
+<p><pre><code class="language-sql">-- 查询所有
 SELECT * FROM users;
 
-<p>-- 指定列<br>SELECT username, email FROM users;</p>
+-- 指定列
+SELECT username, email FROM users;
 
-<p>-- 去重<br>SELECT DISTINCT age FROM users;</p>
+-- 去重
+SELECT DISTINCT age FROM users;
 
-<p>-- 别名<br>SELECT username AS name, email AS mail FROM users;</code></pre></p>
+-- 别名
+SELECT username AS name, email AS mail FROM users;</code></pre></p>
 
 <h3>条件过滤</h3>
 
-<pre><code class="language-sql">-- WHERE 子句
+<p><pre><code class="language-sql">-- WHERE 子句
 SELECT * FROM users WHERE age &gt; 20;
 
-<p>-- 多条件<br>SELECT * FROM users WHERE age &gt; 20 AND email LIKE &#x27;%@gmail.com&#x27;;</p>
+-- 多条件
+SELECT * FROM users WHERE age &gt; 20 AND email LIKE &#x27;%@gmail.com&#x27;;
 
-<p>-- IN 操作符<br>SELECT * FROM users WHERE age IN (20, 25, 30);</p>
+-- IN 操作符
+SELECT * FROM users WHERE age IN (20, 25, 30);
 
-<p>-- BETWEEN<br>SELECT * FROM users WHERE age BETWEEN 20 AND 30;</p>
+-- BETWEEN
+SELECT * FROM users WHERE age BETWEEN 20 AND 30;
 
-<p>-- NULL 判断<br>SELECT * FROM users WHERE phone IS NULL;</code></pre></p>
+-- NULL 判断
+SELECT * FROM users WHERE phone IS NULL;</code></pre></p>
 
 <h3>排序分页</h3>
 
-<pre><code class="language-sql">-- 排序
+<p><pre><code class="language-sql">-- 排序
 SELECT * FROM users ORDER BY age DESC, username ASC;
 
-<p>-- 分页<br>SELECT * FROM users LIMIT 10 OFFSET 20;<br>-- 或<br>SELECT * FROM users LIMIT 20, 10;</code></pre></p>
+-- 分页
+SELECT * FROM users LIMIT 10 OFFSET 20;
+-- 或
+SELECT * FROM users LIMIT 20, 10;</code></pre></p>
 
 <h3>聚合函数</h3>
 
-<pre><code class="language-sql">-- 计数
+<p><pre><code class="language-sql">-- 计数
 SELECT COUNT(*) FROM users;
 
-<p>-- 求和<br>SELECT SUM(age) FROM users;</p>
+-- 求和
+SELECT SUM(age) FROM users;
 
-<p>-- 平均值<br>SELECT AVG(age) FROM users;</p>
+-- 平均值
+SELECT AVG(age) FROM users;
 
-<p>-- 最大最小<br>SELECT MAX(age), MIN(age) FROM users;</code></pre></p>
+-- 最大最小
+SELECT MAX(age), MIN(age) FROM users;</code></pre></p>
 
 <h3>分组查询</h3>
 
-<pre><code class="language-sql">-- GROUP BY
+<p><pre><code class="language-sql">-- GROUP BY
 SELECT age, COUNT(*) as count 
 FROM users 
 GROUP BY age;
 
-<p>-- HAVING<br>SELECT age, COUNT(*) as count <br>FROM users <br>GROUP BY age <br>HAVING count &gt; 5;</code></pre></p>
+-- HAVING
+SELECT age, COUNT(*) as count 
+FROM users 
+GROUP BY age 
+HAVING count &gt; 5;</code></pre></p>
 
 <h2>表连接</h2>
 
 <h3>内连接</h3>
 
-<pre><code class="language-sql">SELECT u.username, o.order_id
+<p><pre><code class="language-sql">SELECT u.username, o.order_id
 FROM users u
-INNER JOIN orders o ON u.id = o.user_id;</code></pre>
+INNER JOIN orders o ON u.id = o.user_id;</code></pre></p>
 
 <h3>左连接</h3>
 
-<pre><code class="language-sql">SELECT u.username, o.order_id
+<p><pre><code class="language-sql">SELECT u.username, o.order_id
 FROM users u
-LEFT JOIN orders o ON u.id = o.user_id;</code></pre>
+LEFT JOIN orders o ON u.id = o.user_id;</code></pre></p>
 
 <h3>右连接</h3>
 
-<pre><code class="language-sql">SELECT u.username, o.order_id
+<p><pre><code class="language-sql">SELECT u.username, o.order_id
 FROM users u
-RIGHT JOIN orders o ON u.id = o.user_id;</code></pre>
+RIGHT JOIN orders o ON u.id = o.user_id;</code></pre></p>
 
 <h3>自连接</h3>
 
-<pre><code class="language-sql">SELECT a.username, b.username AS friend
+<p><pre><code class="language-sql">SELECT a.username, b.username AS friend
 FROM users a
 JOIN friendships f ON a.id = f.user_id
-JOIN users b ON f.friend_id = b.id;</code></pre>
+JOIN users b ON f.friend_id = b.id;</code></pre></p>
 
 <h2>子查询</h2>
 
 <h3>WHERE 子查询</h3>
 
-<pre><code class="language-sql">SELECT * FROM users
-WHERE id IN (SELECT user_id FROM orders WHERE amount &gt; 100);</code></pre>
+<p><pre><code class="language-sql">SELECT * FROM users
+WHERE id IN (SELECT user_id FROM orders WHERE amount &gt; 100);</code></pre></p>
 
 <h3>FROM 子查询</h3>
 
-<pre><code class="language-sql">SELECT avg_age
-FROM (SELECT AVG(age) as avg_age FROM users) AS subquery;</code></pre>
+<p><pre><code class="language-sql">SELECT avg_age
+FROM (SELECT AVG(age) as avg_age FROM users) AS subquery;</code></pre></p>
 
 <h3>EXISTS</h3>
 
-<pre><code class="language-sql">SELECT * FROM users u
-WHERE EXISTS (SELECT 1 FROM orders o WHERE o.user_id = u.id);</code></pre>
+<p><pre><code class="language-sql">SELECT * FROM users u
+WHERE EXISTS (SELECT 1 FROM orders o WHERE o.user_id = u.id);</code></pre></p>
 
 <h2>事务</h2>
 
-<pre><code class="language-sql">-- 开始事务
+<p><pre><code class="language-sql">-- 开始事务
 START TRANSACTION;
 
-<p>-- 执行操作<br>UPDATE accounts SET balance = balance - 100 WHERE id = 1;<br>UPDATE accounts SET balance = balance + 100 WHERE id = 2;</p>
+-- 执行操作
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE id = 2;
 
-<p>-- 提交<br>COMMIT;</p>
+-- 提交
+COMMIT;
 
-<p>-- 或回滚<br>ROLLBACK;</code></pre></p>
+-- 或回滚
+ROLLBACK;</code></pre></p>
 
 <h2>总结</h2>
 
@@ -281,7 +316,7 @@ START TRANSACTION;
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2d01bd7b"></script>
+    <script src="../js/main.js?v=39d5852a"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -292,6 +327,8 @@ START TRANSACTION;
             initAjaxNavigation();
             // 初始化左侧栏分类折叠
             initCategoryToggle();
+            // 初始化展开/收起全部按钮
+            initToggleAllButtons();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -430,7 +467,6 @@ START TRANSACTION;
             }
 
             let tocHtml = '<ul class="toc-list">';
-            let prevLevel = 0;
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
@@ -438,31 +474,15 @@ START TRANSACTION;
                 heading.id = id;
                 const text = heading.textContent;
 
-                // 处理层级
-                if (level > prevLevel) {
-                    for (let i = prevLevel; i < level; i++) {
-                        tocHtml += '<ul class="toc-sublist">';
-                    }
-                } else if (level < prevLevel) {
-                    for (let i = level; i < prevLevel; i++) {
-                        tocHtml += '</ul></li>';
-                    }
-                } else if (prevLevel > 0) {
-                    tocHtml += '</li>';
-                }
-
+                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
                         <span class="toc-text">${text}</span>
-                    </a>`;
-
-                prevLevel = level;
+                    </a>
+                </li>`;
             });
 
-            // 关闭所有未关闭的标签
-            for (let i = 0; i < prevLevel; i++) {
-                tocHtml += '</li></ul>';
-            }
+            tocHtml += '</ul>';
 
             toc.innerHTML = tocHtml;
 
@@ -579,6 +599,42 @@ START TRANSACTION;
                     });
                 }
             });
+        }
+
+        // 展开/收起全部按钮
+        function initToggleAllButtons() {
+            // 左侧目录 - 切换按钮
+            const leftToggleAll = document.getElementById('leftToggleAll');
+            let leftExpanded = true;  // 默认展开
+            
+            if (leftToggleAll) {
+                leftToggleAll.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (leftExpanded) {
+                        // 收起全部
+                        document.querySelectorAll('.sidebar-category').forEach(cat => {
+                            cat.classList.add('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items').forEach(items => {
+                            items.classList.add('collapsed');
+                        });
+                        icon.className = 'fas fa-compress-alt';
+                        this.title = '展开全部';
+                    } else {
+                        // 展开全部
+                        document.querySelectorAll('.sidebar-category.collapsed').forEach(cat => {
+                            cat.classList.remove('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items.collapsed').forEach(items => {
+                            items.classList.remove('collapsed');
+                            items.style.maxHeight = items.scrollHeight + 'px';
+                        });
+                        icon.className = 'fas fa-expand-alt';
+                        this.title = '收起全部';
+                    }
+                    leftExpanded = !leftExpanded;
+                });
+            }
         }
     </script>
 </body>

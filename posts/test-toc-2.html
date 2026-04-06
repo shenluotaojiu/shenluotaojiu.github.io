@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web 开发完全指南 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
+    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -38,6 +38,11 @@
             <div class="sidebar-header">
                 <i class="fas fa-list"></i>
                 <span>所有文章</span>
+                <div class="sidebar-toggle-all">
+                    <button id="leftToggleAll" title="展开/收起全部">
+                        <i class="fas fa-expand-alt"></i>
+                    </button>
+                </div>
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-year">2026</div>
@@ -82,7 +87,7 @@
 
 <p>HTML 是网页的骨架。</p>
 
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+<p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;title&gt;Hello World&lt;/title&gt;
@@ -90,7 +95,7 @@
 &lt;body&gt;
     &lt;h1&gt;欢迎&lt;/h1&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+&lt;/html&gt;</code></pre></p>
 
 <h3>CSS</h3>
 
@@ -98,29 +103,29 @@
 
 <h4>选择器</h4>
 
-<pre><code class="language-css">.class-name { }
+<p><pre><code class="language-css">.class-name { }
 #id-name { }
-element { }</code></pre>
+element { }</code></pre></p>
 
 <h4>Flexbox</h4>
 
 <p>现代布局利器：</p>
 
-<pre><code class="language-css">.container {
+<p><pre><code class="language-css">.container {
     display: flex;
     justify-content: center;
     align-items: center;
-}</code></pre>
+}</code></pre></p>
 
 <h4>Grid</h4>
 
 <p>更强大的网格系统：</p>
 
-<pre><code class="language-css">.grid {
+<p><pre><code class="language-css">.grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-}</code></pre>
+}</code></pre></p>
 
 <h3>JavaScript</h3>
 
@@ -128,25 +133,25 @@ element { }</code></pre>
 
 <h4>变量和类型</h4>
 
-<pre><code class="language-javascript">const name = &quot;Alice&quot;;
+<p><pre><code class="language-javascript">const name = &quot;Alice&quot;;
 let age = 25;
-const isStudent = true;</code></pre>
+const isStudent = true;</code></pre></p>
 
 <h4>函数</h4>
 
-<pre><code class="language-javascript">function greet(name) {
-    return <code>Hello, ${name}!</code>;
+<p><pre><code class="language-javascript">function greet(name) {
+    return `Hello, ${name}!`;
 }
 
-<p>const arrow = (x) =&gt; x * 2;</code></pre></p>
+const arrow = (x) =&gt; x * 2;</code></pre></p>
 
 <h4>异步编程</h4>
 
-<pre><code class="language-javascript">async function fetchData() {
+<p><pre><code class="language-javascript">async function fetchData() {
     const response = await fetch(&#x27;/api/data&#x27;);
     const data = await response.json();
     return data;
-}</code></pre>
+}</code></pre></p>
 
 <h2>后端开发</h2>
 
@@ -156,20 +161,28 @@ const isStudent = true;</code></pre>
 
 <h4>Node.js + Express</h4>
 
-<pre><code class="language-javascript">const express = require(&#x27;express&#x27;);
+<p><pre><code class="language-javascript">const express = require(&#x27;express&#x27;);
 const app = express();
 
-<p>app.get(&#x27;/&#x27;, (req, res) =&gt; {<br>    res.send(&#x27;Hello World!&#x27;);<br>});</p>
+app.get(&#x27;/&#x27;, (req, res) =&gt; {
+    res.send(&#x27;Hello World!&#x27;);
+});
 
-<p>app.listen(3000);</code></pre></p>
+app.listen(3000);</code></pre></p>
 
 <h4>Go + Gin</h4>
 
-<pre><code class="language-go">package main
+<p><pre><code class="language-go">package main
 
-<p>import &quot;github.com/gin-gonic/gin&quot;</p>
+import &quot;github.com/gin-gonic/gin&quot;
 
-<p>func main() {<br>    r := gin.Default()<br>    r.GET(&quot;/&quot;, func(c *gin.Context) {<br>        c.JSON(200, gin.H{&quot;message&quot;: &quot;Hello&quot;})<br>    })<br>    r.Run()<br>}</code></pre></p>
+func main() {
+    r := gin.Default()
+    r.GET(&quot;/&quot;, func(c *gin.Context) {
+        c.JSON(200, gin.H{&quot;message&quot;: &quot;Hello&quot;})
+    })
+    r.Run()
+}</code></pre></p>
 
 <h3>数据库</h3>
 
@@ -195,11 +208,11 @@ const app = express();
 
 <p>容器化你的应用：</p>
 
-<pre><code class="language-dockerfile">FROM node:18
+<p><pre><code class="language-dockerfile">FROM node:18
 WORKDIR /app
 COPY . .
 RUN npm install
-CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
+CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
 
 <h3>CI/CD</h3>
 
@@ -253,7 +266,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2d01bd7b"></script>
+    <script src="../js/main.js?v=39d5852a"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -264,6 +277,8 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
             initAjaxNavigation();
             // 初始化左侧栏分类折叠
             initCategoryToggle();
+            // 初始化展开/收起全部按钮
+            initToggleAllButtons();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -402,7 +417,6 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
             }
 
             let tocHtml = '<ul class="toc-list">';
-            let prevLevel = 0;
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
@@ -410,31 +424,15 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
                 heading.id = id;
                 const text = heading.textContent;
 
-                // 处理层级
-                if (level > prevLevel) {
-                    for (let i = prevLevel; i < level; i++) {
-                        tocHtml += '<ul class="toc-sublist">';
-                    }
-                } else if (level < prevLevel) {
-                    for (let i = level; i < prevLevel; i++) {
-                        tocHtml += '</ul></li>';
-                    }
-                } else if (prevLevel > 0) {
-                    tocHtml += '</li>';
-                }
-
+                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
                         <span class="toc-text">${text}</span>
-                    </a>`;
-
-                prevLevel = level;
+                    </a>
+                </li>`;
             });
 
-            // 关闭所有未关闭的标签
-            for (let i = 0; i < prevLevel; i++) {
-                tocHtml += '</li></ul>';
-            }
+            tocHtml += '</ul>';
 
             toc.innerHTML = tocHtml;
 
@@ -551,6 +549,42 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
                     });
                 }
             });
+        }
+
+        // 展开/收起全部按钮
+        function initToggleAllButtons() {
+            // 左侧目录 - 切换按钮
+            const leftToggleAll = document.getElementById('leftToggleAll');
+            let leftExpanded = true;  // 默认展开
+            
+            if (leftToggleAll) {
+                leftToggleAll.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (leftExpanded) {
+                        // 收起全部
+                        document.querySelectorAll('.sidebar-category').forEach(cat => {
+                            cat.classList.add('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items').forEach(items => {
+                            items.classList.add('collapsed');
+                        });
+                        icon.className = 'fas fa-compress-alt';
+                        this.title = '展开全部';
+                    } else {
+                        // 展开全部
+                        document.querySelectorAll('.sidebar-category.collapsed').forEach(cat => {
+                            cat.classList.remove('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items.collapsed').forEach(items => {
+                            items.classList.remove('collapsed');
+                            items.style.maxHeight = items.scrollHeight + 'px';
+                        });
+                        icon.className = 'fas fa-expand-alt';
+                        this.title = '收起全部';
+                    }
+                    leftExpanded = !leftExpanded;
+                });
+            }
         }
     </script>
 </body>

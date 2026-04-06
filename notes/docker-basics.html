@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Docker 容器化入门 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
+    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -38,6 +38,11 @@
             <div class="sidebar-header">
                 <i class="fas fa-list"></i>
                 <span>所有笔记</span>
+                <div class="sidebar-toggle-all">
+                    <button id="leftToggleAll" title="展开/收起全部">
+                        <i class="fas fa-expand-alt"></i>
+                    </button>
+                </div>
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
@@ -104,14 +109,14 @@
 
 <p>容器是镜像的运行实例。</p>
 
-<pre><code class="language-bash"># 运行容器
+<p><pre><code class="language-bash"># 运行容器
 docker run -d --name myapp nginx
 
-<h1>查看容器</h1>
+# 查看容器
 docker ps
 
-<h1>停止容器</h1>
-docker stop myapp</code></pre>
+# 停止容器
+docker stop myapp</code></pre></p>
 
 <h3>数据卷 (Volume)</h3>
 
@@ -119,55 +124,55 @@ docker stop myapp</code></pre>
 
 <h4>绑定挂载</h4>
 
-<pre><code class="language-bash">docker run -v /host/path:/container/path nginx</code></pre>
+<p><pre><code class="language-bash">docker run -v /host/path:/container/path nginx</code></pre></p>
 
 <h4>命名卷</h4>
 
-<pre><code class="language-bash">docker volume create mydata
-docker run -v mydata:/data nginx</code></pre>
+<p><pre><code class="language-bash">docker volume create mydata
+docker run -v mydata:/data nginx</code></pre></p>
 
 <h2>Dockerfile</h2>
 
 <h3>基本指令</h3>
 
-<pre><code class="language-dockerfile"># 基础镜像
+<p><pre><code class="language-dockerfile"># 基础镜像
 FROM node:18-alpine
 
-<h1>设置工作目录</h1>
+# 设置工作目录
 WORKDIR /app
 
-<h1>复制文件</h1>
+# 复制文件
 COPY package*.json ./
 
-<h1>运行命令</h1>
+# 运行命令
 RUN npm install
 
-<h1>复制源代码</h1>
+# 复制源代码
 COPY . .
 
-<h1>暴露端口</h1>
+# 暴露端口
 EXPOSE 3000
 
-<h1>启动命令</h1>
-CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
+# 启动命令
+CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
 
 <h3>多阶段构建</h3>
 
-<pre><code class="language-dockerfile"># 构建阶段
+<p><pre><code class="language-dockerfile"># 构建阶段
 FROM node:18 AS builder
 WORKDIR /app
 COPY . .
 RUN npm run build
 
-<h1>生产阶段</h1>
+# 生产阶段
 FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html</code></pre>
+COPY --from=builder /app/dist /usr/share/nginx/html</code></pre></p>
 
 <h2>Docker Compose</h2>
 
 <h3>基本配置</h3>
 
-<pre><code class="language-yaml">version: &#x27;3.8&#x27;
+<p><pre><code class="language-yaml">version: &#x27;3.8&#x27;
 services:
   web:
     build: .
@@ -183,18 +188,19 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
-<p>volumes:<br>  db-data:</code></pre></p>
+volumes:
+  db-data:</code></pre></p>
 
 <h3>常用命令</h3>
 
-<pre><code class="language-bash"># 启动服务
+<p><pre><code class="language-bash"># 启动服务
 docker-compose up -d
 
-<h1>查看日志</h1>
+# 查看日志
 docker-compose logs -f
 
-<h1>停止服务</h1>
-docker-compose down</code></pre>
+# 停止服务
+docker-compose down</code></pre></p>
 
 <h2>网络</h2>
 
@@ -208,8 +214,8 @@ docker-compose down</code></pre>
 
 <h3>自定义网络</h3>
 
-<pre><code class="language-bash">docker network create mynet
-docker run --network mynet nginx</code></pre>
+<p><pre><code class="language-bash">docker network create mynet
+docker run --network mynet nginx</code></pre></p>
 
 <h2>最佳实践</h2>
 
@@ -259,7 +265,7 @@ docker run --network mynet nginx</code></pre>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2d01bd7b"></script>
+    <script src="../js/main.js?v=39d5852a"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -270,6 +276,8 @@ docker run --network mynet nginx</code></pre>
             initAjaxNavigation();
             // 初始化左侧栏分类折叠
             initCategoryToggle();
+            // 初始化展开/收起全部按钮
+            initToggleAllButtons();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -408,7 +416,6 @@ docker run --network mynet nginx</code></pre>
             }
 
             let tocHtml = '<ul class="toc-list">';
-            let prevLevel = 0;
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
@@ -416,31 +423,15 @@ docker run --network mynet nginx</code></pre>
                 heading.id = id;
                 const text = heading.textContent;
 
-                // 处理层级
-                if (level > prevLevel) {
-                    for (let i = prevLevel; i < level; i++) {
-                        tocHtml += '<ul class="toc-sublist">';
-                    }
-                } else if (level < prevLevel) {
-                    for (let i = level; i < prevLevel; i++) {
-                        tocHtml += '</ul></li>';
-                    }
-                } else if (prevLevel > 0) {
-                    tocHtml += '</li>';
-                }
-
+                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
                         <span class="toc-text">${text}</span>
-                    </a>`;
-
-                prevLevel = level;
+                    </a>
+                </li>`;
             });
 
-            // 关闭所有未关闭的标签
-            for (let i = 0; i < prevLevel; i++) {
-                tocHtml += '</li></ul>';
-            }
+            tocHtml += '</ul>';
 
             toc.innerHTML = tocHtml;
 
@@ -557,6 +548,42 @@ docker run --network mynet nginx</code></pre>
                     });
                 }
             });
+        }
+
+        // 展开/收起全部按钮
+        function initToggleAllButtons() {
+            // 左侧目录 - 切换按钮
+            const leftToggleAll = document.getElementById('leftToggleAll');
+            let leftExpanded = true;  // 默认展开
+            
+            if (leftToggleAll) {
+                leftToggleAll.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (leftExpanded) {
+                        // 收起全部
+                        document.querySelectorAll('.sidebar-category').forEach(cat => {
+                            cat.classList.add('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items').forEach(items => {
+                            items.classList.add('collapsed');
+                        });
+                        icon.className = 'fas fa-compress-alt';
+                        this.title = '展开全部';
+                    } else {
+                        // 展开全部
+                        document.querySelectorAll('.sidebar-category.collapsed').forEach(cat => {
+                            cat.classList.remove('collapsed');
+                        });
+                        document.querySelectorAll('.sidebar-cat-items.collapsed').forEach(items => {
+                            items.classList.remove('collapsed');
+                            items.style.maxHeight = items.scrollHeight + 'px';
+                        });
+                        icon.className = 'fas fa-expand-alt';
+                        this.title = '收起全部';
+                    }
+                    leftExpanded = !leftExpanded;
+                });
+            }
         }
     </script>
 </body>
