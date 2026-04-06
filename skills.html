@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技能 | 神洛桃玖</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">神洛桃玖</span>
+                <span class="logo-bracket">}</span>
+            </a>
+            <div class="nav-menu">
+                <a href="blog.html" class="nav-link">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="notes.html" class="nav-link">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+                <a href="skills.html" class="nav-link active">
+                    <i class="fas fa-code"></i> <span>技能</span>
+                </a>
+                <a href="https://github.com/shenluotaojiu" target="_blank" class="nav-link nav-github">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <main class="page">
+        <div class="page-container">
+            <header class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-code"></i>
+                    技能
+                </h1>
+                <p class="page-desc">// 技术栈与能力展示</p>
+            </header>
+
+            <div class="skills-grid">
+                <!-- 前端 -->
+                <div class="skill-card frontend">
+                    <div class="skill-card-header">
+                        <i class="fas fa-palette skill-card-icon"></i>
+                        <h3 class="skill-card-title">前端开发</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">Vue.js</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Webpack</span>
+                        <span class="skill-tag">Vite</span>
+                    </div>
+                </div>
+
+                <!-- 后端 -->
+                <div class="skill-card backend">
+                    <div class="skill-card-header">
+                        <i class="fas fa-server skill-card-icon"></i>
+                        <h3 class="skill-card-title">后端开发</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Go</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Gin</span>
+                        <span class="skill-tag">FastAPI</span>
+                        <span class="skill-tag">Express</span>
+                    </div>
+                </div>
+
+                <!-- 数据库 -->
+                <div class="skill-card devops">
+                    <div class="skill-card-header">
+                        <i class="fas fa-database skill-card-icon"></i>
+                        <h3 class="skill-card-title">数据库</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">Redis</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">Elasticsearch</span>
+                    </div>
+                </div>
+
+                <!-- DevOps -->
+                <div class="skill-card devops">
+                    <div class="skill-card-header">
+                        <i class="fas fa-cloud skill-card-icon"></i>
+                        <h3 class="skill-card-title">DevOps</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">Linux</span>
+                        <span class="skill-tag">Nginx</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">GitHub Actions</span>
+                    </div>
+                </div>
+
+                <!-- 工具 -->
+                <div class="skill-card tools">
+                    <div class="skill-card-header">
+                        <i class="fas fa-wrench skill-card-icon"></i>
+                        <h3 class="skill-card-title">开发工具</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">Vim</span>
+                        <span class="skill-tag">Postman</span>
+                        <span class="skill-tag">Terminal</span>
+                    </div>
+                </div>
+
+                <!-- 其他 -->
+                <div class="skill-card tools">
+                    <div class="skill-card-header">
+                        <i class="fas fa-lightbulb skill-card-icon"></i>
+                        <h3 class="skill-card-title">其他</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">RESTful API</span>
+                        <span class="skill-tag">GraphQL</span>
+                        <span class="skill-tag">WebSocket</span>
+                        <span class="skill-tag">Markdown</span>
+                        <span class="skill-tag">正则表达式</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

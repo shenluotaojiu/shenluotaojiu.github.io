@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端性能优化实战 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">神洛桃玖</span>
+                <span class="logo-bracket">}</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link ">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+                <a href="../skills.html" class="nav-link">
+                    <i class="fas fa-code"></i> <span>技能</span>
+                </a>
+                <a href="https://github.com/shenluotaojiu" target="_blank" class="nav-link nav-github">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 文章页面 -->
+    <main class="article-page">
+        <div class="article-container">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span><i class="far fa-calendar-alt"></i> 2026-04-01</span>
+                    <span><i class="far fa-folder"></i> 技术分享</span>
+                    <span><i class="fas fa-font"></i> 142 字</span>
+                    <span><i class="far fa-clock"></i> 1 分钟</span>
+                </div>
+                <h1 class="article-title">前端性能优化实战</h1>
+                <div class="article-tags">
+                    
+                    <span class="article-tag">前端</span>
+                    
+                    <span class="article-tag">性能优化</span>
+                    
+                </div>
+            </header>
+
+            <article class="markdown-body">
+<p>前端性能优化是提升用户体验的关键，本文介绍几种常用的优化技巧。</p>
+
+<h2>加载性能</h2>
+
+<h3>资源压缩</h3>
+
+<ul>
+<li>使用 Gzip/Brotli 压缩</li>
+<li>压缩 JavaScript 和 CSS</li>
+<li>压缩图片资源</li>
+</ul>
+
+<pre><code class="language-nginx"># Nginx 配置 Gzip
+gzip on;
+gzip_types text/plain text/css application/json application/javascript;
+gzip_min_length 1000;</code></pre>
+
+<h3>懒加载</h3>
+
+<pre><code class="language-javascript">// 图片懒加载
+const img = document.querySelector(&#x27;img[data-src]&#x27;);
+const observer = new IntersectionObserver((entries) =&gt; {
+    entries.forEach(entry =&gt; {
+        if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            observer.unobserve(img);
+        }
+    });
+});
+observer.observe(img);</code></pre>
+
+<h3>预加载关键资源</h3>
+
+<pre><code class="language-html">&lt;link rel=&quot;preload&quot; href=&quot;critical.css&quot; as=&quot;style&quot;&gt;
+&lt;link rel=&quot;preload&quot; href=&quot;main.js&quot; as=&quot;script&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://api.example.com&quot;&gt;</code></pre>
+
+<h2>渲染性能</h2>
+
+<h3>避免强制同步布局</h3>
+
+<pre><code class="language-javascript">// Bad - 强制同步布局
+for (let i = 0; i &lt; elements.length; i++) {
+    elements[i].style.width = box.offsetWidth + &#x27;px&#x27;;
+}
+
+<p>// Good - 批量读取后批量写入<br>const width = box.offsetWidth;<br>for (let i = 0; i &lt; elements.length; i++) {<br>    elements[i].style.width = width + &#x27;px&#x27;;<br>}</code></pre></p>
+
+<h3>使用 CSS 动画</h3>
+
+<pre><code class="language-css">/<em> Good - 使用 transform 和 opacity </em>/
+.animate {
+    transition: transform 0.3s ease;
+}
+.animate:hover {
+    transform: translateX(10px);
+}
+
+<p>/<em> Bad - 触发重排的属性 </em>/<br>.animate:hover {<br>    left: 10px;<br>}</code></pre></p>
+
+<h3>虚拟列表</h3>
+
+<p>对于长列表，只渲染可视区域的元素：</p>
+
+<pre><code class="language-javascript">class VirtualList {
+    constructor(container, itemHeight, totalItems) {
+        this.container = container;
+        this.itemHeight = itemHeight;
+        this.totalItems = totalItems;
+        this.visibleCount = Math.ceil(
+            container.clientHeight / itemHeight
+        );
+    }
+
+<p>render(scrollTop) {<br>        const startIndex = Math.floor(scrollTop / this.itemHeight);<br>        const endIndex = startIndex + this.visibleCount + 1;<br>        // 只渲染 startIndex 到 endIndex 的元素<br>    }<br>}</code></pre></p>
+
+<h2>缓存策略</h2>
+
+<h3>Service Worker</h3>
+
+<pre><code class="language-javascript">self.addEventListener(&#x27;fetch&#x27;, (event) =&gt; {
+    event.respondWith(
+        caches.match(event.request).then((response) =&gt; {
+            return response || fetch(event.request);
+        })
+    );
+});</code></pre>
+
+<h3>HTTP 缓存头</h3>
+
+<pre><code class="language-nginx"># 静态资源长期缓存
+location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+    expires 1y;
+    add_header Cache-Control &quot;public, immutable&quot;;
+}</code></pre>
+
+<h2>监控与分析</h2>
+
+<h3>Web Vitals</h3>
+
+<p>关注核心指标：</p>
+
+<ul>
+<li><strong>LCP</strong> (Largest Contentful Paint): < 2.5s</li>
+<li><strong>FID</strong> (First Input Delay): < 100ms</li>
+<li><strong>CLS</strong> (Cumulative Layout Shift): < 0.1</li>
+</ul>
+
+<pre><code class="language-javascript">import { getLCP, getFID, getCLS } from &#x27;web-vitals&#x27;;
+
+<p>getLCP(console.log);<br>getFID(console.log);<br>getCLS(console.log);</code></pre></p>
+
+<hr>
+
+<p><em>持续更新中...</em></p>
+            </article>
+
+            <!-- 文章导航 -->
+            <nav class="article-nav">
+                <a href="../blog.html" class="article-nav-link">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> 返回</span>
+                    <span class="nav-title">博客列表</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

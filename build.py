@@ -1,0 +1,535 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+博客发布脚本
+用法: python3 build.py [--watch]
+
+功能:
+1. 扫描 content/ 目录下的所有 Markdown 文件
+2. 解析 Front Matter 获取元数据
+3. 转换 Markdown 为 HTML
+4. 根据模板生成最终 HTML 文件
+5. 自动更新 data/posts.json 配置
+"""
+
+import os
+import re
+import json
+import argparse
+import hashlib
+from pathlib import Path
+from datetime import datetime
+from typing import Dict, List, Optional, Tuple
+import html
+
+# ==================== 配置 ====================
+BASE_DIR = Path(__file__).parent
+CONTENT_DIR = BASE_DIR / "content"
+TEMPLATE_DIR = BASE_DIR / "templates"
+OUTPUT_POSTS_DIR = BASE_DIR / "posts"
+OUTPUT_NOTES_DIR = BASE_DIR / "notes"
+DATA_DIR = BASE_DIR / "data"
+POSTS_JSON = DATA_DIR / "posts.json"
+
+# 阅读速度配置
+CHINESE_READING_SPEED = 400  # 字/分钟
+ENGLISH_READING_SPEED = 200  # 词/分钟
+
+
+# ==================== Front Matter 解析 ====================
+def parse_front_matter(content: str) -> Tuple[Dict, str]:
+    """解析 Markdown 文件的 Front Matter"""
+    pattern = r'^---\s*\n(.*?)\n---\s*\n(.*)$'
+    match = re.match(pattern, content, re.DOTALL)
+    
+    if not match:
+        return {}, content
+    
+    front_matter_text = match.group(1)
+    body = match.group(2)
+    
+    # 简单的 YAML 解析（支持基本格式）
+    meta = {}
+    current_key = None
+    current_list = None
+    
+    for line in front_matter_text.split('\n'):
+        line = line.rstrip()
+        
+        # 空行跳过
+        if not line.strip():
+            continue
+        
+        # 列表项
+        if line.startswith('  - '):
+            if current_list is not None:
+                current_list.append(line.strip()[2:])
+            continue
+        
+        # 键值对
+        if ':' in line:
+            # 如果之前有列表，保存它
+            if current_key and current_list is not None:
+                meta[current_key] = current_list
+            
+            key, value = line.split(':', 1)
+            key = key.strip()
+            value = value.strip()
+            
+            if value:
+                meta[key] = value
+                current_key = None
+                current_list = None
+            else:
+                # 可能是列表的开始
+                current_key = key
+                current_list = []
+    
+    # 保存最后一个列表
+    if current_key and current_list is not None:
+        meta[current_key] = current_list
+    
+    return meta, body
+
+
+# ==================== 字数统计 ====================
+def strip_markdown(text: str) -> str:
+    """移除 Markdown 语法"""
+    text = re.sub(r'```[\s\S]*?```', '', text)  # 代码块
+    text = re.sub(r'`[^`]+`', '', text)  # 行内代码
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # 链接
+    text = re.sub(r'!\[([^\]]*)\]\([^)]+\)', '', text)  # 图片
+    text = re.sub(r'^#{1,6}\s+', '', text, flags=re.MULTILINE)  # 标题
+    text = re.sub(r'\*\*\*(.*?)\*\*\*', r'\1', text)  # 粗斜体
+    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)  # 粗体
+    text = re.sub(r'\*(.*?)\*', r'\1', text)  # 斜体
+    text = re.sub(r'~~(.*?)~~', r'\1', text)  # 删除线
+    text = re.sub(r'^>\s+', '', text, flags=re.MULTILINE)  # 引用
+    text = re.sub(r'^[\*\-\+]\s+', '', text, flags=re.MULTILINE)  # 无序列表
+    text = re.sub(r'^\d+\.\s+', '', text, flags=re.MULTILINE)  # 有序列表
+    text = re.sub(r'^\|.*\|$', '', text, flags=re.MULTILINE)  # 表格
+    text = re.sub(r'^---$', '', text, flags=re.MULTILINE)  # 分割线
+    text = re.sub(r'\s+', ' ', text)  # 清理空格
+    return text.strip()
+
+
+def count_words(text: str) -> Tuple[int, int, int]:
+    """统计字数：返回 (中文字数, 英文词数, 总字数)"""
+    clean_text = strip_markdown(text)
+    
+    # 中文字符
+    chinese_chars = re.findall(r'[\u4e00-\u9fa5]', clean_text)
+    chinese_count = len(chinese_chars)
+    
+    # 英文单词
+    text_without_chinese = re.sub(r'[\u4e00-\u9fa5]', ' ', clean_text)
+    english_words = re.findall(r'[a-zA-Z]+', text_without_chinese)
+    english_count = len(english_words)
+    
+    total = chinese_count + english_count
+    return chinese_count, english_count, total
+
+
+def calculate_reading_time(text: str) -> int:
+    """计算阅读时间（分钟）"""
+    chinese, english, _ = count_words(text)
+    chinese_time = chinese / CHINESE_READING_SPEED
+    english_time = english / ENGLISH_READING_SPEED
+    total_time = max(1, round(chinese_time + english_time))
+    return total_time
+
+
+# ==================== Markdown 转 HTML ====================
+class MarkdownRenderer:
+    """Markdown 转 HTML 渲染器"""
+    
+    def render(self, markdown: str) -> str:
+        """将 Markdown 转换为 HTML"""
+        html_content = markdown
+        
+        # 处理代码块
+        html_content = self._process_code_blocks(html_content)
+        
+        # 处理引用
+        html_content = self._process_blockquotes(html_content)
+        
+        # 处理表格
+        html_content = self._process_tables(html_content)
+        
+        # 处理列表
+        html_content = self._process_lists(html_content)
+        
+        # 处理标题
+        html_content = re.sub(r'^### (.*)$', r'<h3>\1</h3>', html_content, flags=re.MULTILINE)
+        html_content = re.sub(r'^## (.*)$', r'<h2>\1</h2>', html_content, flags=re.MULTILINE)
+        html_content = re.sub(r'^# (.*)$', r'<h1>\1</h1>', html_content, flags=re.MULTILINE)
+        
+        # 处理粗体和斜体
+        html_content = re.sub(r'\*\*\*(.*?)\*\*\*', r'<strong><em>\1</em></strong>', html_content)
+        html_content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html_content)
+        html_content = re.sub(r'\*(.*?)\*', r'<em>\1</em>', html_content)
+        
+        # 处理删除线
+        html_content = re.sub(r'~~(.*?)~~', r'<del>\1</del>', html_content)
+        
+        # 处理行内代码
+        html_content = re.sub(r'`([^`]+)`', r'<code>\1</code>', html_content)
+        
+        # 处理链接
+        html_content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', html_content)
+        
+        # 处理图片
+        html_content = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'<img src="\2" alt="\1">', html_content)
+        
+        # 处理分割线
+        html_content = re.sub(r'^---$', r'<hr>', html_content, flags=re.MULTILINE)
+        html_content = re.sub(r'^\*\*\*$', r'<hr>', html_content, flags=re.MULTILINE)
+        
+        # 处理段落
+        html_content = self._process_paragraphs(html_content)
+        
+        return html_content
+    
+    def _process_code_blocks(self, text: str) -> str:
+        """处理代码块"""
+        def replace_code_block(match):
+            lang = match.group(1) or ''
+            code = match.group(2).strip()
+            escaped_code = html.escape(code)
+            lang_attr = f' class="language-{lang}"' if lang else ''
+            return f'<pre><code{lang_attr}>{escaped_code}</code></pre>'
+        
+        return re.sub(r'```(\w*)\n([\s\S]*?)```', replace_code_block, text)
+    
+    def _process_blockquotes(self, text: str) -> str:
+        """处理引用"""
+        lines = text.split('\n')
+        result = []
+        in_blockquote = False
+        blockquote_content = []
+        
+        for line in lines:
+            if line.startswith('> '):
+                if not in_blockquote:
+                    in_blockquote = True
+                    blockquote_content = []
+                blockquote_content.append(line[2:])
+            else:
+                if in_blockquote:
+                    result.append('<blockquote>' + '<br>'.join(blockquote_content) + '</blockquote>')
+                    in_blockquote = False
+                    blockquote_content = []
+                result.append(line)
+        
+        if in_blockquote:
+            result.append('<blockquote>' + '<br>'.join(blockquote_content) + '</blockquote>')
+        
+        return '\n'.join(result)
+    
+    def _process_tables(self, text: str) -> str:
+        """处理表格"""
+        def replace_table(match):
+            table = match.group(1).strip()
+            rows = table.split('\n')
+            html_rows = ['<table>']
+            
+            for i, row in enumerate(rows):
+                if i == 1 and re.match(r'^\|[\-\|: ]+\|$', row):
+                    continue  # 跳过分隔行
+                
+                cells = [c.strip() for c in row.split('|') if c.strip()]
+                tag = 'th' if i == 0 else 'td'
+                html_rows.append('<tr>')
+                for cell in cells:
+                    html_rows.append(f'<{tag}>{cell}</{tag}>')
+                html_rows.append('</tr>')
+            
+            html_rows.append('</table>')
+            return '\n'.join(html_rows)
+        
+        return re.sub(r'(\|.+\|\n\|[\-\|: ]+\|\n(?:\|.+\|\n?)+)', replace_table, text)
+    
+    def _process_lists(self, text: str) -> str:
+        """处理列表"""
+        # 无序列表
+        def replace_ul(match):
+            items = match.group(0).strip().split('\n')
+            html_items = ['<ul>']
+            for item in items:
+                content = re.sub(r'^[\*\-\+] ', '', item)
+                html_items.append(f'<li>{content}</li>')
+            html_items.append('</ul>')
+            return '\n'.join(html_items) + '\n'
+        
+        text = re.sub(r'(?:^[\*\-\+] .+\n?)+', replace_ul, text, flags=re.MULTILINE)
+        
+        # 有序列表
+        def replace_ol(match):
+            items = match.group(0).strip().split('\n')
+            html_items = ['<ol>']
+            for item in items:
+                content = re.sub(r'^\d+\. ', '', item)
+                html_items.append(f'<li>{content}</li>')
+            html_items.append('</ol>')
+            return '\n'.join(html_items) + '\n'
+        
+        text = re.sub(r'(?:^\d+\. .+\n?)+', replace_ol, text, flags=re.MULTILINE)
+        
+        return text
+    
+    def _process_paragraphs(self, text: str) -> str:
+        """处理段落"""
+        # 分割成块
+        blocks = text.split('\n\n')
+        result = []
+        
+        block_tags = ['<h1', '<h2', '<h3', '<h4', '<h5', '<h6', 
+                      '<pre', '<ul', '<ol', '<blockquote', '<table', '<hr']
+        
+        for block in blocks:
+            block = block.strip()
+            if not block:
+                continue
+            
+            # 检查是否已经是块级元素
+            is_block_element = any(block.startswith(tag) for tag in block_tags)
+            
+            if is_block_element:
+                result.append(block)
+            else:
+                # 将换行转换为 <br>
+                block = block.replace('\n', '<br>')
+                result.append(f'<p>{block}</p>')
+        
+        return '\n\n'.join(result)
+
+
+# ==================== 模板渲染 ====================
+def render_template(template_path: Path, context: Dict) -> str:
+    """简单的模板渲染"""
+    with open(template_path, 'r', encoding='utf-8') as f:
+        template = f.read()
+    
+    # 处理 {{#each tags}}...{{/each}}
+    each_pattern = r'\{\{#each (\w+)\}\}(.*?)\{\{/each\}\}'
+    
+    def replace_each(match):
+        key = match.group(1)
+        inner = match.group(2)
+        items = context.get(key, [])
+        result = []
+        for item in items:
+            result.append(inner.replace('{{this}}', str(item)))
+        return ''.join(result)
+    
+    template = re.sub(each_pattern, replace_each, template, flags=re.DOTALL)
+    
+    # 处理 {{#if key}}...{{/if}}
+    if_pattern = r'\{\{#if (\w+)\}\}(.*?)\{\{/if\}\}'
+    
+    def replace_if(match):
+        key = match.group(1)
+        inner = match.group(2)
+        if context.get(key):
+            return inner
+        return ''
+    
+    template = re.sub(if_pattern, replace_if, template, flags=re.DOTALL)
+    
+    # 处理简单变量 {{key}}
+    for key, value in context.items():
+        if isinstance(value, str):
+            template = template.replace('{{' + key + '}}', value)
+        elif isinstance(value, (int, float)):
+            template = template.replace('{{' + key + '}}', str(value))
+    
+    return template
+
+
+# ==================== 主构建逻辑 ====================
+def build_article(md_path: Path, md_renderer: MarkdownRenderer) -> Optional[Dict]:
+    """构建单篇文章"""
+    print(f"  处理: {md_path.name}")
+    
+    with open(md_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # 解析 Front Matter
+    meta, body = parse_front_matter(content)
+    
+    if not meta.get('title'):
+        print(f"    ⚠️  跳过: 缺少 title")
+        return None
+    
+    # 统计字数和阅读时间
+    _, _, word_count = count_words(body)
+    reading_time = calculate_reading_time(body)
+    
+    # 确定文章类型和输出目录
+    article_type = meta.get('type', 'post')
+    if article_type == 'note':
+        output_dir = OUTPUT_NOTES_DIR
+        back_link = 'notes'
+        back_text = '笔记列表'
+        is_note = True
+    else:
+        output_dir = OUTPUT_POSTS_DIR
+        back_link = 'blog'
+        back_text = '博客列表'
+        is_note = False
+    
+    # 渲染 Markdown
+    html_content = md_renderer.render(body)
+    
+    # 渲染模板
+    template_path = TEMPLATE_DIR / 'article.html'
+    context = {
+        'title': meta.get('title', ''),
+        'date': meta.get('date', ''),
+        'category': meta.get('category', ''),
+        'tags': meta.get('tags', []),
+        'wordCount': word_count,
+        'readingTime': reading_time,
+        'content': html_content,
+        'backLink': back_link,
+        'backText': back_text,
+        'isNote': is_note,
+    }
+    
+    final_html = render_template(template_path, context)
+    
+    # 输出文件
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / f"{md_path.stem}.html"
+    
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(final_html)
+    
+    print(f"    ✅ 生成: {output_path.name} ({word_count} 字, {reading_time} 分钟)")
+    
+    # 返回文章信息用于更新 posts.json
+    return {
+        'id': md_path.stem,
+        'title': meta.get('title', ''),
+        'date': meta.get('date', ''),
+        'category': meta.get('category', ''),
+        'tags': meta.get('tags', []),
+        'type': article_type,
+    }
+
+
+def update_posts_json(articles: List[Dict]):
+    """更新 posts.json 配置文件"""
+    posts_data = {
+        'blog': {},
+        'notes': {}
+    }
+    
+    # 默认分类颜色
+    category_colors = {
+        '技术分享': 'var(--accent-green)',
+        '编程语言': 'var(--accent-blue)',
+        '前端开发': 'var(--accent-purple)',
+        '后端开发': 'var(--accent-orange)',
+        '数据库': 'var(--accent-cyan)',
+        '运维部署': 'var(--accent-red)',
+    }
+    
+    for article in articles:
+        article_type = article.get('type', 'post')
+        category = article.get('category', '其他')
+        
+        target = 'notes' if article_type == 'note' else 'blog'
+        
+        if category not in posts_data[target]:
+            posts_data[target][category] = {
+                'icon': '',
+                'color': category_colors.get(category, 'var(--accent-blue)'),
+                'posts': []
+            }
+        
+        posts_data[target][category]['posts'].append({
+            'id': article['id'],
+            'title': article['title'],
+            'date': article['date'],
+            'tags': article['tags'],
+        })
+    
+    # 按日期排序
+    for target in ['blog', 'notes']:
+        for category in posts_data[target]:
+            posts_data[target][category]['posts'].sort(
+                key=lambda x: x['date'],
+                reverse=True
+            )
+    
+    # 写入文件
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with open(POSTS_JSON, 'w', encoding='utf-8') as f:
+        json.dump(posts_data, f, ensure_ascii=False, indent=2)
+    
+    print(f"\n📄 更新配置: {POSTS_JSON}")
+
+
+def build_all():
+    """构建所有文章"""
+    print("🚀 开始构建...\n")
+    
+    md_renderer = MarkdownRenderer()
+    articles = []
+    
+    # 扫描 content 目录
+    for md_file in CONTENT_DIR.rglob('*.md'):
+        result = build_article(md_file, md_renderer)
+        if result:
+            articles.append(result)
+    
+    # 更新 posts.json
+    if articles:
+        update_posts_json(articles)
+    
+    print(f"\n✨ 构建完成! 共处理 {len(articles)} 篇文章")
+
+
+def watch_mode():
+    """监听模式"""
+    try:
+        import time
+        
+        print("👀 监听模式启动，按 Ctrl+C 退出\n")
+        
+        # 记录文件修改时间
+        file_mtimes = {}
+        
+        while True:
+            changed = False
+            
+            for md_file in CONTENT_DIR.rglob('*.md'):
+                mtime = md_file.stat().st_mtime
+                if md_file not in file_mtimes or file_mtimes[md_file] != mtime:
+                    file_mtimes[md_file] = mtime
+                    changed = True
+            
+            if changed:
+                print(f"\n[{datetime.now().strftime('%H:%M:%S')}] 检测到变更，重新构建...")
+                build_all()
+            
+            time.sleep(1)
+    
+    except KeyboardInterrupt:
+        print("\n\n👋 监听模式已退出")
+
+
+def main():
+    parser = argparse.ArgumentParser(description='博客构建脚本')
+    parser.add_argument('--watch', '-w', action='store_true', help='监听模式')
+    args = parser.parse_args()
+    
+    if args.watch:
+        watch_mode()
+    else:
+        build_all()
+
+
+if __name__ == '__main__':
+    main()

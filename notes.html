@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笔记 | 神洛桃玖</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">神洛桃玖</span>
+                <span class="logo-bracket">}</span>
+            </a>
+            <div class="nav-menu">
+                <a href="blog.html" class="nav-link">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+                <a href="skills.html" class="nav-link">
+                    <i class="fas fa-code"></i> <span>技能</span>
+                </a>
+                <a href="https://github.com/shenluotaojiu" target="_blank" class="nav-link nav-github">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <main class="page">
+        <div class="page-container">
+            <header class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-book"></i>
+                    笔记
+                </h1>
+                <p class="page-desc">// 学习笔记与知识整理</p>
+            </header>
+
+            <!-- 动态加载的笔记列表 -->
+            <div id="notes-list">
+                <div class="loading-placeholder">
+                    <i class="fas fa-spinner fa-spin"></i> 加载中...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            postsLoader.renderNotesList('notes-list');
+        });
+    </script>
+</body>
+</html>

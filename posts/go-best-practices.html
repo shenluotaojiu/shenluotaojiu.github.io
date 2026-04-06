@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go 语言最佳实践指南 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">神洛桃玖</span>
+                <span class="logo-bracket">}</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link ">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+                <a href="../skills.html" class="nav-link">
+                    <i class="fas fa-code"></i> <span>技能</span>
+                </a>
+                <a href="https://github.com/shenluotaojiu" target="_blank" class="nav-link nav-github">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 文章页面 -->
+    <main class="article-page">
+        <div class="article-container">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span><i class="far fa-calendar-alt"></i> 2026-04-05</span>
+                    <span><i class="far fa-folder"></i> 技术分享</span>
+                    <span><i class="fas fa-font"></i> 150 字</span>
+                    <span><i class="far fa-clock"></i> 1 分钟</span>
+                </div>
+                <h1 class="article-title">Go 语言最佳实践指南</h1>
+                <div class="article-tags">
+                    
+                    <span class="article-tag">Go</span>
+                    
+                    <span class="article-tag">最佳实践</span>
+                    
+                </div>
+            </header>
+
+            <article class="markdown-body">
+<p>Go 语言以其简洁性和高效性著称，本文总结一些实用的最佳实践。</p>
+
+<h2>代码风格</h2>
+
+<h3>使用 gofmt</h3>
+
+<p>始终使用 <code>gofmt</code> 格式化代码，保持一致的代码风格。</p>
+
+<pre><code class="language-bash">gofmt -w .</code></pre>
+
+<h3>命名规范</h3>
+
+<ul>
+<li>包名：小写单词，避免下划线</li>
+<li>变量：驼峰命名，首字母大写表示导出</li>
+<li>接口：单方法接口通常以 <code>er</code> 结尾</li>
+</ul>
+
+<pre><code class="language-go">// Good
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+
+<p>// 包级变量<br>var maxRetries = 3</p>
+
+<p>// 导出变量<br>var MaxConnections = 100</code></pre></p>
+
+<h2>错误处理</h2>
+
+<h3>总是检查错误</h3>
+
+<pre><code class="language-go">// Bad
+file, _ := os.Open(&quot;file.txt&quot;)
+
+<p>// Good<br>file, err := os.Open(&quot;file.txt&quot;)<br>if err != nil {<br>    return fmt.Errorf(&quot;failed to open file: %w&quot;, err)<br>}<br>defer file.Close()</code></pre></p>
+
+<h3>使用 errors.Is 和 errors.As</h3>
+
+<pre><code class="language-go">if errors.Is(err, os.ErrNotExist) {
+    // 处理文件不存在
+}
+
+<p>var pathErr *os.PathError<br>if errors.As(err, &amp;pathErr) {<br>    fmt.Println(pathErr.Path)<br>}</code></pre></p>
+
+<h2>并发安全</h2>
+
+<h3>使用 sync 包</h3>
+
+<pre><code class="language-go">var (
+    mu      sync.RWMutex
+    counter int
+)
+
+<p>func increment() {<br>    mu.Lock()<br>    defer mu.Unlock()<br>    counter++<br>}</p>
+
+<p>func getCount() int {<br>    mu.RLock()<br>    defer mu.RUnlock()<br>    return counter<br>}</code></pre></p>
+
+<h3>使用 atomic 包</h3>
+
+<pre><code class="language-go">var counter int64
+
+<p>func increment() {<br>    atomic.AddInt64(&amp;counter, 1)<br>}</code></pre></p>
+
+<h2>性能优化</h2>
+
+<h3>预分配切片容量</h3>
+
+<pre><code class="language-go">// Bad - 多次扩容
+var result []int
+for i := 0; i &lt; 1000; i++ {
+    result = append(result, i)
+}
+
+<p>// Good - 一次分配<br>result := make([]int, 0, 1000)<br>for i := 0; i &lt; 1000; i++ {<br>    result = append(result, i)<br>}</code></pre></p>
+
+<h3>使用 strings.Builder</h3>
+
+<pre><code class="language-go">// Bad
+var s string
+for i := 0; i &lt; 1000; i++ {
+    s += &quot;a&quot;
+}
+
+<p>// Good<br>var sb strings.Builder<br>for i := 0; i &lt; 1000; i++ {<br>    sb.WriteString(&quot;a&quot;)<br>}<br>result := sb.String()</code></pre></p>
+
+<h2>测试</h2>
+
+<h3>表驱动测试</h3>
+
+<pre><code class="language-go">func TestAdd(t *testing.T) {
+    tests := []struct {
+        name     string
+        a, b     int
+        expected int
+    }{
+        {&quot;positive&quot;, 1, 2, 3},
+        {&quot;negative&quot;, -1, -2, -3},
+        {&quot;zero&quot;, 0, 0, 0},
+    }
+
+<p>for _, tt := range tests {<br>        t.Run(tt.name, func(t *testing.T) {<br>            result := Add(tt.a, tt.b)<br>            if result != tt.expected {<br>                t.Errorf(&quot;Add(%d, %d) = %d; want %d&quot;, <br>                    tt.a, tt.b, result, tt.expected)<br>            }<br>        })<br>    }<br>}</code></pre></p>
+
+<hr>
+
+<p><em>持续更新中...</em></p>
+            </article>
+
+            <!-- 文章导航 -->
+            <nav class="article-nav">
+                <a href="../blog.html" class="article-nav-link">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> 返回</span>
+                    <span class="nav-title">博客列表</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go 并发编程笔记 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">神洛桃玖</span>
+                <span class="logo-bracket">}</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+                <a href="../skills.html" class="nav-link">
+                    <i class="fas fa-code"></i> <span>技能</span>
+                </a>
+                <a href="https://github.com/shenluotaojiu" target="_blank" class="nav-link nav-github">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 文章页面 -->
+    <main class="article-page">
+        <div class="article-container">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span><i class="far fa-calendar-alt"></i> 2026-04-02</span>
+                    <span><i class="far fa-folder"></i> 编程语言</span>
+                    <span><i class="fas fa-font"></i> 180 字</span>
+                    <span><i class="far fa-clock"></i> 1 分钟</span>
+                </div>
+                <h1 class="article-title">Go 并发编程笔记</h1>
+                <div class="article-tags">
+                    
+                    <span class="article-tag">Go</span>
+                    
+                    <span class="article-tag">并发</span>
+                    
+                    <span class="article-tag">Goroutine</span>
+                    
+                </div>
+            </header>
+
+            <article class="markdown-body">
+<p>Go 语言天生支持并发，通过 goroutine 和 channel 提供了简洁而强大的并发编程模型。</p>
+
+<h2>Goroutine</h2>
+
+<p>Goroutine 是 Go 的轻量级线程，由 Go 运行时管理。</p>
+
+<pre><code class="language-go">// 启动一个 goroutine
+go func() {
+    fmt.Println(&quot;Hello from goroutine&quot;)
+}()</code></pre>
+
+<h3>特点</h3>
+
+<ul>
+<li>轻量级：初始栈只有 2KB</li>
+<li>由 Go 运行时调度，而非操作系统</li>
+<li>可以轻松创建成千上万个 goroutine</li>
+</ul>
+
+<h2>Channel</h2>
+
+<p>Channel 是 goroutine 之间通信的管道。</p>
+
+<pre><code class="language-go">// 创建 channel
+ch := make(chan int)      // 无缓冲
+ch := make(chan int, 10)  // 有缓冲
+
+<p>// 发送和接收<br>ch &lt;- 42    // 发送<br>val := &lt;-ch // 接收</code></pre></p>
+
+<h3>Channel 类型</h3>
+
+<table>
+<tr>
+<th>类型</th>
+<th>语法</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>双向</td>
+<td><code>chan T</code></td>
+<td>可发送可接收</td>
+</tr>
+<tr>
+<td>只发送</td>
+<td><code>chan<- T</code></td>
+<td>只能发送</td>
+</tr>
+<tr>
+<td>只接收</td>
+<td><code><-chan T</code></td>
+<td>只能接收</td>
+</tr>
+</table>
+<h2>Select 语句</h2>
+
+<p><code>select</code> 用于同时等待多个 channel 操作。</p>
+
+<pre><code class="language-go">select {
+case msg1 := &lt;-ch1:
+    fmt.Println(&quot;Received from ch1:&quot;, msg1)
+case msg2 := &lt;-ch2:
+    fmt.Println(&quot;Received from ch2:&quot;, msg2)
+case ch3 &lt;- 42:
+    fmt.Println(&quot;Sent to ch3&quot;)
+default:
+    fmt.Println(&quot;No communication&quot;)
+}</code></pre>
+
+<h2>常用并发模式</h2>
+
+<h3>Worker Pool</h3>
+
+<pre><code class="language-go">func worker(id int, jobs &lt;-chan int, results chan&lt;- int) {
+    for j := range jobs {
+        fmt.Printf(&quot;Worker %d processing job %d\n&quot;, id, j)
+        results &lt;- j * 2
+    }
+}
+
+<p>func main() {<br>    jobs := make(chan int, 100)<br>    results := make(chan int, 100)</p>
+
+<p>// 启动 3 个 worker<br>    for w := 1; w &lt;= 3; w++ {<br>        go worker(w, jobs, results)<br>    }</p>
+
+<p>// 发送 5 个任务<br>    for j := 1; j &lt;= 5; j++ {<br>        jobs &lt;- j<br>    }<br>    close(jobs)</p>
+
+<p>// 收集结果<br>    for a := 1; a &lt;= 5; a++ {<br>        &lt;-results<br>    }<br>}</code></pre></p>
+
+<h3>Context 控制</h3>
+
+<pre><code class="language-go">func doWork(ctx context.Context) {
+    for {
+        select {
+        case &lt;-ctx.Done():
+            fmt.Println(&quot;Work cancelled&quot;)
+            return
+        default:
+            // 执行工作
+        }
+    }
+}
+
+<p>func main() {<br>    ctx, cancel := context.WithTimeout(<br>        context.Background(), <br>        5*time.Second,<br>    )<br>    defer cancel()<br>    <br>    go doWork(ctx)<br>    <br>    // 等待或提前取消<br>    time.Sleep(2 * time.Second)<br>    cancel()<br>}</code></pre></p>
+
+<h2>注意事项</h2>
+
+<blockquote>不要通过共享内存来通信，而要通过通信来共享内存。</blockquote>
+
+<ul>
+<li>避免 goroutine 泄露</li>
+<li>使用 <code>sync.WaitGroup</code> 等待 goroutine 完成</li>
+<li>使用 <code>sync.Mutex</code> 保护共享数据</li>
+<li>使用 <code>-race</code> 检测数据竞争</li>
+</ul>
+
+<hr>
+
+<p><em>持续更新中...</em></p>
+            </article>
+
+            <!-- 文章导航 -->
+            <nav class="article-nav">
+                <a href="../notes.html" class="article-nav-link">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> 返回</span>
+                    <span class="nav-title">笔记列表</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

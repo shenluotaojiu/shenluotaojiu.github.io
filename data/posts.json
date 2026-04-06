@@ -1,0 +1,46 @@
+{
+  "blog": {
+    "技术分享": {
+      "icon": "",
+      "color": "var(--accent-green)",
+      "posts": [
+        {
+          "id": "go-best-practices",
+          "title": "Go 语言最佳实践指南",
+          "date": "2026-04-05",
+          "tags": [
+            "Go",
+            "最佳实践"
+          ]
+        },
+        {
+          "id": "frontend-performance",
+          "title": "前端性能优化实战",
+          "date": "2026-04-01",
+          "tags": [
+            "前端",
+            "性能优化"
+          ]
+        }
+      ]
+    }
+  },
+  "notes": {
+    "编程语言": {
+      "icon": "",
+      "color": "var(--accent-blue)",
+      "posts": [
+        {
+          "id": "go-concurrency",
+          "title": "Go 并发编程笔记",
+          "date": "2026-04-02",
+          "tags": [
+            "Go",
+            "并发",
+            "Goroutine"
+          ]
+        }
+      ]
+    }
+  }
+}
