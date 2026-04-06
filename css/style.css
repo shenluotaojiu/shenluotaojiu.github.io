@@ -1323,7 +1323,7 @@ a {
     align-items: center;
     padding: 5px 12px;
     font-size: 0.8rem;
-    color: var(--text-secondary);
+    color: #ffffff;
     transition: var(--transition);
     border-left: 2px solid transparent;
     text-align: left;
