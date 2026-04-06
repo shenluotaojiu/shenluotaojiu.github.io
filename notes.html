@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>笔记 | 神洛桃玖</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fontawesome/all.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -34,13 +34,101 @@
                     <i class="fas fa-book"></i>
                     笔记
                 </h1>
-                <p class="page-desc">// 学习笔记与知识整理</p>
+                <p class="page-desc">// 学习笔记与知识整理 · 共 7 篇</p>
             </header>
 
-            <!-- 动态加载的笔记列表 -->
-            <div id="notes-list">
-                <div class="loading-placeholder">
-                    <i class="fas fa-spinner fa-spin"></i> 加载中...
+            <div class="posts-container">
+
+                <div class="post-category-title" data-toggle="category-0">
+                    <i class="fas fa-chevron-down category-arrow"></i>
+                    <i class="fas fa-folder"></i>
+                    <span>工具使用</span>
+                    <span class="category-count">2</span>
+                </div>
+                <div class="category-posts" id="category-0">
+
+                    <a href="notes/git-advanced.html" class="post-item">
+                        <span class="post-title">Git 进阶技巧</span>
+                        <div class="post-meta">
+                            <span class="post-date updated"><i class="far fa-edit"></i> 2026-04-05</span>
+                        </div>
+                        <div class="post-tags"><span class="post-tag">Git</span><span class="post-tag">版本控制</span></div>
+                    </a>
+
+                    <a href="notes/vim-cheatsheet.html" class="post-item">
+                        <span class="post-title">Vim 编辑器速查手册</span>
+                        <div class="post-meta">
+                            <span class="post-date updated"><i class="far fa-edit"></i> 2026-03-30</span>
+                        </div>
+                        <div class="post-tags"><span class="post-tag">Vim</span><span class="post-tag">编辑器</span></div>
+                    </a>
+                </div>
+
+                <div class="post-category-title" data-toggle="category-1">
+                    <i class="fas fa-chevron-down category-arrow"></i>
+                    <i class="fas fa-database"></i>
+                    <span>数据库</span>
+                    <span class="category-count">1</span>
+                </div>
+                <div class="category-posts" id="category-1">
+
+                    <a href="notes/sql-basics.html" class="post-item">
+                        <span class="post-title">SQL 基础语法笔记</span>
+                        <div class="post-meta">
+                            <span class="post-date updated"><i class="far fa-edit"></i> 2026-04-02</span>
+                        </div>
+                        <div class="post-tags"><span class="post-tag">SQL</span><span class="post-tag">数据库</span></div>
+                    </a>
+                </div>
+
+                <div class="post-category-title" data-toggle="category-2">
+                    <i class="fas fa-chevron-down category-arrow"></i>
+                    <i class="fas fa-code"></i>
+                    <span>编程语言</span>
+                    <span class="category-count">2</span>
+                </div>
+                <div class="category-posts" id="category-2">
+
+                    <a href="notes/go-concurrency.html" class="post-item">
+                        <span class="post-title">Go 并发编程笔记</span>
+                        <div class="post-meta">
+                            <span class="post-date updated"><i class="far fa-edit"></i> 2026-04-07</span>
+                        </div>
+                        <div class="post-tags"><span class="post-tag">Go</span><span class="post-tag">并发</span></div>
+                    </a>
+
+                    <a href="notes/test-note-toc.html" class="post-item">
+                        <span class="post-title">数据结构学习笔记</span>
+                        <div class="post-meta">
+                            <span class="post-date updated"><i class="far fa-edit"></i> 2026-04-07</span>
+                        </div>
+                        <div class="post-tags"><span class="post-tag">数据结构</span><span class="post-tag">算法</span></div>
+                    </a>
+                </div>
+
+                <div class="post-category-title" data-toggle="category-3">
+                    <i class="fas fa-chevron-down category-arrow"></i>
+                    <i class="fas fa-cloud"></i>
+                    <span>运维部署</span>
+                    <span class="category-count">2</span>
+                </div>
+                <div class="category-posts" id="category-3">
+
+                    <a href="notes/docker-basics.html" class="post-item">
+                        <span class="post-title">Docker 容器化入门</span>
+                        <div class="post-meta">
+                            <span class="post-date updated"><i class="far fa-edit"></i> 2026-04-06</span>
+                        </div>
+                        <div class="post-tags"><span class="post-tag">Docker</span><span class="post-tag">容器</span></div>
+                    </a>
+
+                    <a href="notes/linux-commands.html" class="post-item">
+                        <span class="post-title">Linux 常用命令速查</span>
+                        <div class="post-meta">
+                            <span class="post-date updated"><i class="far fa-edit"></i> 2026-04-04</span>
+                        </div>
+                        <div class="post-tags"><span class="post-tag">Linux</span><span class="post-tag">Shell</span></div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -52,10 +140,5 @@
     </button>
 
     <script src="js/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            postsLoader.renderNotesList('notes-list');
-        });
-    </script>
 </body>
 </html>

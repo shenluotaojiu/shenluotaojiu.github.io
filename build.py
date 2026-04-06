@@ -9,7 +9,7 @@
 2. 解析 Front Matter 获取元数据
 3. 转换 Markdown 为 HTML
 4. 根据模板生成最终 HTML 文件
-5. 自动更新 data/posts.json 配置
+5. 静态生成 blog.html 和 notes.html
 """
 
 import os
@@ -347,7 +347,83 @@ def render_template(template_path: Path, context: Dict) -> str:
 
 
 # ==================== 主构建逻辑 ====================
-def build_article(md_path: Path, md_renderer: MarkdownRenderer) -> Optional[Dict]:
+def generate_sidebar_list(articles: List[Dict], current_id: str, article_type: str) -> str:
+    """生成左侧文章列表 HTML"""
+    # 过滤同类型文章
+    same_type = [a for a in articles if a.get('type', 'post') == article_type]
+    
+    html_parts = []
+    
+    if article_type == 'note':
+        # 笔记页：按分类分组，不显示年份，支持折叠
+        by_category = {}
+        for article in same_type:
+            cat = article.get('category', '其他')
+            if cat not in by_category:
+                by_category[cat] = []
+            by_category[cat].append(article)
+        
+        # 分类图标映射
+        category_icons = {
+            '技术分享': 'fa-share-alt',
+            '编程语言': 'fa-code',
+            '前端开发': 'fa-palette',
+            '后端开发': 'fa-server',
+            '数据库': 'fa-database',
+            '运维部署': 'fa-cloud',
+            '工具使用': 'fa-tools',
+            '其他': 'fa-folder',
+        }
+        
+        for idx, category in enumerate(sorted(by_category.keys())):
+            articles_in_cat = by_category[category]
+            icon = category_icons.get(category, 'fa-folder')
+            category_id = f'sidebar-cat-{idx}'
+            
+            # 分类标题（可折叠）
+            html_parts.append(
+                f'<div class="sidebar-category" data-toggle="{category_id}">'
+                f'<i class="fas fa-chevron-down sidebar-cat-arrow"></i>'
+                f'<i class="fas {icon}"></i>'
+                f'<span>{category}</span>'
+                f'<span class="sidebar-cat-count">{len(articles_in_cat)}</span>'
+                f'</div>'
+            )
+            html_parts.append(f'<div class="sidebar-cat-items" id="{category_id}">')
+            
+            # 按更新时间倒序
+            sorted_articles = sorted(articles_in_cat, key=lambda x: x.get('updated') or x.get('created', ''), reverse=True)
+            for article in sorted_articles:
+                active = ' active' if article['id'] == current_id else ''
+                html_parts.append(
+                    f'<a href="{article["id"]}.html" class="sidebar-item{active}">{article["title"]}</a>'
+                )
+            html_parts.append('</div>')
+    else:
+        # 博客页：按创建时间的年份分组
+        by_year = {}
+        for article in same_type:
+            date = article.get('created', article.get('date', ''))
+            year = date[:4] if len(date) >= 4 else '其他'
+            if year not in by_year:
+                by_year[year] = []
+            by_year[year].append(article)
+        
+        # 按年份倒序
+        for year in sorted(by_year.keys(), reverse=True):
+            html_parts.append(f'<div class="sidebar-year">{year}</div>')
+            # 按创建时间倒序
+            articles_in_year = sorted(by_year[year], key=lambda x: x.get('created', ''), reverse=True)
+            for article in articles_in_year:
+                active = ' active' if article['id'] == current_id else ''
+                html_parts.append(
+                    f'<a href="{article["id"]}.html" class="sidebar-item{active}">{article["title"]}</a>'
+                )
+    
+    return '\n'.join(html_parts)
+
+
+def build_article(md_path: Path, md_renderer: MarkdownRenderer, all_articles: List[Dict] = None) -> Optional[Dict]:
     """构建单篇文章"""
     print(f"  处理: {md_path.name}")
     
@@ -365,6 +441,10 @@ def build_article(md_path: Path, md_renderer: MarkdownRenderer) -> Optional[Dict
     _, _, word_count = count_words(body)
     reading_time = calculate_reading_time(body)
     
+    # 处理时间：支持 created/updated 或兼容旧的 date
+    created = meta.get('created', meta.get('date', ''))
+    updated = meta.get('updated', '')
+    
     # 确定文章类型和输出目录
     article_type = meta.get('type', 'post')
     if article_type == 'note':
@@ -372,11 +452,20 @@ def build_article(md_path: Path, md_renderer: MarkdownRenderer) -> Optional[Dict
         back_link = 'notes'
         back_text = '笔记列表'
         is_note = True
+        is_blog = False
+        sidebar_title = '所有笔记'
     else:
         output_dir = OUTPUT_POSTS_DIR
         back_link = 'blog'
         back_text = '博客列表'
         is_note = False
+        is_blog = True
+        sidebar_title = '所有文章'
+    
+    # 生成侧边栏列表
+    sidebar_list = ''
+    if all_articles:
+        sidebar_list = generate_sidebar_list(all_articles, md_path.stem, article_type)
     
     # 渲染 Markdown
     html_content = md_renderer.render(body)
@@ -385,7 +474,8 @@ def build_article(md_path: Path, md_renderer: MarkdownRenderer) -> Optional[Dict
     template_path = TEMPLATE_DIR / 'article.html'
     context = {
         'title': meta.get('title', ''),
-        'date': meta.get('date', ''),
+        'created': created,
+        'updated': updated,
         'category': meta.get('category', ''),
         'tags': meta.get('tags', []),
         'wordCount': word_count,
@@ -394,6 +484,9 @@ def build_article(md_path: Path, md_renderer: MarkdownRenderer) -> Optional[Dict
         'backLink': back_link,
         'backText': back_text,
         'isNote': is_note,
+        'isBlog': is_blog,
+        'sidebarTitle': sidebar_title,
+        'sidebarList': sidebar_list,
     }
     
     final_html = render_template(template_path, context)
@@ -407,68 +500,225 @@ def build_article(md_path: Path, md_renderer: MarkdownRenderer) -> Optional[Dict
     
     print(f"    ✅ 生成: {output_path.name} ({word_count} 字, {reading_time} 分钟)")
     
-    # 返回文章信息用于更新 posts.json
+    # 返回文章信息
     return {
         'id': md_path.stem,
         'title': meta.get('title', ''),
-        'date': meta.get('date', ''),
+        'created': created,
+        'updated': updated,
         'category': meta.get('category', ''),
         'tags': meta.get('tags', []),
         'type': article_type,
+        'wordCount': word_count,
+        'readingTime': reading_time,
     }
 
 
-def update_posts_json(articles: List[Dict]):
-    """更新 posts.json 配置文件"""
-    posts_data = {
-        'blog': {},
-        'notes': {}
+def generate_list_html(articles: List[Dict], page_type: str) -> str:
+    """生成文章列表 HTML（简洁时间线样式）"""
+    # 过滤对应类型
+    if page_type == 'blog':
+        filtered = [a for a in articles if a.get('type', 'post') != 'note']
+        folder = 'posts'
+    else:
+        filtered = [a for a in articles if a.get('type', 'post') == 'note']
+        folder = 'notes'
+    
+    # 按更新时间排序（没有 updated 的用 created）
+    filtered.sort(key=lambda x: x.get('updated') or x.get('created', ''), reverse=True)
+    
+    # 按分类分组
+    by_category = {}
+    for article in filtered:
+        cat = article.get('category', '其他')
+        if cat not in by_category:
+            by_category[cat] = []
+        by_category[cat].append(article)
+    
+    # 分类图标映射
+    category_icons = {
+        '技术分享': 'fa-share-alt',
+        '编程语言': 'fa-code',
+        '前端开发': 'fa-palette',
+        '后端开发': 'fa-server',
+        '数据库': 'fa-database',
+        '运维部署': 'fa-cloud',
+        '其他': 'fa-folder',
     }
     
-    # 默认分类颜色
-    category_colors = {
-        '技术分享': 'var(--accent-green)',
-        '编程语言': 'var(--accent-blue)',
-        '前端开发': 'var(--accent-purple)',
-        '后端开发': 'var(--accent-orange)',
-        '数据库': 'var(--accent-cyan)',
-        '运维部署': 'var(--accent-red)',
-    }
+    html_parts = []
     
-    for article in articles:
-        article_type = article.get('type', 'post')
-        category = article.get('category', '其他')
+    for idx, category in enumerate(sorted(by_category.keys())):
+        posts = by_category[category]
+        icon = category_icons.get(category, 'fa-folder')
+        category_id = f'category-{idx}'
         
-        target = 'notes' if article_type == 'note' else 'blog'
+        # 分类标题（可折叠）
+        html_parts.append(f'''
+                <div class="post-category-title" data-toggle="{category_id}">
+                    <i class="fas fa-chevron-down category-arrow"></i>
+                    <i class="fas {icon}"></i>
+                    <span>{category}</span>
+                    <span class="category-count">{len(posts)}</span>
+                </div>
+                <div class="category-posts" id="{category_id}">''')
         
-        if category not in posts_data[target]:
-            posts_data[target][category] = {
-                'icon': '',
-                'color': category_colors.get(category, 'var(--accent-blue)'),
-                'posts': []
-            }
+        for post in posts:
+            created = post.get('created', '')
+            updated = post.get('updated', '')
+            
+            # 显示更新时间（如果有），否则显示创建时间
+            if updated and updated != created:
+                date_html = f'<span class="post-date updated"><i class="far fa-edit"></i> {updated}</span>'
+            else:
+                date_html = f'<span class="post-date"><i class="far fa-calendar"></i> {created}</span>'
+            
+            # 标签（只显示前2个）
+            tags = post.get('tags', [])[:2]
+            tags_html = ''.join(f'<span class="post-tag">{tag}</span>' for tag in tags)
+            
+            html_parts.append(f'''
+                    <a href="{folder}/{post['id']}.html" class="post-item">
+                        <span class="post-title">{post['title']}</span>
+                        <div class="post-meta">
+                            {date_html}
+                        </div>
+                        <div class="post-tags">{tags_html}</div>
+                    </a>''')
         
-        posts_data[target][category]['posts'].append({
-            'id': article['id'],
-            'title': article['title'],
-            'date': article['date'],
-            'tags': article['tags'],
-        })
+        html_parts.append('                </div>')
     
-    # 按日期排序
-    for target in ['blog', 'notes']:
-        for category in posts_data[target]:
-            posts_data[target][category]['posts'].sort(
-                key=lambda x: x['date'],
-                reverse=True
-            )
+    return '\n'.join(html_parts)
+
+
+def build_blog_page(articles: List[Dict]):
+    """构建 blog.html"""
+    list_html = generate_list_html(articles, 'blog')
+    blog_count = len([a for a in articles if a.get('type', 'post') != 'note'])
     
-    # 写入文件
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    with open(POSTS_JSON, 'w', encoding='utf-8') as f:
-        json.dump(posts_data, f, ensure_ascii=False, indent=2)
+    html_content = f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客 | 神洛桃玖</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="blog.html" class="nav-link active">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="notes.html" class="nav-link">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <main class="page">
+        <div class="page-container">
+            <header class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-blog"></i>
+                    博客
+                </h1>
+                <p class="page-desc">// 记录技术思考与实践经验 · 共 {blog_count} 篇</p>
+            </header>
+
+            <div class="posts-container">
+{list_html}
+            </div>
+        </div>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>'''
     
-    print(f"\n📄 更新配置: {POSTS_JSON}")
+    with open(BASE_DIR / 'blog.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print(f"  ✅ 生成: blog.html ({blog_count} 篇博客)")
+
+
+def build_notes_page(articles: List[Dict]):
+    """构建 notes.html"""
+    list_html = generate_list_html(articles, 'notes')
+    notes_count = len([a for a in articles if a.get('type', 'post') == 'note'])
+    
+    html_content = f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笔记 | 神洛桃玖</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="blog.html" class="nav-link">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <main class="page">
+        <div class="page-container">
+            <header class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-book"></i>
+                    笔记
+                </h1>
+                <p class="page-desc">// 学习笔记与知识整理 · 共 {notes_count} 篇</p>
+            </header>
+
+            <div class="posts-container">
+{list_html}
+            </div>
+        </div>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>'''
+    
+    with open(BASE_DIR / 'notes.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print(f"  ✅ 生成: notes.html ({notes_count} 篇笔记)")
 
 
 def build_all():
@@ -476,17 +726,40 @@ def build_all():
     print("🚀 开始构建...\n")
     
     md_renderer = MarkdownRenderer()
-    articles = []
     
-    # 扫描 content 目录
-    for md_file in CONTENT_DIR.rglob('*.md'):
-        result = build_article(md_file, md_renderer)
+    # 第一遍：收集所有文章信息
+    articles_info = []
+    md_files = list(CONTENT_DIR.rglob('*.md'))
+    
+    print("📋 收集文章信息...")
+    for md_file in md_files:
+        with open(md_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        meta, _ = parse_front_matter(content)
+        if meta.get('title'):
+            articles_info.append({
+                'id': md_file.stem,
+                'title': meta.get('title', ''),
+                'created': meta.get('created', meta.get('date', '')),
+                'updated': meta.get('updated', ''),
+                'category': meta.get('category', ''),
+                'tags': meta.get('tags', []),
+                'type': meta.get('type', 'post'),
+                'path': md_file,
+            })
+    
+    # 第二遍：生成 HTML（带有侧边栏列表）
+    print("\n📝 生成文章...")
+    articles = []
+    for md_file in md_files:
+        result = build_article(md_file, md_renderer, articles_info)
         if result:
             articles.append(result)
     
-    # 更新 posts.json
-    if articles:
-        update_posts_json(articles)
+    # 生成列表页面
+    print("\n📄 生成列表页...")
+    build_blog_page(articles)
+    build_notes_page(articles)
     
     print(f"\n✨ 构建完成! 共处理 {len(articles)} 篇文章")
 

@@ -1,6 +1,6 @@
 ---
 title: Go 语言最佳实践指南
-date: 2026-04-05
+created: 2026-04-05
 category: 技术分享
 tags:
   - Go

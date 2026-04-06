@@ -1,6 +1,7 @@
 ---
 title: 前端性能优化实战
-date: 2026-04-01
+created: 2026-04-01
+updated: 2026-04-05
 category: 技术分享
 tags:
   - 前端

@@ -1,6 +1,7 @@
 ---
 title: Go 并发编程笔记
-date: 2026-04-02
+created: 2026-04-02
+updated: 2026-04-07
 category: 编程语言
 tags:
   - Go
