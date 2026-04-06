@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Docker 容器化入门 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2ce46db6">
+    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -92,11 +92,11 @@
 
 <p>镜像是只读的模板，包含运行应用所需的一切。</p>
 
-<p>#### 镜像层</p>
+<h4>镜像层</h4>
 
 <p>Docker 镜像由多层组成：<br><ul><br><li>基础层（如 Ubuntu、Alpine）</li><br><li>应用层</li><br><li>配置层</li><br></ul></p>
 
-<p>#### 镜像仓库</p>
+<h4>镜像仓库</h4>
 
 <p>常用的镜像仓库：<br><ul><br><li>Docker Hub</li><br><li>阿里云容器镜像服务</li><br><li>私有 Registry</li><br></ul></p>
 
@@ -117,11 +117,11 @@ docker stop myapp</code></pre>
 
 <p>数据持久化的解决方案。</p>
 
-<p>#### 绑定挂载</p>
+<h4>绑定挂载</h4>
 
 <pre><code class="language-bash">docker run -v /host/path:/container/path nginx</code></pre>
 
-<p>#### 命名卷</p>
+<h4>命名卷</h4>
 
 <pre><code class="language-bash">docker volume create mydata
 docker run -v mydata:/data nginx</code></pre>
@@ -259,7 +259,7 @@ docker run --network mynet nginx</code></pre>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2ce46db6"></script>
+    <script src="../js/main.js?v=2d01bd7b"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -444,12 +444,27 @@ docker run --network mynet nginx</code></pre>
 
             toc.innerHTML = tocHtml;
 
-            // 点击高亮
+            // 点击跳转和高亮
             const tocLinks = toc.querySelectorAll('.toc-link');
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 高亮当前项
                     tocLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // 获取目标元素并滚动
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navHeight = 60; // 导航栏高度
+                        const targetPosition = targetElement.offsetTop - navHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 

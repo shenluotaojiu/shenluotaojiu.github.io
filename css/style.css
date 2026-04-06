@@ -786,7 +786,9 @@ a {
 .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3,
-.markdown-body h4 {
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
     color: var(--accent-orange);
     margin: 30px 0 15px;
     font-weight: 600;
@@ -795,6 +797,9 @@ a {
 .markdown-body h1 { font-size: 1.8rem; }
 .markdown-body h2 { font-size: 1.5rem; }
 .markdown-body h3 { font-size: 1.2rem; }
+.markdown-body h4 { font-size: 1.1rem; }
+.markdown-body h5 { font-size: 1rem; }
+.markdown-body h6 { font-size: 0.9rem; color: var(--text-secondary); }
 
 .markdown-body p {
     margin-bottom: 15px;
@@ -1228,7 +1233,7 @@ a {
     display: block;
     padding: 6px 15px;
     font-size: 0.8rem;
-    color: var(--text-secondary);
+    color: #ffffff;
     transition: var(--transition);
     border-left: 2px solid transparent;
     white-space: nowrap;

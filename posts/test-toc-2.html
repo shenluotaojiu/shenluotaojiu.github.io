@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web 开发完全指南 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2ce46db6">
+    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -96,13 +96,13 @@
 
 <p>CSS 负责样式和布局。</p>
 
-<p>#### 选择器</p>
+<h4>选择器</h4>
 
 <pre><code class="language-css">.class-name { }
 #id-name { }
 element { }</code></pre>
 
-<p>#### Flexbox</p>
+<h4>Flexbox</h4>
 
 <p>现代布局利器：</p>
 
@@ -112,7 +112,7 @@ element { }</code></pre>
     align-items: center;
 }</code></pre>
 
-<p>#### Grid</p>
+<h4>Grid</h4>
 
 <p>更强大的网格系统：</p>
 
@@ -126,13 +126,13 @@ element { }</code></pre>
 
 <p>为网页添加交互性。</p>
 
-<p>#### 变量和类型</p>
+<h4>变量和类型</h4>
 
 <pre><code class="language-javascript">const name = &quot;Alice&quot;;
 let age = 25;
 const isStudent = true;</code></pre>
 
-<p>#### 函数</p>
+<h4>函数</h4>
 
 <pre><code class="language-javascript">function greet(name) {
     return <code>Hello, ${name}!</code>;
@@ -140,7 +140,7 @@ const isStudent = true;</code></pre>
 
 <p>const arrow = (x) =&gt; x * 2;</code></pre></p>
 
-<p>#### 异步编程</p>
+<h4>异步编程</h4>
 
 <pre><code class="language-javascript">async function fetchData() {
     const response = await fetch(&#x27;/api/data&#x27;);
@@ -154,7 +154,7 @@ const isStudent = true;</code></pre>
 
 <h3>服务器框架</h3>
 
-<p>#### Node.js + Express</p>
+<h4>Node.js + Express</h4>
 
 <pre><code class="language-javascript">const express = require(&#x27;express&#x27;);
 const app = express();
@@ -163,7 +163,7 @@ const app = express();
 
 <p>app.listen(3000);</code></pre></p>
 
-<p>#### Go + Gin</p>
+<h4>Go + Gin</h4>
 
 <pre><code class="language-go">package main
 
@@ -173,7 +173,7 @@ const app = express();
 
 <h3>数据库</h3>
 
-<p>#### SQL 数据库</p>
+<h4>SQL 数据库</h4>
 
 <ul>
 <li>PostgreSQL</li>
@@ -181,7 +181,7 @@ const app = express();
 <li>SQLite</li>
 </ul>
 
-<p>#### NoSQL 数据库</p>
+<h4>NoSQL 数据库</h4>
 
 <ul>
 <li>MongoDB</li>
@@ -253,7 +253,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2ce46db6"></script>
+    <script src="../js/main.js?v=2d01bd7b"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -438,12 +438,27 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
 
             toc.innerHTML = tocHtml;
 
-            // 点击高亮
+            // 点击跳转和高亮
             const tocLinks = toc.querySelectorAll('.toc-link');
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 高亮当前项
                     tocLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // 获取目标元素并滚动
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navHeight = 60; // 导航栏高度
+                        const targetPosition = targetElement.offsetTop - navHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 

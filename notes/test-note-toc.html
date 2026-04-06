@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数据结构学习笔记 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2ce46db6">
+    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -94,7 +94,7 @@
 
 <p>固定大小的连续内存。</p>
 
-<p>#### 特点</p>
+<h4>特点</h4>
 
 <ul>
 <li>随机访问 O(1)</li>
@@ -102,7 +102,7 @@
 <li>内存连续</li>
 </ul>
 
-<p>#### 实现</p>
+<h4>实现</h4>
 
 <pre><code class="language-go">arr := [5]int{1, 2, 3, 4, 5}
 slice := []int{1, 2, 3}</code></pre>
@@ -111,14 +111,14 @@ slice := []int{1, 2, 3}</code></pre>
 
 <p>节点通过指针连接。</p>
 
-<p>#### 单链表</p>
+<h4>单链表</h4>
 
 <pre><code class="language-go">type Node struct {
     Value int
     Next  *Node
 }</code></pre>
 
-<p>#### 双链表</p>
+<h4>双链表</h4>
 
 <pre><code class="language-go">type DNode struct {
     Value int
@@ -142,13 +142,13 @@ slice := []int{1, 2, 3}</code></pre>
 
 <p>先进先出（FIFO）。</p>
 
-<p>#### 普通队列</p>
+<h4>普通队列</h4>
 
 <pre><code class="language-go">type Queue struct {
     items []int
 }</code></pre>
 
-<p>#### 优先队列</p>
+<h4>优先队列</h4>
 
 <p>按优先级出队。</p>
 
@@ -166,7 +166,7 @@ slice := []int{1, 2, 3}</code></pre>
     Right *TreeNode
 }</code></pre>
 
-<p>#### 遍历方式</p>
+<h4>遍历方式</h4>
 
 <ul>
 <li>前序遍历：根-左-右</li>
@@ -181,11 +181,11 @@ slice := []int{1, 2, 3}</code></pre>
 
 <h3>平衡二叉树</h3>
 
-<p>#### AVL 树</p>
+<h4>AVL 树</h4>
 
 <p>严格平衡，高度差不超过 1。</p>
 
-<p>#### 红黑树</p>
+<h4>红黑树</h4>
 
 <p>宽松平衡，查询性能稍差但插入删除更快。</p>
 
@@ -199,7 +199,7 @@ slice := []int{1, 2, 3}</code></pre>
 
 <h3>表示方法</h3>
 
-<p>#### 邻接矩阵</p>
+<h4>邻接矩阵</h4>
 
 <pre><code class="language-go">graph := [][]int{
     {0, 1, 0},
@@ -207,7 +207,7 @@ slice := []int{1, 2, 3}</code></pre>
     {0, 1, 0},
 }</code></pre>
 
-<p>#### 邻接表</p>
+<h4>邻接表</h4>
 
 <pre><code class="language-go">graph := map[int][]int{
     0: {1},
@@ -217,7 +217,7 @@ slice := []int{1, 2, 3}</code></pre>
 
 <h3>遍历算法</h3>
 
-<p>#### DFS 深度优先</p>
+<h4>DFS 深度优先</h4>
 
 <pre><code class="language-go">func dfs(node int, visited map[int]bool, graph map[int][]int) {
     if visited[node] {
@@ -229,7 +229,7 @@ slice := []int{1, 2, 3}</code></pre>
     }
 }</code></pre>
 
-<p>#### BFS 广度优先</p>
+<h4>BFS 广度优先</h4>
 
 <pre><code class="language-go">func bfs(start int, graph map[int][]int) {
     queue := []int{start}
@@ -296,7 +296,7 @@ slice := []int{1, 2, 3}</code></pre>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2ce46db6"></script>
+    <script src="../js/main.js?v=2d01bd7b"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -481,12 +481,27 @@ slice := []int{1, 2, 3}</code></pre>
 
             toc.innerHTML = tocHtml;
 
-            // 点击高亮
+            // 点击跳转和高亮
             const tocLinks = toc.querySelectorAll('.toc-link');
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 高亮当前项
                     tocLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // 获取目标元素并滚动
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navHeight = 60; // 导航栏高度
+                        const targetPosition = targetElement.offsetTop - navHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 

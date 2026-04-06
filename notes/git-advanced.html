@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Git 进阶技巧 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2ce46db6">
+    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -90,27 +90,27 @@
 
 <h3>分支策略</h3>
 
-<p>#### Git Flow</p>
+<h4>Git Flow</h4>
 
 <p>标准的分支模型：<br><ul><br><li>main：生产分支</li><br><li>develop：开发分支</li><br><li>feature/*：功能分支</li><br><li>release/*：发布分支</li><br><li>hotfix/*：热修复分支</li><br></ul></p>
 
-<p>#### GitHub Flow</p>
+<h4>GitHub Flow</h4>
 
 <p>简化的分支模型：<br><ul><br><li>main：主分支</li><br><li>feature：功能分支</li><br></ul></p>
 
 <h3>合并策略</h3>
 
-<p>#### Merge</p>
+<h4>Merge</h4>
 
 <pre><code class="language-bash">git checkout main
 git merge feature/new-feature</code></pre>
 
-<p>#### Rebase</p>
+<h4>Rebase</h4>
 
 <pre><code class="language-bash">git checkout feature/new-feature
 git rebase main</code></pre>
 
-<p>#### Squash</p>
+<h4>Squash</h4>
 
 <pre><code class="language-bash">git merge --squash feature/new-feature</code></pre>
 
@@ -268,7 +268,7 @@ git config --global push.default current</code></pre>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2ce46db6"></script>
+    <script src="../js/main.js?v=2d01bd7b"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -453,12 +453,27 @@ git config --global push.default current</code></pre>
 
             toc.innerHTML = tocHtml;
 
-            // 点击高亮
+            // 点击跳转和高亮
             const tocLinks = toc.querySelectorAll('.toc-link');
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 高亮当前项
                     tocLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // 获取目标元素并滚动
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navHeight = 60; // 导航栏高度
+                        const targetPosition = targetElement.offsetTop - navHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 

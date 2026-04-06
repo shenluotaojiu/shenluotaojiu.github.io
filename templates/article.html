@@ -277,12 +277,27 @@
 
             toc.innerHTML = tocHtml;
 
-            // 点击高亮
+            // 点击跳转和高亮
             const tocLinks = toc.querySelectorAll('.toc-link');
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 高亮当前项
                     tocLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // 获取目标元素并滚动
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navHeight = 60; // 导航栏高度
+                        const targetPosition = targetElement.offsetTop - navHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 

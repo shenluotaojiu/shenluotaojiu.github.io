@@ -176,7 +176,10 @@ class MarkdownRenderer:
         # 处理列表
         html_content = self._process_lists(html_content)
         
-        # 处理标题
+        # 处理标题（从 h6 到 h1 顺序处理，避免误匹配）
+        html_content = re.sub(r'^###### (.*)$', r'<h6>\1</h6>', html_content, flags=re.MULTILINE)
+        html_content = re.sub(r'^##### (.*)$', r'<h5>\1</h5>', html_content, flags=re.MULTILINE)
+        html_content = re.sub(r'^#### (.*)$', r'<h4>\1</h4>', html_content, flags=re.MULTILINE)
         html_content = re.sub(r'^### (.*)$', r'<h3>\1</h3>', html_content, flags=re.MULTILINE)
         html_content = re.sub(r'^## (.*)$', r'<h2>\1</h2>', html_content, flags=re.MULTILINE)
         html_content = re.sub(r'^# (.*)$', r'<h1>\1</h1>', html_content, flags=re.MULTILINE)

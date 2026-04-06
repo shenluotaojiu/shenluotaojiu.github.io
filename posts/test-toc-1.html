@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>目录功能测试 - 深度嵌套 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=2ce46db6">
+    <link rel="stylesheet" href="../css/style.css?v=2d01bd7b">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
 </head>
 <body>
@@ -80,11 +80,11 @@
 
 <p>测试是验证软件功能的过程。</p>
 
-<p>#### 1.1.1 单元测试</p>
+<h4>1.1.1 单元测试</h4>
 
 <p>单元测试关注单个模块的正确性。</p>
 
-<p>#### 1.1.2 集成测试</p>
+<h4>1.1.2 集成测试</h4>
 
 <p>集成测试验证多个模块之间的协作。</p>
 
@@ -100,11 +100,11 @@
 
 <p>选择合适的测试策略很重要。</p>
 
-<p>#### 2.1.1 金字塔模型</p>
+<h4>2.1.1 金字塔模型</h4>
 
 <p>测试金字塔建议：<br><ol><br><li>大量单元测试</li><br><li>适量集成测试</li><br><li>少量端到端测试</li><br></ol></p>
 
-<p>#### 2.1.2 冰淇淋模型</p>
+<h4>2.1.2 冰淇淋模型</h4>
 
 <p>这是一种反模式，应该避免。</p>
 
@@ -112,7 +112,7 @@
 
 <p>常用的测试工具有：</p>
 
-<p>#### 2.2.1 Go 测试工具</p>
+<h4>2.2.1 Go 测试工具</h4>
 
 <pre><code class="language-go">func TestAdd(t *testing.T) {
     result := Add(1, 2)
@@ -121,7 +121,7 @@
     }
 }</code></pre>
 
-<p>#### 2.2.2 JavaScript 测试工具</p>
+<h4>2.2.2 JavaScript 测试工具</h4>
 
 <pre><code class="language-javascript">test(&#x27;adds 1 + 2 to equal 3&#x27;, () =&gt; {
   expect(add(1, 2)).toBe(3);
@@ -171,7 +171,7 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=2ce46db6"></script>
+    <script src="../js/main.js?v=2d01bd7b"></script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -356,12 +356,27 @@
 
             toc.innerHTML = tocHtml;
 
-            // 点击高亮
+            // 点击跳转和高亮
             const tocLinks = toc.querySelectorAll('.toc-link');
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 高亮当前项
                     tocLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // 获取目标元素并滚动
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navHeight = 60; // 导航栏高度
+                        const targetPosition = targetElement.offsetTop - navHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 
