@@ -28,6 +28,9 @@ CONTENT_DIR = BASE_DIR / "content"
 TEMPLATE_DIR = BASE_DIR / "templates"
 OUTPUT_POSTS_DIR = BASE_DIR / "posts"
 OUTPUT_NOTES_DIR = BASE_DIR / "notes"
+
+# 静态资源版本号（用于缓存刷新）
+ASSET_VERSION = datetime.now().strftime('%Y%m%d%H%M%S')
 DATA_DIR = BASE_DIR / "data"
 POSTS_JSON = DATA_DIR / "posts.json"
 
@@ -487,6 +490,7 @@ def build_article(md_path: Path, md_renderer: MarkdownRenderer, all_articles: Li
         'isBlog': is_blog,
         'sidebarTitle': sidebar_title,
         'sidebarList': sidebar_list,
+        'assetVersion': ASSET_VERSION,
     }
     
     final_html = render_template(template_path, context)
@@ -602,7 +606,7 @@ def build_blog_page(articles: List[Dict]):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>博客 | 神洛桃玖</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v={ASSET_VERSION}">
     <link rel="stylesheet" href="css/fontawesome/all.min.css">
 </head>
 <body>
@@ -646,7 +650,7 @@ def build_blog_page(articles: List[Dict]):
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v={ASSET_VERSION}"></script>
 </body>
 </html>'''
     
@@ -667,7 +671,7 @@ def build_notes_page(articles: List[Dict]):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>笔记 | 神洛桃玖</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v={ASSET_VERSION}">
     <link rel="stylesheet" href="css/fontawesome/all.min.css">
 </head>
 <body>
@@ -711,7 +715,7 @@ def build_notes_page(articles: List[Dict]):
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v={ASSET_VERSION}"></script>
 </body>
 </html>'''
     
