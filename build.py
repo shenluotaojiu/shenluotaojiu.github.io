@@ -28,11 +28,25 @@ CONTENT_DIR = BASE_DIR / "content"
 TEMPLATE_DIR = BASE_DIR / "templates"
 OUTPUT_POSTS_DIR = BASE_DIR / "posts"
 OUTPUT_NOTES_DIR = BASE_DIR / "notes"
-
-# 静态资源版本号（用于缓存刷新）
-ASSET_VERSION = datetime.now().strftime('%Y%m%d%H%M%S')
 DATA_DIR = BASE_DIR / "data"
 POSTS_JSON = DATA_DIR / "posts.json"
+
+
+def get_asset_version() -> str:
+    """基于静态资源文件内容生成版本号（只有文件变化时才会改变）"""
+    files_to_hash = [
+        BASE_DIR / "css" / "style.css",
+        BASE_DIR / "js" / "main.js",
+    ]
+    hasher = hashlib.md5()
+    for f in files_to_hash:
+        if f.exists():
+            hasher.update(f.read_bytes())
+    return hasher.hexdigest()[:8]
+
+
+# 静态资源版本号（基于文件内容哈希）
+ASSET_VERSION = get_asset_version()
 
 # 阅读速度配置
 CHINESE_READING_SPEED = 400  # 字/分钟
