@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker 容器化入门 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link ">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="article-layout">
+        <!-- 左侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-left" id="toggleLeft" title="切换左侧栏">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <!-- 左侧：文章列表 -->
+        <aside class="sidebar-left" id="sidebarLeft">
+            <div class="sidebar-header">
+                <i class="fas fa-list"></i>
+                <span>所有笔记</span>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-0">
+<a href="git-advanced.html" class="sidebar-item">Git 进阶技巧</a>
+<a href="vim-cheatsheet.html" class="sidebar-item">Vim 编辑器速查手册</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-1"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-database"></i><span>数据库</span><span class="sidebar-cat-count">1</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-1">
+<a href="sql-basics.html" class="sidebar-item">SQL 基础语法笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-2">
+<a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
+<a href="test-note-toc.html" class="sidebar-item">数据结构学习笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-3">
+<a href="docker-basics.html" class="sidebar-item active">Docker 容器化入门</a>
+<a href="linux-commands.html" class="sidebar-item">Linux 常用命令速查</a>
+</div>
+            </div>
+        </aside>
+
+        <!-- 中间：文章内容 -->
+        <main class="article-main">
+            <article class="article-container">
+                <header class="article-header">
+                    <h1 class="article-title">Docker 容器化入门</h1>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-04-03</span>
+                        <span><i class="far fa-calendar-check"></i> 更新: 2026-04-06</span>
+                        <span><i class="far fa-folder"></i> 运维部署</span>
+                        <span><i class="fas fa-font"></i> 239 字</span>
+                        <span><i class="far fa-clock"></i> 1 分钟</span>
+                    </div>
+                    <div class="article-tags">
+                        
+                        <span class="article-tag">Docker</span>
+                        
+                        <span class="article-tag">容器</span>
+                        
+                    </div>
+                </header>
+
+                <div class="markdown-body" id="articleContent">
+<p>Docker 是现代应用部署的标准工具。</p>
+
+<h2>基础概念</h2>
+
+<h3>镜像 (Image)</h3>
+
+<p>镜像是只读的模板，包含运行应用所需的一切。</p>
+
+<p>#### 镜像层</p>
+
+<p>Docker 镜像由多层组成：<br><ul><br><li>基础层（如 Ubuntu、Alpine）</li><br><li>应用层</li><br><li>配置层</li><br></ul></p>
+
+<p>#### 镜像仓库</p>
+
+<p>常用的镜像仓库：<br><ul><br><li>Docker Hub</li><br><li>阿里云容器镜像服务</li><br><li>私有 Registry</li><br></ul></p>
+
+<h3>容器 (Container)</h3>
+
+<p>容器是镜像的运行实例。</p>
+
+<pre><code class="language-bash"># 运行容器
+docker run -d --name myapp nginx
+
+<h1>查看容器</h1>
+docker ps
+
+<h1>停止容器</h1>
+docker stop myapp</code></pre>
+
+<h3>数据卷 (Volume)</h3>
+
+<p>数据持久化的解决方案。</p>
+
+<p>#### 绑定挂载</p>
+
+<pre><code class="language-bash">docker run -v /host/path:/container/path nginx</code></pre>
+
+<p>#### 命名卷</p>
+
+<pre><code class="language-bash">docker volume create mydata
+docker run -v mydata:/data nginx</code></pre>
+
+<h2>Dockerfile</h2>
+
+<h3>基本指令</h3>
+
+<pre><code class="language-dockerfile"># 基础镜像
+FROM node:18-alpine
+
+<h1>设置工作目录</h1>
+WORKDIR /app
+
+<h1>复制文件</h1>
+COPY package*.json ./
+
+<h1>运行命令</h1>
+RUN npm install
+
+<h1>复制源代码</h1>
+COPY . .
+
+<h1>暴露端口</h1>
+EXPOSE 3000
+
+<h1>启动命令</h1>
+CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
+
+<h3>多阶段构建</h3>
+
+<pre><code class="language-dockerfile"># 构建阶段
+FROM node:18 AS builder
+WORKDIR /app
+COPY . .
+RUN npm run build
+
+<h1>生产阶段</h1>
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html</code></pre>
+
+<h2>Docker Compose</h2>
+
+<h3>基本配置</h3>
+
+<pre><code class="language-yaml">version: &#x27;3.8&#x27;
+services:
+  web:
+    build: .
+    ports:
+      - &quot;3000:3000&quot;
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+<p>volumes:<br>  db-data:</code></pre></p>
+
+<h3>常用命令</h3>
+
+<pre><code class="language-bash"># 启动服务
+docker-compose up -d
+
+<h1>查看日志</h1>
+docker-compose logs -f
+
+<h1>停止服务</h1>
+docker-compose down</code></pre>
+
+<h2>网络</h2>
+
+<h3>网络类型</h3>
+
+<ul>
+<li>bridge：默认网络</li>
+<li>host：使用主机网络</li>
+<li>none：无网络</li>
+</ul>
+
+<h3>自定义网络</h3>
+
+<pre><code class="language-bash">docker network create mynet
+docker run --network mynet nginx</code></pre>
+
+<h2>最佳实践</h2>
+
+<h3>镜像优化</h3>
+
+<ol>
+<li>使用小基础镜像（如 Alpine）</li>
+<li>合并 RUN 指令减少层数</li>
+<li>使用 .dockerignore</li>
+</ol>
+
+<h3>安全建议</h3>
+
+<ol>
+<li>不使用 root 用户</li>
+<li>定期更新基础镜像</li>
+<li>扫描镜像漏洞</li>
+</ol>
+
+<h2>总结</h2>
+
+<p>Docker 简化了应用的打包、分发和部署流程。</p>
+                </div>
+            </article>
+        </main>
+
+        <!-- 右侧：文章目录 -->
+        <aside class="sidebar-right" id="sidebarRight">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span>目录</span>
+                <span class="reading-progress" id="readingProgress">0%</span>
+            </div>
+            <nav class="toc-content" id="tocContent">
+                <!-- 目录由 JS 生成 -->
+            </nav>
+        </aside>
+        
+        <!-- 右侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-right" id="toggleRight" title="切换右侧栏">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 生成目录
+        document.addEventListener('DOMContentLoaded', function() {
+            generateTOC();
+            initReadingProgress();
+            initTocFold();
+            initSidebarToggle();
+            initAjaxNavigation();
+        });
+
+        // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
+        function initAjaxNavigation() {
+            const sidebarContent = document.querySelector('.sidebar-content');
+            if (!sidebarContent) return;
+            
+            sidebarContent.addEventListener('click', function(e) {
+                const link = e.target.closest('.sidebar-item');
+                if (!link) return;
+                
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // 更新 URL（不刷新页面）
+                history.pushState({}, '', href);
+                
+                // 加载新内容
+                loadArticleContent(href, link);
+            });
+            
+            // 处理浏览器前进/后退
+            window.addEventListener('popstate', function() {
+                const path = window.location.pathname;
+                const filename = path.split('/').pop();
+                const link = sidebarContent.querySelector(`a[href="${filename}"]`);
+                if (link) {
+                    loadArticleContent(filename, link);
+                } else {
+                    // 如果找不到对应链接，刷新页面
+                    window.location.reload();
+                }
+            });
+        }
+        
+        // 加载文章内容
+        async function loadArticleContent(url, clickedLink) {
+            try {
+                // 显示加载状态
+                const articleMain = document.querySelector('.article-main');
+                articleMain.style.opacity = '0.5';
+                
+                // 获取新页面内容
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('加载失败');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 更新文章内容区
+                const newArticle = doc.querySelector('.article-main');
+                if (newArticle) {
+                    articleMain.innerHTML = newArticle.innerHTML;
+                }
+                
+                // 更新页面标题
+                const newTitle = doc.querySelector('title');
+                if (newTitle) {
+                    document.title = newTitle.textContent;
+                }
+                
+                // 更新左侧栏选中状态
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                clickedLink.classList.add('active');
+                
+                // 重新初始化目录
+                generateTOC();
+                initTocFold();
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // 恢复透明度
+                articleMain.style.opacity = '1';
+                
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                // 失败时使用传统导航
+                window.location.href = url;
+            }
+        }
+
+        // 侧边栏切换功能
+        function initSidebarToggle() {
+            const leftSidebar = document.getElementById('sidebarLeft');
+            const rightSidebar = document.getElementById('sidebarRight');
+            const toggleLeft = document.getElementById('toggleLeft');
+            const toggleRight = document.getElementById('toggleRight');
+            
+            // 从 localStorage 读取状态
+            const leftHidden = localStorage.getItem('sidebar-left-hidden') === 'true';
+            const rightHidden = localStorage.getItem('sidebar-right-hidden') === 'true';
+            
+            if (leftHidden) {
+                leftSidebar.classList.add('collapsed');
+                toggleLeft.classList.add('collapsed');
+                toggleLeft.querySelector('i').className = 'fas fa-chevron-right';
+            }
+            
+            if (rightHidden) {
+                rightSidebar.classList.add('collapsed');
+                toggleRight.classList.add('collapsed');
+                toggleRight.querySelector('i').className = 'fas fa-chevron-left';
+            }
+            
+            toggleLeft.addEventListener('click', function() {
+                leftSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = leftSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+                localStorage.setItem('sidebar-left-hidden', isCollapsed);
+            });
+            
+            toggleRight.addEventListener('click', function() {
+                rightSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = rightSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                localStorage.setItem('sidebar-right-hidden', isCollapsed);
+            });
+        }
+
+        function generateTOC() {
+            const content = document.getElementById('articleContent');
+            const toc = document.getElementById('tocContent');
+            if (!content || !toc) return;
+
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            if (headings.length === 0) {
+                toc.innerHTML = '<p class="toc-empty">暂无目录</p>';
+                return;
+            }
+
+            let tocHtml = '<ul class="toc-list">';
+            let prevLevel = 0;
+
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const id = 'heading-' + index;
+                heading.id = id;
+                const text = heading.textContent;
+
+                // 处理层级
+                if (level > prevLevel) {
+                    for (let i = prevLevel; i < level; i++) {
+                        tocHtml += '<ul class="toc-sublist">';
+                    }
+                } else if (level < prevLevel) {
+                    for (let i = level; i < prevLevel; i++) {
+                        tocHtml += '</ul></li>';
+                    }
+                } else if (prevLevel > 0) {
+                    tocHtml += '</li>';
+                }
+
+                tocHtml += `<li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-text">${text}</span>
+                    </a>`;
+
+                prevLevel = level;
+            });
+
+            // 关闭所有未关闭的标签
+            for (let i = 0; i < prevLevel; i++) {
+                tocHtml += '</li></ul>';
+            }
+
+            toc.innerHTML = tocHtml;
+
+            // 点击高亮
+            const tocLinks = toc.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 滚动监听
+            initScrollSpy(headings, tocLinks);
+        }
+
+        function initScrollSpy(headings, tocLinks) {
+            const progressEl = document.getElementById('readingProgress');
+            let ticking = false;
+            
+            // 缓存标题位置，避免每次滚动都计算
+            let headingPositions = [];
+            function cachePositions() {
+                headingPositions = Array.from(headings).map(h => ({
+                    id: h.id,
+                    top: h.offsetTop
+                }));
+            }
+            cachePositions();
+            
+            // 窗口大小改变时重新计算位置
+            window.addEventListener('resize', debounce(cachePositions, 200));
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const scrollPos = window.scrollY + 100;
+                        let current = '';
+
+                        // 使用缓存的位置
+                        for (const h of headingPositions) {
+                            if (h.top <= scrollPos) {
+                                current = h.id;
+                            }
+                        }
+
+                        tocLinks.forEach(link => {
+                            const isActive = link.getAttribute('href') === '#' + current;
+                            if (isActive && !link.classList.contains('active')) {
+                                link.classList.add('active');
+                            } else if (!isActive && link.classList.contains('active')) {
+                                link.classList.remove('active');
+                            }
+                        });
+                        
+                        // 同时更新阅读进度
+                        if (progressEl) {
+                            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                            const progress = docHeight > 0 ? Math.round((scrollPos / docHeight) * 100) : 0;
+                            progressEl.textContent = Math.min(100, Math.max(0, progress)) + '%';
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+        
+        // 防抖函数
+        function debounce(fn, delay) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        function initReadingProgress() {
+            // 已合并到 initScrollSpy 中，避免重复监听
+        }
+
+        // 目录折叠功能（笔记页面）
+        function initTocFold() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            tocItems.forEach(item => {
+                const sublist = item.querySelector('.toc-sublist');
+                if (sublist) {
+                    const link = item.querySelector('.toc-link');
+                    const toggle = document.createElement('span');
+                    toggle.className = 'toc-toggle';
+                    toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                    link.insertBefore(toggle, link.firstChild);
+
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        item.classList.toggle('collapsed');
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

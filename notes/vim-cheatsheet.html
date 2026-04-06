@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vim 编辑器速查手册 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link ">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="article-layout">
+        <!-- 左侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-left" id="toggleLeft" title="切换左侧栏">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <!-- 左侧：文章列表 -->
+        <aside class="sidebar-left" id="sidebarLeft">
+            <div class="sidebar-header">
+                <i class="fas fa-list"></i>
+                <span>所有笔记</span>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-0">
+<a href="git-advanced.html" class="sidebar-item">Git 进阶技巧</a>
+<a href="vim-cheatsheet.html" class="sidebar-item active">Vim 编辑器速查手册</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-1"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-database"></i><span>数据库</span><span class="sidebar-cat-count">1</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-1">
+<a href="sql-basics.html" class="sidebar-item">SQL 基础语法笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-2">
+<a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
+<a href="test-note-toc.html" class="sidebar-item">数据结构学习笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-3">
+<a href="docker-basics.html" class="sidebar-item">Docker 容器化入门</a>
+<a href="linux-commands.html" class="sidebar-item">Linux 常用命令速查</a>
+</div>
+            </div>
+        </aside>
+
+        <!-- 中间：文章内容 -->
+        <main class="article-main">
+            <article class="article-container">
+                <header class="article-header">
+                    <h1 class="article-title">Vim 编辑器速查手册</h1>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-03-20</span>
+                        <span><i class="far fa-calendar-check"></i> 更新: 2026-03-30</span>
+                        <span><i class="far fa-folder"></i> 工具使用</span>
+                        <span><i class="fas fa-font"></i> 193 字</span>
+                        <span><i class="far fa-clock"></i> 1 分钟</span>
+                    </div>
+                    <div class="article-tags">
+                        
+                        <span class="article-tag">Vim</span>
+                        
+                        <span class="article-tag">编辑器</span>
+                        
+                    </div>
+                </header>
+
+                <div class="markdown-body" id="articleContent">
+<p>Vim 是高效的文本编辑器，掌握它可以大幅提升编辑效率。</p>
+
+<h2>模式切换</h2>
+
+<h3>基本模式</h3>
+
+<ul>
+<li><strong>普通模式 (Normal)</strong>：默认模式，用于移动和命令</li>
+<li><strong>插入模式 (Insert)</strong>：输入文本</li>
+<li><strong>可视模式 (Visual)</strong>：选择文本</li>
+<li><strong>命令模式 (Command)</strong>：执行命令</li>
+</ul>
+
+<h3>进入插入模式</h3>
+
+<pre><code>i  - 光标前插入
+a  - 光标后插入
+I  - 行首插入
+A  - 行尾插入
+o  - 下方新行
+O  - 上方新行</code></pre>
+
+<h3>退出插入模式</h3>
+
+<pre><code>Esc 或 Ctrl+[</code></pre>
+
+<h2>移动光标</h2>
+
+<h3>基本移动</h3>
+
+<pre><code>h  - 左
+j  - 下
+k  - 上
+l  - 右</code></pre>
+
+<h3>单词移动</h3>
+
+<pre><code>w  - 下一个词首
+b  - 上一个词首
+e  - 当前词尾
+W  - 下一个词首（空格分隔）
+B  - 上一个词首（空格分隔）</code></pre>
+
+<h3>行内移动</h3>
+
+<pre><code>0  - 行首
+^  - 首个非空字符
+$  - 行尾
+f{char}  - 移动到字符
+F{char}  - 反向移动到字符
+t{char}  - 移动到字符前
+;  - 重复 f/t
+,  - 反向重复 f/t</code></pre>
+
+<h3>屏幕移动</h3>
+
+<pre><code>H  - 屏幕顶部
+M  - 屏幕中间
+L  - 屏幕底部
+Ctrl+d  - 向下半屏
+Ctrl+u  - 向上半屏
+Ctrl+f  - 向下一屏
+Ctrl+b  - 向上一屏</code></pre>
+
+<h3>文件移动</h3>
+
+<pre><code>gg  - 文件开头
+G   - 文件末尾
+{n}G 或 :{n}  - 第 n 行</code></pre>
+
+<h2>编辑操作</h2>
+
+<h3>删除</h3>
+
+<pre><code>x   - 删除字符
+dd  - 删除整行
+dw  - 删除到词尾
+d$  - 删除到行尾
+d0  - 删除到行首
+D   - 删除到行尾（同 d$）</code></pre>
+
+<h3>复制粘贴</h3>
+
+<pre><code>yy  - 复制整行
+yw  - 复制到词尾
+y$  - 复制到行尾
+p   - 在光标后粘贴
+P   - 在光标前粘贴</code></pre>
+
+<h3>修改</h3>
+
+<pre><code>r{char}  - 替换单个字符
+R   - 进入替换模式
+cw  - 修改到词尾
+cc  - 修改整行
+c$  - 修改到行尾
+C   - 修改到行尾（同 c$）
+s   - 删除字符并插入
+S   - 删除整行并插入</code></pre>
+
+<h3>撤销重做</h3>
+
+<pre><code>u      - 撤销
+Ctrl+r - 重做
+.      - 重复上次操作</code></pre>
+
+<h2>可视模式</h2>
+
+<h3>进入可视模式</h3>
+
+<pre><code>v   - 字符选择
+V   - 行选择
+Ctrl+v  - 块选择</code></pre>
+
+<h3>选择后操作</h3>
+
+<pre><code>d  - 删除选中
+y  - 复制选中
+c  - 修改选中
+&gt;  - 缩进
+&lt;  - 反缩进</code></pre>
+
+<h2>搜索替换</h2>
+
+<h3>搜索</h3>
+
+<pre><code>/{pattern}  - 向下搜索
+?{pattern}  - 向上搜索
+n   - 下一个匹配
+N   - 上一个匹配
+<ul>
+<li>  - 搜索光标下的词</li>
+</ul>
+<h1>  - 反向搜索光标下的词</code></pre></h1>
+
+<h3>替换</h3>
+
+<pre><code>:s/old/new/      - 替换当前行第一个
+:s/old/new/g     - 替换当前行所有
+:%s/old/new/g    - 替换全文所有
+:%s/old/new/gc   - 替换全文，逐个确认</code></pre>
+
+<h2>文件操作</h2>
+
+<h3>保存退出</h3>
+
+<pre><code>:w   - 保存
+:q   - 退出
+:wq  - 保存并退出
+:q!  - 强制退出不保存
+ZZ   - 保存并退出
+ZQ   - 强制退出不保存</code></pre>
+
+<h3>多文件</h3>
+
+<pre><code>:e file   - 打开文件
+:bn  - 下一个缓冲区
+:bp  - 上一个缓冲区
+:ls  - 列出缓冲区
+:sp file  - 水平分屏打开
+:vsp file - 垂直分屏打开</code></pre>
+
+<h3>窗口操作</h3>
+
+<pre><code>Ctrl+w s  - 水平分屏
+Ctrl+w v  - 垂直分屏
+Ctrl+w h/j/k/l  - 切换窗口
+Ctrl+w q  - 关闭窗口
+Ctrl+w =  - 均等窗口大小</code></pre>
+
+<h2>实用技巧</h2>
+
+<h3>宏录制</h3>
+
+<pre><code>q{register}  - 开始录制到寄存器
+q            - 停止录制
+@{register}  - 播放宏
+@@           - 重复上次宏</code></pre>
+
+<h3>标记</h3>
+
+<pre><code>m{a-z}  - 设置标记
+&#x27;{a-z}  - 跳转到标记行
+`{a-z}  - 跳转到标记位置</code></pre>
+
+<h3>折叠</h3>
+
+<pre><code>zf{motion}  - 创建折叠
+za  - 切换折叠
+zo  - 打开折叠
+zc  - 关闭折叠
+zR  - 打开所有折叠
+zM  - 关闭所有折叠</code></pre>
+
+<h2>总结</h2>
+
+<p>Vim 的学习曲线陡峭，但掌握后效率极高。</p>
+                </div>
+            </article>
+        </main>
+
+        <!-- 右侧：文章目录 -->
+        <aside class="sidebar-right" id="sidebarRight">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span>目录</span>
+                <span class="reading-progress" id="readingProgress">0%</span>
+            </div>
+            <nav class="toc-content" id="tocContent">
+                <!-- 目录由 JS 生成 -->
+            </nav>
+        </aside>
+        
+        <!-- 右侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-right" id="toggleRight" title="切换右侧栏">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 生成目录
+        document.addEventListener('DOMContentLoaded', function() {
+            generateTOC();
+            initReadingProgress();
+            initTocFold();
+            initSidebarToggle();
+            initAjaxNavigation();
+        });
+
+        // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
+        function initAjaxNavigation() {
+            const sidebarContent = document.querySelector('.sidebar-content');
+            if (!sidebarContent) return;
+            
+            sidebarContent.addEventListener('click', function(e) {
+                const link = e.target.closest('.sidebar-item');
+                if (!link) return;
+                
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // 更新 URL（不刷新页面）
+                history.pushState({}, '', href);
+                
+                // 加载新内容
+                loadArticleContent(href, link);
+            });
+            
+            // 处理浏览器前进/后退
+            window.addEventListener('popstate', function() {
+                const path = window.location.pathname;
+                const filename = path.split('/').pop();
+                const link = sidebarContent.querySelector(`a[href="${filename}"]`);
+                if (link) {
+                    loadArticleContent(filename, link);
+                } else {
+                    // 如果找不到对应链接，刷新页面
+                    window.location.reload();
+                }
+            });
+        }
+        
+        // 加载文章内容
+        async function loadArticleContent(url, clickedLink) {
+            try {
+                // 显示加载状态
+                const articleMain = document.querySelector('.article-main');
+                articleMain.style.opacity = '0.5';
+                
+                // 获取新页面内容
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('加载失败');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 更新文章内容区
+                const newArticle = doc.querySelector('.article-main');
+                if (newArticle) {
+                    articleMain.innerHTML = newArticle.innerHTML;
+                }
+                
+                // 更新页面标题
+                const newTitle = doc.querySelector('title');
+                if (newTitle) {
+                    document.title = newTitle.textContent;
+                }
+                
+                // 更新左侧栏选中状态
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                clickedLink.classList.add('active');
+                
+                // 重新初始化目录
+                generateTOC();
+                initTocFold();
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // 恢复透明度
+                articleMain.style.opacity = '1';
+                
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                // 失败时使用传统导航
+                window.location.href = url;
+            }
+        }
+
+        // 侧边栏切换功能
+        function initSidebarToggle() {
+            const leftSidebar = document.getElementById('sidebarLeft');
+            const rightSidebar = document.getElementById('sidebarRight');
+            const toggleLeft = document.getElementById('toggleLeft');
+            const toggleRight = document.getElementById('toggleRight');
+            
+            // 从 localStorage 读取状态
+            const leftHidden = localStorage.getItem('sidebar-left-hidden') === 'true';
+            const rightHidden = localStorage.getItem('sidebar-right-hidden') === 'true';
+            
+            if (leftHidden) {
+                leftSidebar.classList.add('collapsed');
+                toggleLeft.classList.add('collapsed');
+                toggleLeft.querySelector('i').className = 'fas fa-chevron-right';
+            }
+            
+            if (rightHidden) {
+                rightSidebar.classList.add('collapsed');
+                toggleRight.classList.add('collapsed');
+                toggleRight.querySelector('i').className = 'fas fa-chevron-left';
+            }
+            
+            toggleLeft.addEventListener('click', function() {
+                leftSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = leftSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+                localStorage.setItem('sidebar-left-hidden', isCollapsed);
+            });
+            
+            toggleRight.addEventListener('click', function() {
+                rightSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = rightSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                localStorage.setItem('sidebar-right-hidden', isCollapsed);
+            });
+        }
+
+        function generateTOC() {
+            const content = document.getElementById('articleContent');
+            const toc = document.getElementById('tocContent');
+            if (!content || !toc) return;
+
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            if (headings.length === 0) {
+                toc.innerHTML = '<p class="toc-empty">暂无目录</p>';
+                return;
+            }
+
+            let tocHtml = '<ul class="toc-list">';
+            let prevLevel = 0;
+
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const id = 'heading-' + index;
+                heading.id = id;
+                const text = heading.textContent;
+
+                // 处理层级
+                if (level > prevLevel) {
+                    for (let i = prevLevel; i < level; i++) {
+                        tocHtml += '<ul class="toc-sublist">';
+                    }
+                } else if (level < prevLevel) {
+                    for (let i = level; i < prevLevel; i++) {
+                        tocHtml += '</ul></li>';
+                    }
+                } else if (prevLevel > 0) {
+                    tocHtml += '</li>';
+                }
+
+                tocHtml += `<li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-text">${text}</span>
+                    </a>`;
+
+                prevLevel = level;
+            });
+
+            // 关闭所有未关闭的标签
+            for (let i = 0; i < prevLevel; i++) {
+                tocHtml += '</li></ul>';
+            }
+
+            toc.innerHTML = tocHtml;
+
+            // 点击高亮
+            const tocLinks = toc.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 滚动监听
+            initScrollSpy(headings, tocLinks);
+        }
+
+        function initScrollSpy(headings, tocLinks) {
+            const progressEl = document.getElementById('readingProgress');
+            let ticking = false;
+            
+            // 缓存标题位置，避免每次滚动都计算
+            let headingPositions = [];
+            function cachePositions() {
+                headingPositions = Array.from(headings).map(h => ({
+                    id: h.id,
+                    top: h.offsetTop
+                }));
+            }
+            cachePositions();
+            
+            // 窗口大小改变时重新计算位置
+            window.addEventListener('resize', debounce(cachePositions, 200));
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const scrollPos = window.scrollY + 100;
+                        let current = '';
+
+                        // 使用缓存的位置
+                        for (const h of headingPositions) {
+                            if (h.top <= scrollPos) {
+                                current = h.id;
+                            }
+                        }
+
+                        tocLinks.forEach(link => {
+                            const isActive = link.getAttribute('href') === '#' + current;
+                            if (isActive && !link.classList.contains('active')) {
+                                link.classList.add('active');
+                            } else if (!isActive && link.classList.contains('active')) {
+                                link.classList.remove('active');
+                            }
+                        });
+                        
+                        // 同时更新阅读进度
+                        if (progressEl) {
+                            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                            const progress = docHeight > 0 ? Math.round((scrollPos / docHeight) * 100) : 0;
+                            progressEl.textContent = Math.min(100, Math.max(0, progress)) + '%';
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+        
+        // 防抖函数
+        function debounce(fn, delay) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        function initReadingProgress() {
+            // 已合并到 initScrollSpy 中，避免重复监听
+        }
+
+        // 目录折叠功能（笔记页面）
+        function initTocFold() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            tocItems.forEach(item => {
+                const sublist = item.querySelector('.toc-sublist');
+                if (sublist) {
+                    const link = item.querySelector('.toc-link');
+                    const toggle = document.createElement('span');
+                    toggle.className = 'toc-toggle';
+                    toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                    link.insertBefore(toggle, link.firstChild);
+
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        item.classList.toggle('collapsed');
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

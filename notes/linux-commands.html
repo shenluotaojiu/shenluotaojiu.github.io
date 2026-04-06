@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux 常用命令速查 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link ">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="article-layout">
+        <!-- 左侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-left" id="toggleLeft" title="切换左侧栏">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <!-- 左侧：文章列表 -->
+        <aside class="sidebar-left" id="sidebarLeft">
+            <div class="sidebar-header">
+                <i class="fas fa-list"></i>
+                <span>所有笔记</span>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-0">
+<a href="git-advanced.html" class="sidebar-item">Git 进阶技巧</a>
+<a href="vim-cheatsheet.html" class="sidebar-item">Vim 编辑器速查手册</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-1"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-database"></i><span>数据库</span><span class="sidebar-cat-count">1</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-1">
+<a href="sql-basics.html" class="sidebar-item">SQL 基础语法笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-2">
+<a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
+<a href="test-note-toc.html" class="sidebar-item">数据结构学习笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-3">
+<a href="docker-basics.html" class="sidebar-item">Docker 容器化入门</a>
+<a href="linux-commands.html" class="sidebar-item active">Linux 常用命令速查</a>
+</div>
+            </div>
+        </aside>
+
+        <!-- 中间：文章内容 -->
+        <main class="article-main">
+            <article class="article-container">
+                <header class="article-header">
+                    <h1 class="article-title">Linux 常用命令速查</h1>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-03-28</span>
+                        <span><i class="far fa-calendar-check"></i> 更新: 2026-04-04</span>
+                        <span><i class="far fa-folder"></i> 运维部署</span>
+                        <span><i class="fas fa-font"></i> 102 字</span>
+                        <span><i class="far fa-clock"></i> 1 分钟</span>
+                    </div>
+                    <div class="article-tags">
+                        
+                        <span class="article-tag">Linux</span>
+                        
+                        <span class="article-tag">Shell</span>
+                        
+                    </div>
+                </header>
+
+                <div class="markdown-body" id="articleContent">
+<p>Linux 系统管理必备命令。</p>
+
+<h2>文件操作</h2>
+
+<h3>基本命令</h3>
+
+<pre><code class="language-bash"># 列出文件
+ls -la
+
+<h1>切换目录</h1>
+cd /path/to/dir
+
+<h1>创建目录</h1>
+mkdir -p dir1/dir2
+
+<h1>复制</h1>
+cp -r source dest
+
+<h1>移动/重命名</h1>
+mv old new
+
+<h1>删除</h1>
+rm -rf dir</code></pre>
+
+<h3>文件查看</h3>
+
+<pre><code class="language-bash"># 查看全部
+cat file.txt
+
+<h1>分页查看</h1>
+less file.txt
+
+<h1>查看开头</h1>
+head -n 20 file.txt
+
+<h1>查看结尾</h1>
+tail -f file.txt</code></pre>
+
+<h3>文件搜索</h3>
+
+<p>#### find</p>
+
+<pre><code class="language-bash"># 按名称查找
+find /path -name &quot;*.log&quot;
+
+<h1>按类型查找</h1>
+find /path -type f
+
+<h1>按时间查找</h1>
+find /path -mtime -7
+
+<h1>按大小查找</h1>
+find /path -size +100M</code></pre>
+
+<p>#### locate</p>
+
+<pre><code class="language-bash"># 更新数据库
+sudo updatedb
+
+<h1>快速查找</h1>
+locate filename</code></pre>
+
+<h2>文本处理</h2>
+
+<h3>grep</h3>
+
+<pre><code class="language-bash"># 基本搜索
+grep &quot;pattern&quot; file.txt
+
+<h1>递归搜索</h1>
+grep -r &quot;pattern&quot; /path
+
+<h1>忽略大小写</h1>
+grep -i &quot;pattern&quot; file.txt
+
+<h1>显示行号</h1>
+grep -n &quot;pattern&quot; file.txt
+
+<h1>正则表达式</h1>
+grep -E &quot;regex&quot; file.txt</code></pre>
+
+<h3>sed</h3>
+
+<pre><code class="language-bash"># 替换文本
+sed &#x27;s/old/new/g&#x27; file.txt
+
+<h1>删除行</h1>
+sed &#x27;/pattern/d&#x27; file.txt
+
+<h1>原地修改</h1>
+sed -i &#x27;s/old/new/g&#x27; file.txt</code></pre>
+
+<h3>awk</h3>
+
+<pre><code class="language-bash"># 打印列
+awk &#x27;{print $1, $3}&#x27; file.txt
+
+<h1>条件过滤</h1>
+awk &#x27;$3 &gt; 100 {print $0}&#x27; file.txt
+
+<h1>分隔符</h1>
+awk -F: &#x27;{print $1}&#x27; /etc/passwd</code></pre>
+
+<h2>系统管理</h2>
+
+<h3>进程管理</h3>
+
+<pre><code class="language-bash"># 查看进程
+ps aux
+ps -ef | grep nginx
+
+<h1>实时监控</h1>
+top
+htop
+
+<h1>终止进程</h1>
+kill PID
+kill -9 PID
+killall nginx</code></pre>
+
+<h3>系统信息</h3>
+
+<pre><code class="language-bash"># 系统版本
+uname -a
+cat /etc/os-release
+
+<h1>内存使用</h1>
+free -h
+
+<h1>磁盘使用</h1>
+df -h
+du -sh /path
+
+<h1>CPU 信息</h1>
+lscpu
+cat /proc/cpuinfo</code></pre>
+
+<h3>服务管理</h3>
+
+<pre><code class="language-bash"># systemd
+systemctl start nginx
+systemctl stop nginx
+systemctl restart nginx
+systemctl status nginx
+systemctl enable nginx</code></pre>
+
+<h2>网络</h2>
+
+<h3>基本命令</h3>
+
+<pre><code class="language-bash"># IP 地址
+ip addr
+ifconfig
+
+<h1>路由表</h1>
+ip route
+route -n
+
+<h1>DNS 查询</h1>
+nslookup domain.com
+dig domain.com</code></pre>
+
+<h3>连接测试</h3>
+
+<pre><code class="language-bash"># ping
+ping -c 4 google.com
+
+<h1>端口测试</h1>
+telnet host 80
+nc -zv host 80
+
+<h1>路由追踪</h1>
+traceroute host</code></pre>
+
+<h3>网络监控</h3>
+
+<pre><code class="language-bash"># 端口占用
+netstat -tlnp
+ss -tlnp
+
+<h1>抓包</h1>
+tcpdump -i eth0 port 80
+
+<h1>流量监控</h1>
+iftop
+nethogs</code></pre>
+
+<h2>用户权限</h2>
+
+<h3>用户管理</h3>
+
+<pre><code class="language-bash"># 添加用户
+useradd -m username
+passwd username
+
+<h1>删除用户</h1>
+userdel -r username
+
+<h1>修改用户</h1>
+usermod -aG group username</code></pre>
+
+<h3>权限管理</h3>
+
+<pre><code class="language-bash"># 修改权限
+chmod 755 file
+chmod +x script.sh
+
+<h1>修改所有者</h1>
+chown user:group file
+
+<h1>递归修改</h1>
+chmod -R 755 dir
+chown -R user:group dir</code></pre>
+
+<h2>压缩解压</h2>
+
+<h3>tar</h3>
+
+<pre><code class="language-bash"># 压缩
+tar -czvf archive.tar.gz dir/
+
+<h1>解压</h1>
+tar -xzvf archive.tar.gz
+
+<h1>查看内容</h1>
+tar -tzvf archive.tar.gz</code></pre>
+
+<h3>其他格式</h3>
+
+<pre><code class="language-bash"># zip
+zip -r archive.zip dir/
+unzip archive.zip
+
+<h1>gzip</h1>
+gzip file
+gunzip file.gz</code></pre>
+
+<h2>总结</h2>
+
+<p>熟练掌握这些命令是 Linux 运维的基础。</p>
+                </div>
+            </article>
+        </main>
+
+        <!-- 右侧：文章目录 -->
+        <aside class="sidebar-right" id="sidebarRight">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span>目录</span>
+                <span class="reading-progress" id="readingProgress">0%</span>
+            </div>
+            <nav class="toc-content" id="tocContent">
+                <!-- 目录由 JS 生成 -->
+            </nav>
+        </aside>
+        
+        <!-- 右侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-right" id="toggleRight" title="切换右侧栏">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 生成目录
+        document.addEventListener('DOMContentLoaded', function() {
+            generateTOC();
+            initReadingProgress();
+            initTocFold();
+            initSidebarToggle();
+            initAjaxNavigation();
+        });
+
+        // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
+        function initAjaxNavigation() {
+            const sidebarContent = document.querySelector('.sidebar-content');
+            if (!sidebarContent) return;
+            
+            sidebarContent.addEventListener('click', function(e) {
+                const link = e.target.closest('.sidebar-item');
+                if (!link) return;
+                
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // 更新 URL（不刷新页面）
+                history.pushState({}, '', href);
+                
+                // 加载新内容
+                loadArticleContent(href, link);
+            });
+            
+            // 处理浏览器前进/后退
+            window.addEventListener('popstate', function() {
+                const path = window.location.pathname;
+                const filename = path.split('/').pop();
+                const link = sidebarContent.querySelector(`a[href="${filename}"]`);
+                if (link) {
+                    loadArticleContent(filename, link);
+                } else {
+                    // 如果找不到对应链接，刷新页面
+                    window.location.reload();
+                }
+            });
+        }
+        
+        // 加载文章内容
+        async function loadArticleContent(url, clickedLink) {
+            try {
+                // 显示加载状态
+                const articleMain = document.querySelector('.article-main');
+                articleMain.style.opacity = '0.5';
+                
+                // 获取新页面内容
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('加载失败');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 更新文章内容区
+                const newArticle = doc.querySelector('.article-main');
+                if (newArticle) {
+                    articleMain.innerHTML = newArticle.innerHTML;
+                }
+                
+                // 更新页面标题
+                const newTitle = doc.querySelector('title');
+                if (newTitle) {
+                    document.title = newTitle.textContent;
+                }
+                
+                // 更新左侧栏选中状态
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                clickedLink.classList.add('active');
+                
+                // 重新初始化目录
+                generateTOC();
+                initTocFold();
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // 恢复透明度
+                articleMain.style.opacity = '1';
+                
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                // 失败时使用传统导航
+                window.location.href = url;
+            }
+        }
+
+        // 侧边栏切换功能
+        function initSidebarToggle() {
+            const leftSidebar = document.getElementById('sidebarLeft');
+            const rightSidebar = document.getElementById('sidebarRight');
+            const toggleLeft = document.getElementById('toggleLeft');
+            const toggleRight = document.getElementById('toggleRight');
+            
+            // 从 localStorage 读取状态
+            const leftHidden = localStorage.getItem('sidebar-left-hidden') === 'true';
+            const rightHidden = localStorage.getItem('sidebar-right-hidden') === 'true';
+            
+            if (leftHidden) {
+                leftSidebar.classList.add('collapsed');
+                toggleLeft.classList.add('collapsed');
+                toggleLeft.querySelector('i').className = 'fas fa-chevron-right';
+            }
+            
+            if (rightHidden) {
+                rightSidebar.classList.add('collapsed');
+                toggleRight.classList.add('collapsed');
+                toggleRight.querySelector('i').className = 'fas fa-chevron-left';
+            }
+            
+            toggleLeft.addEventListener('click', function() {
+                leftSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = leftSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+                localStorage.setItem('sidebar-left-hidden', isCollapsed);
+            });
+            
+            toggleRight.addEventListener('click', function() {
+                rightSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = rightSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                localStorage.setItem('sidebar-right-hidden', isCollapsed);
+            });
+        }
+
+        function generateTOC() {
+            const content = document.getElementById('articleContent');
+            const toc = document.getElementById('tocContent');
+            if (!content || !toc) return;
+
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            if (headings.length === 0) {
+                toc.innerHTML = '<p class="toc-empty">暂无目录</p>';
+                return;
+            }
+
+            let tocHtml = '<ul class="toc-list">';
+            let prevLevel = 0;
+
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const id = 'heading-' + index;
+                heading.id = id;
+                const text = heading.textContent;
+
+                // 处理层级
+                if (level > prevLevel) {
+                    for (let i = prevLevel; i < level; i++) {
+                        tocHtml += '<ul class="toc-sublist">';
+                    }
+                } else if (level < prevLevel) {
+                    for (let i = level; i < prevLevel; i++) {
+                        tocHtml += '</ul></li>';
+                    }
+                } else if (prevLevel > 0) {
+                    tocHtml += '</li>';
+                }
+
+                tocHtml += `<li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-text">${text}</span>
+                    </a>`;
+
+                prevLevel = level;
+            });
+
+            // 关闭所有未关闭的标签
+            for (let i = 0; i < prevLevel; i++) {
+                tocHtml += '</li></ul>';
+            }
+
+            toc.innerHTML = tocHtml;
+
+            // 点击高亮
+            const tocLinks = toc.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 滚动监听
+            initScrollSpy(headings, tocLinks);
+        }
+
+        function initScrollSpy(headings, tocLinks) {
+            const progressEl = document.getElementById('readingProgress');
+            let ticking = false;
+            
+            // 缓存标题位置，避免每次滚动都计算
+            let headingPositions = [];
+            function cachePositions() {
+                headingPositions = Array.from(headings).map(h => ({
+                    id: h.id,
+                    top: h.offsetTop
+                }));
+            }
+            cachePositions();
+            
+            // 窗口大小改变时重新计算位置
+            window.addEventListener('resize', debounce(cachePositions, 200));
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const scrollPos = window.scrollY + 100;
+                        let current = '';
+
+                        // 使用缓存的位置
+                        for (const h of headingPositions) {
+                            if (h.top <= scrollPos) {
+                                current = h.id;
+                            }
+                        }
+
+                        tocLinks.forEach(link => {
+                            const isActive = link.getAttribute('href') === '#' + current;
+                            if (isActive && !link.classList.contains('active')) {
+                                link.classList.add('active');
+                            } else if (!isActive && link.classList.contains('active')) {
+                                link.classList.remove('active');
+                            }
+                        });
+                        
+                        // 同时更新阅读进度
+                        if (progressEl) {
+                            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                            const progress = docHeight > 0 ? Math.round((scrollPos / docHeight) * 100) : 0;
+                            progressEl.textContent = Math.min(100, Math.max(0, progress)) + '%';
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+        
+        // 防抖函数
+        function debounce(fn, delay) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        function initReadingProgress() {
+            // 已合并到 initScrollSpy 中，避免重复监听
+        }
+
+        // 目录折叠功能（笔记页面）
+        function initTocFold() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            tocItems.forEach(item => {
+                const sublist = item.querySelector('.toc-sublist');
+                if (sublist) {
+                    const link = item.querySelector('.toc-link');
+                    const toggle = document.createElement('span');
+                    toggle.className = 'toc-toggle';
+                    toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                    link.insertBefore(toggle, link.firstChild);
+
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        item.classList.toggle('collapsed');
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

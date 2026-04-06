@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web 开发完全指南 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link active">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link ">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="article-layout">
+        <!-- 左侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-left" id="toggleLeft" title="切换左侧栏">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <!-- 左侧：文章列表 -->
+        <aside class="sidebar-left" id="sidebarLeft">
+            <div class="sidebar-header">
+                <i class="fas fa-list"></i>
+                <span>所有文章</span>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-year">2026</div>
+<a href="test-toc-1.html" class="sidebar-item">目录功能测试 - 深度嵌套</a>
+<a href="test-toc-2.html" class="sidebar-item active">Web 开发完全指南</a>
+<a href="go-best-practices.html" class="sidebar-item">Go 语言最佳实践指南</a>
+<a href="frontend-performance.html" class="sidebar-item">前端性能优化实战</a>
+            </div>
+        </aside>
+
+        <!-- 中间：文章内容 -->
+        <main class="article-main">
+            <article class="article-container">
+                <header class="article-header">
+                    <h1 class="article-title">Web 开发完全指南</h1>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-04-06</span>
+                        <span><i class="far fa-calendar-check"></i> 更新: 2026-04-07</span>
+                        <span><i class="far fa-folder"></i> 前端开发</span>
+                        <span><i class="fas fa-font"></i> 199 字</span>
+                        <span><i class="far fa-clock"></i> 1 分钟</span>
+                    </div>
+                    <div class="article-tags">
+                        
+                        <span class="article-tag">Web</span>
+                        
+                        <span class="article-tag">前端</span>
+                        
+                        <span class="article-tag">后端</span>
+                        
+                    </div>
+                </header>
+
+                <div class="markdown-body" id="articleContent">
+<p>全面介绍 Web 开发的各个方面。</p>
+
+<h2>前端基础</h2>
+
+<p>前端是用户直接看到和交互的部分。</p>
+
+<h3>HTML</h3>
+
+<p>HTML 是网页的骨架。</p>
+
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;欢迎&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<h3>CSS</h3>
+
+<p>CSS 负责样式和布局。</p>
+
+<p>#### 选择器</p>
+
+<pre><code class="language-css">.class-name { }
+#id-name { }
+element { }</code></pre>
+
+<p>#### Flexbox</p>
+
+<p>现代布局利器：</p>
+
+<pre><code class="language-css">.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}</code></pre>
+
+<p>#### Grid</p>
+
+<p>更强大的网格系统：</p>
+
+<pre><code class="language-css">.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}</code></pre>
+
+<h3>JavaScript</h3>
+
+<p>为网页添加交互性。</p>
+
+<p>#### 变量和类型</p>
+
+<pre><code class="language-javascript">const name = &quot;Alice&quot;;
+let age = 25;
+const isStudent = true;</code></pre>
+
+<p>#### 函数</p>
+
+<pre><code class="language-javascript">function greet(name) {
+    return <code>Hello, ${name}!</code>;
+}
+
+<p>const arrow = (x) =&gt; x * 2;</code></pre></p>
+
+<p>#### 异步编程</p>
+
+<pre><code class="language-javascript">async function fetchData() {
+    const response = await fetch(&#x27;/api/data&#x27;);
+    const data = await response.json();
+    return data;
+}</code></pre>
+
+<h2>后端开发</h2>
+
+<p>后端处理业务逻辑和数据存储。</p>
+
+<h3>服务器框架</h3>
+
+<p>#### Node.js + Express</p>
+
+<pre><code class="language-javascript">const express = require(&#x27;express&#x27;);
+const app = express();
+
+<p>app.get(&#x27;/&#x27;, (req, res) =&gt; {<br>    res.send(&#x27;Hello World!&#x27;);<br>});</p>
+
+<p>app.listen(3000);</code></pre></p>
+
+<p>#### Go + Gin</p>
+
+<pre><code class="language-go">package main
+
+<p>import &quot;github.com/gin-gonic/gin&quot;</p>
+
+<p>func main() {<br>    r := gin.Default()<br>    r.GET(&quot;/&quot;, func(c *gin.Context) {<br>        c.JSON(200, gin.H{&quot;message&quot;: &quot;Hello&quot;})<br>    })<br>    r.Run()<br>}</code></pre></p>
+
+<h3>数据库</h3>
+
+<p>#### SQL 数据库</p>
+
+<ul>
+<li>PostgreSQL</li>
+<li>MySQL</li>
+<li>SQLite</li>
+</ul>
+
+<p>#### NoSQL 数据库</p>
+
+<ul>
+<li>MongoDB</li>
+<li>Redis</li>
+<li>Cassandra</li>
+</ul>
+
+<h2>部署和运维</h2>
+
+<h3>Docker</h3>
+
+<p>容器化你的应用：</p>
+
+<pre><code class="language-dockerfile">FROM node:18
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre>
+
+<h3>CI/CD</h3>
+
+<p>自动化部署流程。</p>
+
+<h2>安全性</h2>
+
+<h3>常见攻击</h3>
+
+<ul>
+<li>XSS</li>
+<li>CSRF</li>
+<li>SQL 注入</li>
+</ul>
+
+<h3>防护措施</h3>
+
+<ul>
+<li>输入验证</li>
+<li>HTTPS</li>
+<li>安全 Headers</li>
+</ul>
+
+<h2>结语</h2>
+
+<p>Web 开发是一个不断演进的领域，持续学习很重要。</p>
+                </div>
+            </article>
+        </main>
+
+        <!-- 右侧：文章目录 -->
+        <aside class="sidebar-right" id="sidebarRight">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span>目录</span>
+                <span class="reading-progress" id="readingProgress">0%</span>
+            </div>
+            <nav class="toc-content" id="tocContent">
+                <!-- 目录由 JS 生成 -->
+            </nav>
+        </aside>
+        
+        <!-- 右侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-right" id="toggleRight" title="切换右侧栏">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 生成目录
+        document.addEventListener('DOMContentLoaded', function() {
+            generateTOC();
+            initReadingProgress();
+            initTocFold();
+            initSidebarToggle();
+            initAjaxNavigation();
+        });
+
+        // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
+        function initAjaxNavigation() {
+            const sidebarContent = document.querySelector('.sidebar-content');
+            if (!sidebarContent) return;
+            
+            sidebarContent.addEventListener('click', function(e) {
+                const link = e.target.closest('.sidebar-item');
+                if (!link) return;
+                
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // 更新 URL（不刷新页面）
+                history.pushState({}, '', href);
+                
+                // 加载新内容
+                loadArticleContent(href, link);
+            });
+            
+            // 处理浏览器前进/后退
+            window.addEventListener('popstate', function() {
+                const path = window.location.pathname;
+                const filename = path.split('/').pop();
+                const link = sidebarContent.querySelector(`a[href="${filename}"]`);
+                if (link) {
+                    loadArticleContent(filename, link);
+                } else {
+                    // 如果找不到对应链接，刷新页面
+                    window.location.reload();
+                }
+            });
+        }
+        
+        // 加载文章内容
+        async function loadArticleContent(url, clickedLink) {
+            try {
+                // 显示加载状态
+                const articleMain = document.querySelector('.article-main');
+                articleMain.style.opacity = '0.5';
+                
+                // 获取新页面内容
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('加载失败');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 更新文章内容区
+                const newArticle = doc.querySelector('.article-main');
+                if (newArticle) {
+                    articleMain.innerHTML = newArticle.innerHTML;
+                }
+                
+                // 更新页面标题
+                const newTitle = doc.querySelector('title');
+                if (newTitle) {
+                    document.title = newTitle.textContent;
+                }
+                
+                // 更新左侧栏选中状态
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                clickedLink.classList.add('active');
+                
+                // 重新初始化目录
+                generateTOC();
+                initTocFold();
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // 恢复透明度
+                articleMain.style.opacity = '1';
+                
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                // 失败时使用传统导航
+                window.location.href = url;
+            }
+        }
+
+        // 侧边栏切换功能
+        function initSidebarToggle() {
+            const leftSidebar = document.getElementById('sidebarLeft');
+            const rightSidebar = document.getElementById('sidebarRight');
+            const toggleLeft = document.getElementById('toggleLeft');
+            const toggleRight = document.getElementById('toggleRight');
+            
+            // 从 localStorage 读取状态
+            const leftHidden = localStorage.getItem('sidebar-left-hidden') === 'true';
+            const rightHidden = localStorage.getItem('sidebar-right-hidden') === 'true';
+            
+            if (leftHidden) {
+                leftSidebar.classList.add('collapsed');
+                toggleLeft.classList.add('collapsed');
+                toggleLeft.querySelector('i').className = 'fas fa-chevron-right';
+            }
+            
+            if (rightHidden) {
+                rightSidebar.classList.add('collapsed');
+                toggleRight.classList.add('collapsed');
+                toggleRight.querySelector('i').className = 'fas fa-chevron-left';
+            }
+            
+            toggleLeft.addEventListener('click', function() {
+                leftSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = leftSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+                localStorage.setItem('sidebar-left-hidden', isCollapsed);
+            });
+            
+            toggleRight.addEventListener('click', function() {
+                rightSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = rightSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                localStorage.setItem('sidebar-right-hidden', isCollapsed);
+            });
+        }
+
+        function generateTOC() {
+            const content = document.getElementById('articleContent');
+            const toc = document.getElementById('tocContent');
+            if (!content || !toc) return;
+
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            if (headings.length === 0) {
+                toc.innerHTML = '<p class="toc-empty">暂无目录</p>';
+                return;
+            }
+
+            let tocHtml = '<ul class="toc-list">';
+            let prevLevel = 0;
+
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const id = 'heading-' + index;
+                heading.id = id;
+                const text = heading.textContent;
+
+                // 处理层级
+                if (level > prevLevel) {
+                    for (let i = prevLevel; i < level; i++) {
+                        tocHtml += '<ul class="toc-sublist">';
+                    }
+                } else if (level < prevLevel) {
+                    for (let i = level; i < prevLevel; i++) {
+                        tocHtml += '</ul></li>';
+                    }
+                } else if (prevLevel > 0) {
+                    tocHtml += '</li>';
+                }
+
+                tocHtml += `<li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-text">${text}</span>
+                    </a>`;
+
+                prevLevel = level;
+            });
+
+            // 关闭所有未关闭的标签
+            for (let i = 0; i < prevLevel; i++) {
+                tocHtml += '</li></ul>';
+            }
+
+            toc.innerHTML = tocHtml;
+
+            // 点击高亮
+            const tocLinks = toc.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 滚动监听
+            initScrollSpy(headings, tocLinks);
+        }
+
+        function initScrollSpy(headings, tocLinks) {
+            const progressEl = document.getElementById('readingProgress');
+            let ticking = false;
+            
+            // 缓存标题位置，避免每次滚动都计算
+            let headingPositions = [];
+            function cachePositions() {
+                headingPositions = Array.from(headings).map(h => ({
+                    id: h.id,
+                    top: h.offsetTop
+                }));
+            }
+            cachePositions();
+            
+            // 窗口大小改变时重新计算位置
+            window.addEventListener('resize', debounce(cachePositions, 200));
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const scrollPos = window.scrollY + 100;
+                        let current = '';
+
+                        // 使用缓存的位置
+                        for (const h of headingPositions) {
+                            if (h.top <= scrollPos) {
+                                current = h.id;
+                            }
+                        }
+
+                        tocLinks.forEach(link => {
+                            const isActive = link.getAttribute('href') === '#' + current;
+                            if (isActive && !link.classList.contains('active')) {
+                                link.classList.add('active');
+                            } else if (!isActive && link.classList.contains('active')) {
+                                link.classList.remove('active');
+                            }
+                        });
+                        
+                        // 同时更新阅读进度
+                        if (progressEl) {
+                            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                            const progress = docHeight > 0 ? Math.round((scrollPos / docHeight) * 100) : 0;
+                            progressEl.textContent = Math.min(100, Math.max(0, progress)) + '%';
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+        
+        // 防抖函数
+        function debounce(fn, delay) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        function initReadingProgress() {
+            // 已合并到 initScrollSpy 中，避免重复监听
+        }
+
+        // 目录折叠功能（笔记页面）
+        function initTocFold() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            tocItems.forEach(item => {
+                const sublist = item.querySelector('.toc-sublist');
+                if (sublist) {
+                    const link = item.querySelector('.toc-link');
+                    const toggle = document.createElement('span');
+                    toggle.className = 'toc-toggle';
+                    toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                    link.insertBefore(toggle, link.firstChild);
+
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        item.classList.toggle('collapsed');
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

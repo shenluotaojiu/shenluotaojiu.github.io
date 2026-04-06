@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据结构学习笔记 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link ">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="article-layout">
+        <!-- 左侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-left" id="toggleLeft" title="切换左侧栏">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <!-- 左侧：文章列表 -->
+        <aside class="sidebar-left" id="sidebarLeft">
+            <div class="sidebar-header">
+                <i class="fas fa-list"></i>
+                <span>所有笔记</span>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-0">
+<a href="git-advanced.html" class="sidebar-item">Git 进阶技巧</a>
+<a href="vim-cheatsheet.html" class="sidebar-item">Vim 编辑器速查手册</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-1"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-database"></i><span>数据库</span><span class="sidebar-cat-count">1</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-1">
+<a href="sql-basics.html" class="sidebar-item">SQL 基础语法笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-2">
+<a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
+<a href="test-note-toc.html" class="sidebar-item active">数据结构学习笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-3">
+<a href="docker-basics.html" class="sidebar-item">Docker 容器化入门</a>
+<a href="linux-commands.html" class="sidebar-item">Linux 常用命令速查</a>
+</div>
+            </div>
+        </aside>
+
+        <!-- 中间：文章内容 -->
+        <main class="article-main">
+            <article class="article-container">
+                <header class="article-header">
+                    <h1 class="article-title">数据结构学习笔记</h1>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-04-05</span>
+                        <span><i class="far fa-calendar-check"></i> 更新: 2026-04-07</span>
+                        <span><i class="far fa-folder"></i> 编程语言</span>
+                        <span><i class="fas fa-font"></i> 325 字</span>
+                        <span><i class="far fa-clock"></i> 1 分钟</span>
+                    </div>
+                    <div class="article-tags">
+                        
+                        <span class="article-tag">数据结构</span>
+                        
+                        <span class="article-tag">算法</span>
+                        
+                    </div>
+                </header>
+
+                <div class="markdown-body" id="articleContent">
+<p>数据结构是计算机科学的基础。</p>
+
+<h2>线性结构</h2>
+
+<p>按顺序存储的数据结构。</p>
+
+<h3>数组</h3>
+
+<p>固定大小的连续内存。</p>
+
+<p>#### 特点</p>
+
+<ul>
+<li>随机访问 O(1)</li>
+<li>插入删除 O(n)</li>
+<li>内存连续</li>
+</ul>
+
+<p>#### 实现</p>
+
+<pre><code class="language-go">arr := [5]int{1, 2, 3, 4, 5}
+slice := []int{1, 2, 3}</code></pre>
+
+<h3>链表</h3>
+
+<p>节点通过指针连接。</p>
+
+<p>#### 单链表</p>
+
+<pre><code class="language-go">type Node struct {
+    Value int
+    Next  *Node
+}</code></pre>
+
+<p>#### 双链表</p>
+
+<pre><code class="language-go">type DNode struct {
+    Value int
+    Prev  *DNode
+    Next  *DNode
+}</code></pre>
+
+<h3>栈</h3>
+
+<p>后进先出（LIFO）。</p>
+
+<pre><code class="language-go">type Stack struct {
+    items []int
+}
+
+<p>func (s *Stack) Push(item int) {<br>    s.items = append(s.items, item)<br>}</p>
+
+<p>func (s *Stack) Pop() int {<br>    n := len(s.items)<br>    item := s.items[n-1]<br>    s.items = s.items[:n-1]<br>    return item<br>}</code></pre></p>
+
+<h3>队列</h3>
+
+<p>先进先出（FIFO）。</p>
+
+<p>#### 普通队列</p>
+
+<pre><code class="language-go">type Queue struct {
+    items []int
+}</code></pre>
+
+<p>#### 优先队列</p>
+
+<p>按优先级出队。</p>
+
+<h2>树形结构</h2>
+
+<p>层次化的数据结构。</p>
+
+<h3>二叉树</h3>
+
+<p>每个节点最多两个子节点。</p>
+
+<pre><code class="language-go">type TreeNode struct {
+    Value int
+    Left  *TreeNode
+    Right *TreeNode
+}</code></pre>
+
+<p>#### 遍历方式</p>
+
+<ul>
+<li>前序遍历：根-左-右</li>
+<li>中序遍历：左-根-右</li>
+<li>后序遍历：左-右-根</li>
+<li>层序遍历：按层从上到下</li>
+</ul>
+
+<h3>二叉搜索树</h3>
+
+<p>左子树 < 根 < 右子树。</p>
+
+<h3>平衡二叉树</h3>
+
+<p>#### AVL 树</p>
+
+<p>严格平衡，高度差不超过 1。</p>
+
+<p>#### 红黑树</p>
+
+<p>宽松平衡，查询性能稍差但插入删除更快。</p>
+
+<h3>B 树</h3>
+
+<p>用于数据库索引。</p>
+
+<h2>图结构</h2>
+
+<p>节点和边组成的网络。</p>
+
+<h3>表示方法</h3>
+
+<p>#### 邻接矩阵</p>
+
+<pre><code class="language-go">graph := [][]int{
+    {0, 1, 0},
+    {1, 0, 1},
+    {0, 1, 0},
+}</code></pre>
+
+<p>#### 邻接表</p>
+
+<pre><code class="language-go">graph := map[int][]int{
+    0: {1},
+    1: {0, 2},
+    2: {1},
+}</code></pre>
+
+<h3>遍历算法</h3>
+
+<p>#### DFS 深度优先</p>
+
+<pre><code class="language-go">func dfs(node int, visited map[int]bool, graph map[int][]int) {
+    if visited[node] {
+        return
+    }
+    visited[node] = true
+    for _, neighbor := range graph[node] {
+        dfs(neighbor, visited, graph)
+    }
+}</code></pre>
+
+<p>#### BFS 广度优先</p>
+
+<pre><code class="language-go">func bfs(start int, graph map[int][]int) {
+    queue := []int{start}
+    visited := map[int]bool{start: true}
+    
+    for len(queue) &gt; 0 {
+        node := queue[0]
+        queue = queue[1:]
+        for _, neighbor := range graph[node] {
+            if !visited[neighbor] {
+                visited[neighbor] = true
+                queue = append(queue, neighbor)
+            }
+        }
+    }
+}</code></pre>
+
+<h2>哈希表</h2>
+
+<p>键值对存储，O(1) 查找。</p>
+
+<h3>实现原理</h3>
+
+<ul>
+<li>哈希函数</li>
+<li>冲突解决（链地址法、开放寻址法）</li>
+</ul>
+
+<h3>使用场景</h3>
+
+<ul>
+<li>缓存</li>
+<li>去重</li>
+<li>计数</li>
+</ul>
+
+<h2>总结</h2>
+
+<p>掌握数据结构是编程的基础，不同场景选择合适的数据结构。</p>
+                </div>
+            </article>
+        </main>
+
+        <!-- 右侧：文章目录 -->
+        <aside class="sidebar-right" id="sidebarRight">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span>目录</span>
+                <span class="reading-progress" id="readingProgress">0%</span>
+            </div>
+            <nav class="toc-content" id="tocContent">
+                <!-- 目录由 JS 生成 -->
+            </nav>
+        </aside>
+        
+        <!-- 右侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-right" id="toggleRight" title="切换右侧栏">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 生成目录
+        document.addEventListener('DOMContentLoaded', function() {
+            generateTOC();
+            initReadingProgress();
+            initTocFold();
+            initSidebarToggle();
+            initAjaxNavigation();
+        });
+
+        // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
+        function initAjaxNavigation() {
+            const sidebarContent = document.querySelector('.sidebar-content');
+            if (!sidebarContent) return;
+            
+            sidebarContent.addEventListener('click', function(e) {
+                const link = e.target.closest('.sidebar-item');
+                if (!link) return;
+                
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // 更新 URL（不刷新页面）
+                history.pushState({}, '', href);
+                
+                // 加载新内容
+                loadArticleContent(href, link);
+            });
+            
+            // 处理浏览器前进/后退
+            window.addEventListener('popstate', function() {
+                const path = window.location.pathname;
+                const filename = path.split('/').pop();
+                const link = sidebarContent.querySelector(`a[href="${filename}"]`);
+                if (link) {
+                    loadArticleContent(filename, link);
+                } else {
+                    // 如果找不到对应链接，刷新页面
+                    window.location.reload();
+                }
+            });
+        }
+        
+        // 加载文章内容
+        async function loadArticleContent(url, clickedLink) {
+            try {
+                // 显示加载状态
+                const articleMain = document.querySelector('.article-main');
+                articleMain.style.opacity = '0.5';
+                
+                // 获取新页面内容
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('加载失败');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 更新文章内容区
+                const newArticle = doc.querySelector('.article-main');
+                if (newArticle) {
+                    articleMain.innerHTML = newArticle.innerHTML;
+                }
+                
+                // 更新页面标题
+                const newTitle = doc.querySelector('title');
+                if (newTitle) {
+                    document.title = newTitle.textContent;
+                }
+                
+                // 更新左侧栏选中状态
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                clickedLink.classList.add('active');
+                
+                // 重新初始化目录
+                generateTOC();
+                initTocFold();
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // 恢复透明度
+                articleMain.style.opacity = '1';
+                
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                // 失败时使用传统导航
+                window.location.href = url;
+            }
+        }
+
+        // 侧边栏切换功能
+        function initSidebarToggle() {
+            const leftSidebar = document.getElementById('sidebarLeft');
+            const rightSidebar = document.getElementById('sidebarRight');
+            const toggleLeft = document.getElementById('toggleLeft');
+            const toggleRight = document.getElementById('toggleRight');
+            
+            // 从 localStorage 读取状态
+            const leftHidden = localStorage.getItem('sidebar-left-hidden') === 'true';
+            const rightHidden = localStorage.getItem('sidebar-right-hidden') === 'true';
+            
+            if (leftHidden) {
+                leftSidebar.classList.add('collapsed');
+                toggleLeft.classList.add('collapsed');
+                toggleLeft.querySelector('i').className = 'fas fa-chevron-right';
+            }
+            
+            if (rightHidden) {
+                rightSidebar.classList.add('collapsed');
+                toggleRight.classList.add('collapsed');
+                toggleRight.querySelector('i').className = 'fas fa-chevron-left';
+            }
+            
+            toggleLeft.addEventListener('click', function() {
+                leftSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = leftSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+                localStorage.setItem('sidebar-left-hidden', isCollapsed);
+            });
+            
+            toggleRight.addEventListener('click', function() {
+                rightSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = rightSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                localStorage.setItem('sidebar-right-hidden', isCollapsed);
+            });
+        }
+
+        function generateTOC() {
+            const content = document.getElementById('articleContent');
+            const toc = document.getElementById('tocContent');
+            if (!content || !toc) return;
+
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            if (headings.length === 0) {
+                toc.innerHTML = '<p class="toc-empty">暂无目录</p>';
+                return;
+            }
+
+            let tocHtml = '<ul class="toc-list">';
+            let prevLevel = 0;
+
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const id = 'heading-' + index;
+                heading.id = id;
+                const text = heading.textContent;
+
+                // 处理层级
+                if (level > prevLevel) {
+                    for (let i = prevLevel; i < level; i++) {
+                        tocHtml += '<ul class="toc-sublist">';
+                    }
+                } else if (level < prevLevel) {
+                    for (let i = level; i < prevLevel; i++) {
+                        tocHtml += '</ul></li>';
+                    }
+                } else if (prevLevel > 0) {
+                    tocHtml += '</li>';
+                }
+
+                tocHtml += `<li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-text">${text}</span>
+                    </a>`;
+
+                prevLevel = level;
+            });
+
+            // 关闭所有未关闭的标签
+            for (let i = 0; i < prevLevel; i++) {
+                tocHtml += '</li></ul>';
+            }
+
+            toc.innerHTML = tocHtml;
+
+            // 点击高亮
+            const tocLinks = toc.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 滚动监听
+            initScrollSpy(headings, tocLinks);
+        }
+
+        function initScrollSpy(headings, tocLinks) {
+            const progressEl = document.getElementById('readingProgress');
+            let ticking = false;
+            
+            // 缓存标题位置，避免每次滚动都计算
+            let headingPositions = [];
+            function cachePositions() {
+                headingPositions = Array.from(headings).map(h => ({
+                    id: h.id,
+                    top: h.offsetTop
+                }));
+            }
+            cachePositions();
+            
+            // 窗口大小改变时重新计算位置
+            window.addEventListener('resize', debounce(cachePositions, 200));
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const scrollPos = window.scrollY + 100;
+                        let current = '';
+
+                        // 使用缓存的位置
+                        for (const h of headingPositions) {
+                            if (h.top <= scrollPos) {
+                                current = h.id;
+                            }
+                        }
+
+                        tocLinks.forEach(link => {
+                            const isActive = link.getAttribute('href') === '#' + current;
+                            if (isActive && !link.classList.contains('active')) {
+                                link.classList.add('active');
+                            } else if (!isActive && link.classList.contains('active')) {
+                                link.classList.remove('active');
+                            }
+                        });
+                        
+                        // 同时更新阅读进度
+                        if (progressEl) {
+                            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                            const progress = docHeight > 0 ? Math.round((scrollPos / docHeight) * 100) : 0;
+                            progressEl.textContent = Math.min(100, Math.max(0, progress)) + '%';
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+        
+        // 防抖函数
+        function debounce(fn, delay) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        function initReadingProgress() {
+            // 已合并到 initScrollSpy 中，避免重复监听
+        }
+
+        // 目录折叠功能（笔记页面）
+        function initTocFold() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            tocItems.forEach(item => {
+                const sublist = item.querySelector('.toc-sublist');
+                if (sublist) {
+                    const link = item.querySelector('.toc-link');
+                    const toggle = document.createElement('span');
+                    toggle.className = 'toc-toggle';
+                    toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                    link.insertBefore(toggle, link.firstChild);
+
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        item.classList.toggle('collapsed');
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL 基础语法笔记 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
+                <span class="logo-text">神洛桃玖</span>
+            </a>
+            <div class="nav-menu">
+                <a href="../blog.html" class="nav-link ">
+                    <i class="fas fa-blog"></i> <span>博客</span>
+                </a>
+                <a href="../notes.html" class="nav-link active">
+                    <i class="fas fa-book"></i> <span>笔记</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="article-layout">
+        <!-- 左侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-left" id="toggleLeft" title="切换左侧栏">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <!-- 左侧：文章列表 -->
+        <aside class="sidebar-left" id="sidebarLeft">
+            <div class="sidebar-header">
+                <i class="fas fa-list"></i>
+                <span>所有笔记</span>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-0">
+<a href="git-advanced.html" class="sidebar-item">Git 进阶技巧</a>
+<a href="vim-cheatsheet.html" class="sidebar-item">Vim 编辑器速查手册</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-1"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-database"></i><span>数据库</span><span class="sidebar-cat-count">1</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-1">
+<a href="sql-basics.html" class="sidebar-item active">SQL 基础语法笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-2">
+<a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
+<a href="test-note-toc.html" class="sidebar-item">数据结构学习笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-3">
+<a href="docker-basics.html" class="sidebar-item">Docker 容器化入门</a>
+<a href="linux-commands.html" class="sidebar-item">Linux 常用命令速查</a>
+</div>
+            </div>
+        </aside>
+
+        <!-- 中间：文章内容 -->
+        <main class="article-main">
+            <article class="article-container">
+                <header class="article-header">
+                    <h1 class="article-title">SQL 基础语法笔记</h1>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-03-25</span>
+                        <span><i class="far fa-calendar-check"></i> 更新: 2026-04-02</span>
+                        <span><i class="far fa-folder"></i> 数据库</span>
+                        <span><i class="fas fa-font"></i> 119 字</span>
+                        <span><i class="far fa-clock"></i> 1 分钟</span>
+                    </div>
+                    <div class="article-tags">
+                        
+                        <span class="article-tag">SQL</span>
+                        
+                        <span class="article-tag">数据库</span>
+                        
+                    </div>
+                </header>
+
+                <div class="markdown-body" id="articleContent">
+<p>SQL 是操作关系型数据库的标准语言。</p>
+
+<h2>数据定义 (DDL)</h2>
+
+<h3>创建表</h3>
+
+<pre><code class="language-sql">CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL,
+    age INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+
+<h3>修改表</h3>
+
+<pre><code class="language-sql">-- 添加列
+ALTER TABLE users ADD COLUMN phone VARCHAR(20);
+
+<p>-- 修改列<br>ALTER TABLE users MODIFY COLUMN phone VARCHAR(30);</p>
+
+<p>-- 删除列<br>ALTER TABLE users DROP COLUMN phone;</p>
+
+<p>-- 重命名表<br>RENAME TABLE users TO members;</code></pre></p>
+
+<h3>删除表</h3>
+
+<pre><code class="language-sql">DROP TABLE IF EXISTS users;</code></pre>
+
+<h3>索引</h3>
+
+<pre><code class="language-sql">-- 创建索引
+CREATE INDEX idx_username ON users(username);
+CREATE UNIQUE INDEX idx_email ON users(email);
+
+<p>-- 删除索引<br>DROP INDEX idx_username ON users;</code></pre></p>
+
+<h2>数据操作 (DML)</h2>
+
+<h3>插入数据</h3>
+
+<pre><code class="language-sql">-- 单行插入
+INSERT INTO users (username, email, age)
+VALUES (&#x27;alice&#x27;, &#x27;alice@example.com&#x27;, 25);
+
+<p>-- 多行插入<br>INSERT INTO users (username, email, age)<br>VALUES <br>    (&#x27;bob&#x27;, &#x27;bob@example.com&#x27;, 30),<br>    (&#x27;charlie&#x27;, &#x27;charlie@example.com&#x27;, 28);</code></pre></p>
+
+<h3>更新数据</h3>
+
+<pre><code class="language-sql">UPDATE users 
+SET age = 26, email = &#x27;newemail@example.com&#x27;
+WHERE username = &#x27;alice&#x27;;</code></pre>
+
+<h3>删除数据</h3>
+
+<pre><code class="language-sql">DELETE FROM users WHERE age &lt; 18;
+
+<p>-- 清空表<br>TRUNCATE TABLE users;</code></pre></p>
+
+<h2>数据查询 (DQL)</h2>
+
+<h3>基本查询</h3>
+
+<pre><code class="language-sql">-- 查询所有
+SELECT * FROM users;
+
+<p>-- 指定列<br>SELECT username, email FROM users;</p>
+
+<p>-- 去重<br>SELECT DISTINCT age FROM users;</p>
+
+<p>-- 别名<br>SELECT username AS name, email AS mail FROM users;</code></pre></p>
+
+<h3>条件过滤</h3>
+
+<pre><code class="language-sql">-- WHERE 子句
+SELECT * FROM users WHERE age &gt; 20;
+
+<p>-- 多条件<br>SELECT * FROM users WHERE age &gt; 20 AND email LIKE &#x27;%@gmail.com&#x27;;</p>
+
+<p>-- IN 操作符<br>SELECT * FROM users WHERE age IN (20, 25, 30);</p>
+
+<p>-- BETWEEN<br>SELECT * FROM users WHERE age BETWEEN 20 AND 30;</p>
+
+<p>-- NULL 判断<br>SELECT * FROM users WHERE phone IS NULL;</code></pre></p>
+
+<h3>排序分页</h3>
+
+<pre><code class="language-sql">-- 排序
+SELECT * FROM users ORDER BY age DESC, username ASC;
+
+<p>-- 分页<br>SELECT * FROM users LIMIT 10 OFFSET 20;<br>-- 或<br>SELECT * FROM users LIMIT 20, 10;</code></pre></p>
+
+<h3>聚合函数</h3>
+
+<pre><code class="language-sql">-- 计数
+SELECT COUNT(*) FROM users;
+
+<p>-- 求和<br>SELECT SUM(age) FROM users;</p>
+
+<p>-- 平均值<br>SELECT AVG(age) FROM users;</p>
+
+<p>-- 最大最小<br>SELECT MAX(age), MIN(age) FROM users;</code></pre></p>
+
+<h3>分组查询</h3>
+
+<pre><code class="language-sql">-- GROUP BY
+SELECT age, COUNT(*) as count 
+FROM users 
+GROUP BY age;
+
+<p>-- HAVING<br>SELECT age, COUNT(*) as count <br>FROM users <br>GROUP BY age <br>HAVING count &gt; 5;</code></pre></p>
+
+<h2>表连接</h2>
+
+<h3>内连接</h3>
+
+<pre><code class="language-sql">SELECT u.username, o.order_id
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id;</code></pre>
+
+<h3>左连接</h3>
+
+<pre><code class="language-sql">SELECT u.username, o.order_id
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id;</code></pre>
+
+<h3>右连接</h3>
+
+<pre><code class="language-sql">SELECT u.username, o.order_id
+FROM users u
+RIGHT JOIN orders o ON u.id = o.user_id;</code></pre>
+
+<h3>自连接</h3>
+
+<pre><code class="language-sql">SELECT a.username, b.username AS friend
+FROM users a
+JOIN friendships f ON a.id = f.user_id
+JOIN users b ON f.friend_id = b.id;</code></pre>
+
+<h2>子查询</h2>
+
+<h3>WHERE 子查询</h3>
+
+<pre><code class="language-sql">SELECT * FROM users
+WHERE id IN (SELECT user_id FROM orders WHERE amount &gt; 100);</code></pre>
+
+<h3>FROM 子查询</h3>
+
+<pre><code class="language-sql">SELECT avg_age
+FROM (SELECT AVG(age) as avg_age FROM users) AS subquery;</code></pre>
+
+<h3>EXISTS</h3>
+
+<pre><code class="language-sql">SELECT * FROM users u
+WHERE EXISTS (SELECT 1 FROM orders o WHERE o.user_id = u.id);</code></pre>
+
+<h2>事务</h2>
+
+<pre><code class="language-sql">-- 开始事务
+START TRANSACTION;
+
+<p>-- 执行操作<br>UPDATE accounts SET balance = balance - 100 WHERE id = 1;<br>UPDATE accounts SET balance = balance + 100 WHERE id = 2;</p>
+
+<p>-- 提交<br>COMMIT;</p>
+
+<p>-- 或回滚<br>ROLLBACK;</code></pre></p>
+
+<h2>总结</h2>
+
+<p>掌握 SQL 基础是后端开发的必备技能。</p>
+                </div>
+            </article>
+        </main>
+
+        <!-- 右侧：文章目录 -->
+        <aside class="sidebar-right" id="sidebarRight">
+            <div class="sidebar-header">
+                <i class="fas fa-bars"></i>
+                <span>目录</span>
+                <span class="reading-progress" id="readingProgress">0%</span>
+            </div>
+            <nav class="toc-content" id="tocContent">
+                <!-- 目录由 JS 生成 -->
+            </nav>
+        </aside>
+        
+        <!-- 右侧切换按钮 -->
+        <button class="sidebar-toggle sidebar-toggle-right" id="toggleRight" title="切换右侧栏">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 生成目录
+        document.addEventListener('DOMContentLoaded', function() {
+            generateTOC();
+            initReadingProgress();
+            initTocFold();
+            initSidebarToggle();
+            initAjaxNavigation();
+        });
+
+        // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
+        function initAjaxNavigation() {
+            const sidebarContent = document.querySelector('.sidebar-content');
+            if (!sidebarContent) return;
+            
+            sidebarContent.addEventListener('click', function(e) {
+                const link = e.target.closest('.sidebar-item');
+                if (!link) return;
+                
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // 更新 URL（不刷新页面）
+                history.pushState({}, '', href);
+                
+                // 加载新内容
+                loadArticleContent(href, link);
+            });
+            
+            // 处理浏览器前进/后退
+            window.addEventListener('popstate', function() {
+                const path = window.location.pathname;
+                const filename = path.split('/').pop();
+                const link = sidebarContent.querySelector(`a[href="${filename}"]`);
+                if (link) {
+                    loadArticleContent(filename, link);
+                } else {
+                    // 如果找不到对应链接，刷新页面
+                    window.location.reload();
+                }
+            });
+        }
+        
+        // 加载文章内容
+        async function loadArticleContent(url, clickedLink) {
+            try {
+                // 显示加载状态
+                const articleMain = document.querySelector('.article-main');
+                articleMain.style.opacity = '0.5';
+                
+                // 获取新页面内容
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('加载失败');
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 更新文章内容区
+                const newArticle = doc.querySelector('.article-main');
+                if (newArticle) {
+                    articleMain.innerHTML = newArticle.innerHTML;
+                }
+                
+                // 更新页面标题
+                const newTitle = doc.querySelector('title');
+                if (newTitle) {
+                    document.title = newTitle.textContent;
+                }
+                
+                // 更新左侧栏选中状态
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                clickedLink.classList.add('active');
+                
+                // 重新初始化目录
+                generateTOC();
+                initTocFold();
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                
+                // 恢复透明度
+                articleMain.style.opacity = '1';
+                
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                // 失败时使用传统导航
+                window.location.href = url;
+            }
+        }
+
+        // 侧边栏切换功能
+        function initSidebarToggle() {
+            const leftSidebar = document.getElementById('sidebarLeft');
+            const rightSidebar = document.getElementById('sidebarRight');
+            const toggleLeft = document.getElementById('toggleLeft');
+            const toggleRight = document.getElementById('toggleRight');
+            
+            // 从 localStorage 读取状态
+            const leftHidden = localStorage.getItem('sidebar-left-hidden') === 'true';
+            const rightHidden = localStorage.getItem('sidebar-right-hidden') === 'true';
+            
+            if (leftHidden) {
+                leftSidebar.classList.add('collapsed');
+                toggleLeft.classList.add('collapsed');
+                toggleLeft.querySelector('i').className = 'fas fa-chevron-right';
+            }
+            
+            if (rightHidden) {
+                rightSidebar.classList.add('collapsed');
+                toggleRight.classList.add('collapsed');
+                toggleRight.querySelector('i').className = 'fas fa-chevron-left';
+            }
+            
+            toggleLeft.addEventListener('click', function() {
+                leftSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = leftSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+                localStorage.setItem('sidebar-left-hidden', isCollapsed);
+            });
+            
+            toggleRight.addEventListener('click', function() {
+                rightSidebar.classList.toggle('collapsed');
+                this.classList.toggle('collapsed');
+                const isCollapsed = rightSidebar.classList.contains('collapsed');
+                this.querySelector('i').className = isCollapsed ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+                localStorage.setItem('sidebar-right-hidden', isCollapsed);
+            });
+        }
+
+        function generateTOC() {
+            const content = document.getElementById('articleContent');
+            const toc = document.getElementById('tocContent');
+            if (!content || !toc) return;
+
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            if (headings.length === 0) {
+                toc.innerHTML = '<p class="toc-empty">暂无目录</p>';
+                return;
+            }
+
+            let tocHtml = '<ul class="toc-list">';
+            let prevLevel = 0;
+
+            headings.forEach((heading, index) => {
+                const level = parseInt(heading.tagName.charAt(1));
+                const id = 'heading-' + index;
+                heading.id = id;
+                const text = heading.textContent;
+
+                // 处理层级
+                if (level > prevLevel) {
+                    for (let i = prevLevel; i < level; i++) {
+                        tocHtml += '<ul class="toc-sublist">';
+                    }
+                } else if (level < prevLevel) {
+                    for (let i = level; i < prevLevel; i++) {
+                        tocHtml += '</ul></li>';
+                    }
+                } else if (prevLevel > 0) {
+                    tocHtml += '</li>';
+                }
+
+                tocHtml += `<li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-text">${text}</span>
+                    </a>`;
+
+                prevLevel = level;
+            });
+
+            // 关闭所有未关闭的标签
+            for (let i = 0; i < prevLevel; i++) {
+                tocHtml += '</li></ul>';
+            }
+
+            toc.innerHTML = tocHtml;
+
+            // 点击高亮
+            const tocLinks = toc.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 滚动监听
+            initScrollSpy(headings, tocLinks);
+        }
+
+        function initScrollSpy(headings, tocLinks) {
+            const progressEl = document.getElementById('readingProgress');
+            let ticking = false;
+            
+            // 缓存标题位置，避免每次滚动都计算
+            let headingPositions = [];
+            function cachePositions() {
+                headingPositions = Array.from(headings).map(h => ({
+                    id: h.id,
+                    top: h.offsetTop
+                }));
+            }
+            cachePositions();
+            
+            // 窗口大小改变时重新计算位置
+            window.addEventListener('resize', debounce(cachePositions, 200));
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const scrollPos = window.scrollY + 100;
+                        let current = '';
+
+                        // 使用缓存的位置
+                        for (const h of headingPositions) {
+                            if (h.top <= scrollPos) {
+                                current = h.id;
+                            }
+                        }
+
+                        tocLinks.forEach(link => {
+                            const isActive = link.getAttribute('href') === '#' + current;
+                            if (isActive && !link.classList.contains('active')) {
+                                link.classList.add('active');
+                            } else if (!isActive && link.classList.contains('active')) {
+                                link.classList.remove('active');
+                            }
+                        });
+                        
+                        // 同时更新阅读进度
+                        if (progressEl) {
+                            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                            const progress = docHeight > 0 ? Math.round((scrollPos / docHeight) * 100) : 0;
+                            progressEl.textContent = Math.min(100, Math.max(0, progress)) + '%';
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+        
+        // 防抖函数
+        function debounce(fn, delay) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        function initReadingProgress() {
+            // 已合并到 initScrollSpy 中，避免重复监听
+        }
+
+        // 目录折叠功能（笔记页面）
+        function initTocFold() {
+            const tocItems = document.querySelectorAll('.toc-item');
+            tocItems.forEach(item => {
+                const sublist = item.querySelector('.toc-sublist');
+                if (sublist) {
+                    const link = item.querySelector('.toc-link');
+                    const toggle = document.createElement('span');
+                    toggle.className = 'toc-toggle';
+                    toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                    link.insertBefore(toggle, link.firstChild);
+
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        item.classList.toggle('collapsed');
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

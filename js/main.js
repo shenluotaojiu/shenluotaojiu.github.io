@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initTypingEffect();
     initBackToTop();
+    initCategoryToggle();
 });
 
 // ====================
@@ -74,6 +75,45 @@ function initBackToTop() {
             behavior: 'smooth'
         });
     });
+}
+
+// ====================
+// Category Toggle (Blog/Notes List and Sidebar)
+// ====================
+function initCategoryToggle() {
+    // 通用的折叠处理函数
+    function setupToggle(elements) {
+        elements.forEach(titleEl => {
+            const targetId = titleEl.getAttribute('data-toggle');
+            const targetEl = document.getElementById(targetId);
+            if (!targetEl) return;
+            
+            // 初始化高度
+            targetEl.style.maxHeight = targetEl.scrollHeight + 'px';
+            
+            titleEl.addEventListener('click', () => {
+                const isCollapsed = titleEl.classList.contains('collapsed');
+                
+                if (isCollapsed) {
+                    // 展开
+                    titleEl.classList.remove('collapsed');
+                    targetEl.classList.remove('collapsed');
+                    targetEl.style.maxHeight = targetEl.scrollHeight + 'px';
+                } else {
+                    // 折叠
+                    titleEl.classList.add('collapsed');
+                    targetEl.classList.add('collapsed');
+                    targetEl.style.maxHeight = '0px';
+                }
+            });
+        });
+    }
+    
+    // 博客/笔记列表页的分类折叠
+    setupToggle(document.querySelectorAll('.post-category-title[data-toggle]'));
+    
+    // 笔记详情页左侧栏分类折叠
+    setupToggle(document.querySelectorAll('.sidebar-category[data-toggle]'));
 }
 
 // ====================
