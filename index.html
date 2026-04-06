@@ -12,9 +12,8 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <span class="logo-bracket">{</span>
+                <img src="pic/pic-1.jpg" alt="神洛桃玖" class="logo-avatar">
                 <span class="logo-text">神洛桃玖</span>
-                <span class="logo-bracket">}</span>
             </a>
             <div class="nav-menu">
                 <a href="blog.html" class="nav-link">
@@ -23,9 +22,6 @@
                 <a href="notes.html" class="nav-link">
                     <i class="fas fa-book"></i> 笔记
                 </a>
-                <a href="skills.html" class="nav-link">
-                    <i class="fas fa-code"></i> 技能
-                </a>
                 <a href="https://github.com/shenluotaojiu" target="_blank" class="nav-link nav-github">
                     <i class="fab fa-github"></i>
                 </a>
@@ -33,37 +29,121 @@
         </div>
     </nav>
 
-    <!-- 主页内容 -->
-    <main class="home">
-        <div class="home-content">
-            <div class="avatar-container">
-                <img src="https://avatars.githubusercontent.com/shenluotaojiu" alt="头像" class="avatar" onerror="this.src='https://via.placeholder.com/120/282c34/61afef?text=神'">
-            </div>
-            <h1 class="home-title">
-                <span class="greeting">Hi, I'm</span>
-                <span class="name">神洛桃玖</span>
-            </h1>
-            <p class="home-subtitle">
-                <span class="typed-text"></span>
-                <span class="cursor">_</span>
-            </p>
-            <div class="home-links">
-                <a href="blog.html" class="home-link">
-                    <i class="fas fa-blog"></i>
-                    <span>博客</span>
-                </a>
-                <a href="notes.html" class="home-link">
-                    <i class="fas fa-book"></i>
-                    <span>笔记</span>
-                </a>
-                <a href="skills.html" class="home-link">
-                    <i class="fas fa-code"></i>
-                    <span>技能</span>
-                </a>
+    <!-- 主页内容 - 左右布局 -->
+    <main class="home-split">
+        <!-- 左侧：个人介绍 -->
+        <div class="home-left">
+            <div class="profile-card">
+                <div class="avatar-container">
+                    <img src="https://avatars.githubusercontent.com/shenluotaojiu" alt="头像" class="avatar" onerror="this.src='https://via.placeholder.com/120/282c34/61afef?text=神'">
+                </div>
+                <h1 class="home-title">
+                    <span class="greeting">Hi, I'm</span>
+                    <span class="name">神洛桃玖</span>
+                </h1>
+                <p class="home-subtitle">
+                    <span class="typed-text"></span>
+                    <span class="cursor">_</span>
+                </p>
+                <div class="home-links">
+                    <a href="blog.html" class="home-link">
+                        <i class="fas fa-blog"></i>
+                        <span>博客</span>
+                    </a>
+                    <a href="notes.html" class="home-link">
+                        <i class="fas fa-book"></i>
+                        <span>笔记</span>
+                    </a>
+                </div>
+                <div class="home-footer">
+                    <span class="comment">// Keep learning, keep coding</span>
+                </div>
             </div>
         </div>
-        <div class="home-footer">
-            <span class="comment">// Keep learning, keep coding</span>
+
+        <!-- 右侧：技能展示 -->
+        <div class="home-right">
+            <div class="skills-section">
+                <h2 class="skills-title">
+                    <i class="fas fa-code"></i> 技能栈
+                </h2>
+                
+                <div class="skills-compact">
+                    <!-- 前端 -->
+                    <div class="skill-item frontend">
+                        <div class="skill-header">
+                            <i class="fas fa-palette"></i>
+                            <span>前端开发</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">React</span>
+                        </div>
+                    </div>
+
+                    <!-- 后端 -->
+                    <div class="skill-item backend">
+                        <div class="skill-header">
+                            <i class="fas fa-server"></i>
+                            <span>后端开发</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Go</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">Gin</span>
+                            <span class="skill-tag">FastAPI</span>
+                        </div>
+                    </div>
+
+                    <!-- 数据库 -->
+                    <div class="skill-item database">
+                        <div class="skill-header">
+                            <i class="fas fa-database"></i>
+                            <span>数据库</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Redis</span>
+                            <span class="skill-tag">MongoDB</span>
+                        </div>
+                    </div>
+
+                    <!-- DevOps -->
+                    <div class="skill-item devops">
+                        <div class="skill-header">
+                            <i class="fas fa-cloud"></i>
+                            <span>DevOps</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Kubernetes</span>
+                            <span class="skill-tag">Linux</span>
+                            <span class="skill-tag">CI/CD</span>
+                        </div>
+                    </div>
+
+                    <!-- 工具 -->
+                    <div class="skill-item tools">
+                        <div class="skill-header">
+                            <i class="fas fa-wrench"></i>
+                            <span>开发工具</span>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">VS Code</span>
+                            <span class="skill-tag">Vim</span>
+                            <span class="skill-tag">Terminal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 

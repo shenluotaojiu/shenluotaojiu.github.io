@@ -76,19 +76,27 @@ a {
 }
 
 .nav-logo {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
 }
 
-.logo-bracket {
-    color: var(--accent-yellow);
+.logo-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-blue);
 }
 
 .logo-text {
-    color: var(--accent-blue);
+    color: var(--text-primary);
+    font-size: 1rem;
+    letter-spacing: 0.5px;
 }
 
 .nav-menu {
@@ -235,6 +243,138 @@ a {
 .comment {
     color: var(--text-muted);
     font-style: italic;
+}
+
+/* ==================== 
+   Home Split Layout (左右两栏)
+   ==================== */
+.home-split {
+    min-height: 100vh;
+    display: flex;
+    padding-top: 50px;
+}
+
+.home-left {
+    width: 40%;
+    min-width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    border-right: 1px solid var(--border-color);
+}
+
+.profile-card {
+    text-align: center;
+    max-width: 350px;
+}
+
+.profile-card .avatar-container {
+    margin-bottom: 25px;
+}
+
+.profile-card .home-title {
+    margin-bottom: 15px;
+}
+
+.profile-card .home-subtitle {
+    margin-bottom: 30px;
+}
+
+.profile-card .home-links {
+    margin-bottom: 30px;
+}
+
+.profile-card .home-footer {
+    position: relative;
+    bottom: auto;
+    margin-top: 20px;
+}
+
+.home-right {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+}
+
+.skills-section {
+    width: 100%;
+    max-width: 600px;
+}
+
+.skills-title {
+    font-size: 1.3rem;
+    color: var(--accent-purple);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.skills-title i {
+    color: var(--accent-blue);
+}
+
+.skills-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.skill-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    transition: var(--transition);
+}
+
+.skill-item:hover {
+    border-color: var(--accent-blue);
+    transform: translateX(5px);
+}
+
+.skill-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.skill-header i {
+    font-size: 1rem;
+}
+
+/* Skill item colors */
+.skill-item.frontend .skill-header i { color: var(--accent-blue); }
+.skill-item.backend .skill-header i { color: var(--accent-green); }
+.skill-item.database .skill-header i { color: var(--accent-cyan); }
+.skill-item.devops .skill-header i { color: var(--accent-purple); }
+.skill-item.tools .skill-header i { color: var(--accent-orange); }
+
+.skill-item .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-item .skill-tag {
+    padding: 4px 10px;
+    background: var(--bg-highlight);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.skill-item .skill-tag:hover {
+    color: var(--accent-blue);
+    background: var(--bg-tertiary);
 }
 
 /* ==================== 
@@ -669,6 +809,27 @@ a {
    Responsive
    ==================== */
 @media (max-width: 768px) {
+    /* 首页左右布局变上下 */
+    .home-split {
+        flex-direction: column;
+    }
+    
+    .home-left {
+        width: 100%;
+        min-width: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 30px 20px;
+    }
+    
+    .home-right {
+        padding: 30px 20px;
+    }
+    
+    .skills-section {
+        max-width: 100%;
+    }
+    
     .nav-menu {
         gap: 0;
     }
