@@ -5,7 +5,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     initTypingEffect();
     initBackToTop();
-    initCategoryToggle();
+    // 注意：initCategoryToggle() 由各页面自行调用，避免重复初始化
+    // 首页和博客列表页需要在这里调用（如果没有在页面内联脚本调用）
+    // 笔记详情页在 article.html 模板中已调用
+    if (!document.querySelector('.article-layout')) {
+        // 非文章页面（首页、博客列表、笔记列表等）
+        initCategoryToggle();
+    }
 });
 
 // ====================
