@@ -2,6 +2,32 @@
 
 基于 Markdown 的静态博客系统，使用 One Dark 主题。
 
+🔗 **在线预览**: [https://shenluotaojiu.github.io/shenluotaojiu/](https://shenluotaojiu.github.io/shenluotaojiu/)
+
+## 🌐 GitHub Pages 部署
+
+### 自动部署（推荐）
+
+项目已配置 GitHub Actions，推送到 `main` 分支后会自动部署。
+
+**首次设置步骤**：
+
+1. 进入 GitHub 仓库 → **Settings** → **Pages**
+2. 在 **Build and deployment** 部分：
+   - **Source** 选择 `GitHub Actions`
+3. 推送代码到 `master` 分支
+4. 等待 Actions 运行完成（约 1-2 分钟）
+5. 访问 `https://shenluotaojiu.github.io/shenluotaojiu/`
+
+### 手动部署
+
+如果不想用 Actions，也可以：
+
+1. 在 **Settings** → **Pages** 中：
+   - **Source** 选择 `Deploy from a branch`
+   - **Branch** 选择 `main` / `/(root)`
+2. 保存后等待几分钟即可
+
 ## 🚀 快速开始
 
 ### 写文章
