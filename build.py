@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 博客发布脚本
-用法: python3 build.py [--watch]
+用法: python3 build.py [--watch] [--serve]
 
 功能:
 1. 扫描 content/ 目录下的所有 Markdown 文件
@@ -10,6 +10,7 @@
 3. 转换 Markdown 为 HTML
 4. 根据模板生成最终 HTML 文件
 5. 静态生成 blog.html 和 notes.html
+6. 启动本地服务器预览
 """
 
 import os
@@ -17,6 +18,10 @@ import re
 import json
 import argparse
 import hashlib
+import signal
+import socket
+import subprocess
+import sys
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
@@ -170,7 +175,8 @@ class MarkdownRenderer:
             lang = match.group(1) or ''
             code = match.group(2).strip()
             escaped_code = html.escape(code)
-            lang_attr = f' class="language-{lang}"' if lang else ''
+            # 添加 language 类名和 data-language 属性用于高亮和显示语言标签
+            lang_attr = f' class="language-{lang}" data-language="{lang}"' if lang else ''
             code_html = f'<pre><code{lang_attr}>{escaped_code}</code></pre>'
             code_blocks.append(code_html)
             return f'___CODE_BLOCK_{len(code_blocks) - 1}___'
@@ -828,12 +834,119 @@ def watch_mode():
         print("\n\n👋 监听模式已退出")
 
 
+# ==================== 服务器功能 ====================
+DEFAULT_PORT = 8888
+
+
+def is_port_in_use(port: int) -> bool:
+    """检查端口是否被占用"""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
+
+
+def kill_process_on_port(port: int) -> bool:
+    """杀死占用指定端口的进程"""
+    try:
+        # 使用 lsof 查找占用端口的进程
+        result = subprocess.run(
+            ['lsof', '-ti', f':{port}'],
+            capture_output=True,
+            text=True
+        )
+        pids = result.stdout.strip().split('\n')
+        
+        if pids and pids[0]:
+            for pid in pids:
+                if pid:
+                    print(f"  🔄 终止占用端口 {port} 的进程 (PID: {pid})...")
+                    os.kill(int(pid), signal.SIGTERM)
+            # 等待进程终止
+            import time
+            time.sleep(0.5)
+            return True
+    except Exception as e:
+        print(f"  ⚠️  无法终止进程: {e}")
+    return False
+
+
+def start_server(port: int = DEFAULT_PORT):
+    """启动本地 HTTP 服务器"""
+    print(f"\n🌐 启动本地服务器...")
+    
+    # 检查端口是否被占用
+    if is_port_in_use(port):
+        print(f"  ⚠️  端口 {port} 已被占用")
+        kill_process_on_port(port)
+        
+        # 再次检查
+        if is_port_in_use(port):
+            print(f"  ❌ 无法释放端口 {port}，请手动关闭占用进程")
+            return
+    
+    print(f"  📡 服务器运行在: http://localhost:{port}")
+    print(f"  按 Ctrl+C 停止服务器\n")
+    
+    # 切换到项目目录并启动服务器
+    os.chdir(BASE_DIR)
+    
+    try:
+        from http.server import HTTPServer, SimpleHTTPRequestHandler
+        
+        server = HTTPServer(('', port), SimpleHTTPRequestHandler)
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\n\n👋 服务器已停止")
+
+
+def serve_mode(port: int = DEFAULT_PORT, watch: bool = False):
+    """服务器模式（可选同时监听文件变化）"""
+    import threading
+    
+    # 先构建一次
+    build_all()
+    
+    if watch:
+        # 在后台线程运行监听
+        def watch_thread():
+            try:
+                import time
+                file_mtimes = {}
+                
+                while True:
+                    changed = False
+                    
+                    for md_file in CONTENT_DIR.rglob('*.md'):
+                        mtime = md_file.stat().st_mtime
+                        if md_file not in file_mtimes or file_mtimes[md_file] != mtime:
+                            file_mtimes[md_file] = mtime
+                            changed = True
+                    
+                    if changed and file_mtimes:  # 跳过首次扫描
+                        print(f"\n[{datetime.now().strftime('%H:%M:%S')}] 检测到变更，重新构建...")
+                        build_all()
+                    
+                    time.sleep(1)
+            except Exception as e:
+                print(f"监听线程异常: {e}")
+        
+        watcher = threading.Thread(target=watch_thread, daemon=True)
+        watcher.start()
+        print("👀 文件监听已启动")
+    
+    # 启动服务器（阻塞主线程）
+    start_server(port)
+
+
 def main():
     parser = argparse.ArgumentParser(description='博客构建脚本')
     parser.add_argument('--watch', '-w', action='store_true', help='监听模式')
+    parser.add_argument('--serve', '-s', action='store_true', help='启动本地服务器')
+    parser.add_argument('--port', '-p', type=int, default=DEFAULT_PORT, help=f'服务器端口 (默认: {DEFAULT_PORT})')
     args = parser.parse_args()
     
-    if args.watch:
+    if args.serve:
+        serve_mode(args.port, args.watch)
+    elif args.watch:
         watch_mode()
     else:
         build_all()

@@ -18,6 +18,7 @@ type: note
 #### Git Flow
 
 标准的分支模型：
+
 - main：生产分支
 - develop：开发分支
 - feature/*：功能分支
@@ -27,6 +28,7 @@ type: note
 #### GitHub Flow
 
 简化的分支模型：
+
 - main：主分支
 - feature：功能分支
 
@@ -63,6 +65,7 @@ git rebase -i HEAD~5
 ```
 
 可用操作：
+
 - pick：保留提交
 - reword：修改提交信息
 - squash：合并到上一个提交

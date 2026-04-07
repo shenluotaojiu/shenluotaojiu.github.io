@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web 开发完全指南 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
+    <title>软件测试入门与最佳实践 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css?v=20c0484d">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <!-- Highlight.js One Dark 主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -46,8 +48,8 @@
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-year">2026</div>
-<a href="test-toc-1.html" class="sidebar-item">目录功能测试 - 深度嵌套</a>
-<a href="test-toc-2.html" class="sidebar-item active">Web 开发完全指南</a>
+<a href="software-testing-guide.html" class="sidebar-item active">软件测试入门与最佳实践</a>
+<a href="web-development-guide.html" class="sidebar-item">Web 开发完全指南</a>
 <a href="go-best-practices.html" class="sidebar-item">Go 语言最佳实践指南</a>
 <a href="frontend-performance.html" class="sidebar-item">前端性能优化实战</a>
             </div>
@@ -57,188 +59,110 @@
         <main class="article-main">
             <article class="article-container">
                 <header class="article-header">
-                    <h1 class="article-title">Web 开发完全指南</h1>
+                    <h1 class="article-title">软件测试入门与最佳实践</h1>
                     <div class="article-meta">
-                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-04-06</span>
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-04-07</span>
                         <span><i class="far fa-calendar-check"></i> 更新: 2026-04-07</span>
-                        <span><i class="far fa-folder"></i> 前端开发</span>
-                        <span><i class="fas fa-font"></i> 199 字</span>
+                        <span><i class="far fa-folder"></i> 技术分享</span>
+                        <span><i class="fas fa-font"></i> 320 字</span>
                         <span><i class="far fa-clock"></i> 1 分钟</span>
                     </div>
                     <div class="article-tags">
                         
-                        <span class="article-tag">Web</span>
+                        <span class="article-tag">测试</span>
                         
-                        <span class="article-tag">前端</span>
-                        
-                        <span class="article-tag">后端</span>
+                        <span class="article-tag">软件工程</span>
                         
                     </div>
                 </header>
 
                 <div class="markdown-body" id="articleContent">
-<p>全面介绍 Web 开发的各个方面。</p>
+<p>软件测试是保证代码质量的重要环节，本文介绍测试的基础概念和最佳实践。</p>
 
-<h2>前端基础</h2>
+<h2>第一章：入门</h2>
 
-<p>前端是用户直接看到和交互的部分。</p>
+<p>这是第一章的内容，介绍基础概念。</p>
 
-<h3>HTML</h3>
+<h3>1.1 什么是测试</h3>
 
-<p>HTML 是网页的骨架。</p>
+<p>测试是验证软件功能的过程。</p>
 
-<p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Hello World&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1&gt;欢迎&lt;/h1&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre></p>
+<h4>1.1.1 单元测试</h4>
 
-<h3>CSS</h3>
+<p>单元测试关注单个模块的正确性。</p>
 
-<p>CSS 负责样式和布局。</p>
+<h4>1.1.2 集成测试</h4>
 
-<h4>选择器</h4>
+<p>集成测试验证多个模块之间的协作。</p>
 
-<p><pre><code class="language-css">.class-name { }
-#id-name { }
-element { }</code></pre></p>
+<h3>1.2 测试的重要性</h3>
 
-<h4>Flexbox</h4>
-
-<p>现代布局利器：</p>
-
-<p><pre><code class="language-css">.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}</code></pre></p>
-
-<h4>Grid</h4>
-
-<p>更强大的网格系统：</p>
-
-<p><pre><code class="language-css">.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}</code></pre></p>
-
-<h3>JavaScript</h3>
-
-<p>为网页添加交互性。</p>
-
-<h4>变量和类型</h4>
-
-<p><pre><code class="language-javascript">const name = &quot;Alice&quot;;
-let age = 25;
-const isStudent = true;</code></pre></p>
-
-<h4>函数</h4>
-
-<p><pre><code class="language-javascript">function greet(name) {
-    return `Hello, ${name}!`;
-}
-
-const arrow = (x) =&gt; x * 2;</code></pre></p>
-
-<h4>异步编程</h4>
-
-<p><pre><code class="language-javascript">async function fetchData() {
-    const response = await fetch(&#x27;/api/data&#x27;);
-    const data = await response.json();
-    return data;
-}</code></pre></p>
-
-<h2>后端开发</h2>
-
-<p>后端处理业务逻辑和数据存储。</p>
-
-<h3>服务器框架</h3>
-
-<h4>Node.js + Express</h4>
-
-<p><pre><code class="language-javascript">const express = require(&#x27;express&#x27;);
-const app = express();
-
-app.get(&#x27;/&#x27;, (req, res) =&gt; {
-    res.send(&#x27;Hello World!&#x27;);
-});
-
-app.listen(3000);</code></pre></p>
-
-<h4>Go + Gin</h4>
-
-<p><pre><code class="language-go">package main
-
-import &quot;github.com/gin-gonic/gin&quot;
-
-func main() {
-    r := gin.Default()
-    r.GET(&quot;/&quot;, func(c *gin.Context) {
-        c.JSON(200, gin.H{&quot;message&quot;: &quot;Hello&quot;})
-    })
-    r.Run()
-}</code></pre></p>
-
-<h3>数据库</h3>
-
-<h4>SQL 数据库</h4>
+<p>好的测试能够：</p>
 
 <ul>
-<li>PostgreSQL</li>
-<li>MySQL</li>
-<li>SQLite</li>
+<li>提前发现问题</li>
+<li>保证代码质量</li>
+<li>支持重构</li>
 </ul>
 
-<h4>NoSQL 数据库</h4>
+<h2>第二章：进阶</h2>
 
-<ul>
-<li>MongoDB</li>
-<li>Redis</li>
-<li>Cassandra</li>
-</ul>
+<p>进阶内容包含更复杂的主题。</p>
 
-<h2>部署和运维</h2>
+<h3>2.1 测试策略</h3>
 
-<h3>Docker</h3>
+<p>选择合适的测试策略很重要。</p>
 
-<p>容器化你的应用：</p>
+<h4>2.1.1 金字塔模型</h4>
 
-<p><pre><code class="language-dockerfile">FROM node:18
-WORKDIR /app
-COPY . .
-RUN npm install
-CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
+<p>测试金字塔建议：</p>
 
-<h3>CI/CD</h3>
+<ol>
+<li>大量单元测试</li>
+<li>适量集成测试</li>
+<li>少量端到端测试</li>
+</ol>
 
-<p>自动化部署流程。</p>
+<h4>2.1.2 冰淇淋模型</h4>
 
-<h2>安全性</h2>
+<p>这是一种反模式，应该避免。</p>
 
-<h3>常见攻击</h3>
+<h3>2.2 测试工具</h3>
 
-<ul>
-<li>XSS</li>
-<li>CSRF</li>
-<li>SQL 注入</li>
-</ul>
+<p>常用的测试工具有：</p>
 
-<h3>防护措施</h3>
+<h4>2.2.1 Go 测试工具</h4>
 
-<ul>
-<li>输入验证</li>
-<li>HTTPS</li>
-<li>安全 Headers</li>
-</ul>
+<p><pre><code class="language-go" data-language="go">func TestAdd(t *testing.T) {
+    result := Add(1, 2)
+    if result != 3 {
+        t.Errorf(&quot;Expected 3, got %d&quot;, result)
+    }
+}</code></pre></p>
 
-<h2>结语</h2>
+<h4>2.2.2 JavaScript 测试工具</h4>
 
-<p>Web 开发是一个不断演进的领域，持续学习很重要。</p>
+<p><pre><code class="language-javascript" data-language="javascript">test(&#x27;adds 1 + 2 to equal 3&#x27;, () =&gt; {
+  expect(add(1, 2)).toBe(3);
+});</code></pre></p>
+
+<h2>第三章：最佳实践</h2>
+
+<h3>3.1 测试命名</h3>
+
+<p>好的测试名称应该描述被测试的行为。</p>
+
+<h3>3.2 测试隔离</h3>
+
+<p>每个测试应该独立运行，不依赖其他测试。</p>
+
+<h3>3.3 测试覆盖率</h3>
+
+<p>追求有意义的覆盖率，而不是数字。</p>
+
+<h2>总结</h2>
+
+<p>测试是软件开发中不可或缺的一部分。</p>
                 </div>
             </article>
         </main>
@@ -266,7 +190,26 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=39d5852a"></script>
+    <script src="../js/main.js?v=20c0484d"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 常用语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script>
+        // 代码高亮初始化
+        function initHighlight() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+    </script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -279,6 +222,8 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
             initCategoryToggle();
             // 初始化展开/收起全部按钮
             initToggleAllButtons();
+            // 初始化代码高亮
+            initHighlight();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -352,6 +297,9 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
                 generateTOC();
                 initTocFold();
                 
+                // 重新初始化代码高亮
+                initHighlight();
+                
                 // 滚动到顶部
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -417,16 +365,25 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
             }
 
             let tocHtml = '<ul class="toc-list">';
+            
+            // 根据层级选择不同图标
+            const levelIcons = {
+                1: 'fa-folder',      // 一级标题用文件夹图标
+                2: 'fa-file-alt',    // 二级标题用文件图标
+                3: 'fa-code',        // 三级标题用代码图标
+                4: 'fa-minus'        // 四级及以下用横线
+            };
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
                 const id = 'heading-' + index;
                 heading.id = id;
                 const text = heading.textContent;
+                const icon = levelIcons[level] || levelIcons[4];
 
-                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-icon"><i class="fas ${icon}"></i></span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>`;

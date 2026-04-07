@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go 语言最佳实践指南 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
+    <link rel="stylesheet" href="../css/style.css?v=20c0484d">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <!-- Highlight.js One Dark 主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -46,8 +48,8 @@
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-year">2026</div>
-<a href="test-toc-1.html" class="sidebar-item">目录功能测试 - 深度嵌套</a>
-<a href="test-toc-2.html" class="sidebar-item">Web 开发完全指南</a>
+<a href="software-testing-guide.html" class="sidebar-item">软件测试入门与最佳实践</a>
+<a href="web-development-guide.html" class="sidebar-item">Web 开发完全指南</a>
 <a href="go-best-practices.html" class="sidebar-item active">Go 语言最佳实践指南</a>
 <a href="frontend-performance.html" class="sidebar-item">前端性能优化实战</a>
             </div>
@@ -83,7 +85,7 @@
 
 <p>始终使用 <code>gofmt</code> 格式化代码，保持一致的代码风格。</p>
 
-<p><pre><code class="language-bash">gofmt -w .</code></pre></p>
+<p><pre><code class="language-bash" data-language="bash">gofmt -w .</code></pre></p>
 
 <h3>命名规范</h3>
 
@@ -93,7 +95,7 @@
 <li>接口：单方法接口通常以 <code>er</code> 结尾</li>
 </ul>
 
-<p><pre><code class="language-go">// Good
+<p><pre><code class="language-go" data-language="go">// Good
 type Reader interface {
     Read(p []byte) (n int, err error)
 }
@@ -108,7 +110,7 @@ var MaxConnections = 100</code></pre></p>
 
 <h3>总是检查错误</h3>
 
-<p><pre><code class="language-go">// Bad
+<p><pre><code class="language-go" data-language="go">// Bad
 file, _ := os.Open(&quot;file.txt&quot;)
 
 // Good
@@ -120,7 +122,7 @@ defer file.Close()</code></pre></p>
 
 <h3>使用 errors.Is 和 errors.As</h3>
 
-<p><pre><code class="language-go">if errors.Is(err, os.ErrNotExist) {
+<p><pre><code class="language-go" data-language="go">if errors.Is(err, os.ErrNotExist) {
     // 处理文件不存在
 }
 
@@ -133,7 +135,7 @@ if errors.As(err, &amp;pathErr) {
 
 <h3>使用 sync 包</h3>
 
-<p><pre><code class="language-go">var (
+<p><pre><code class="language-go" data-language="go">var (
     mu      sync.RWMutex
     counter int
 )
@@ -152,7 +154,7 @@ func getCount() int {
 
 <h3>使用 atomic 包</h3>
 
-<p><pre><code class="language-go">var counter int64
+<p><pre><code class="language-go" data-language="go">var counter int64
 
 func increment() {
     atomic.AddInt64(&amp;counter, 1)
@@ -162,7 +164,7 @@ func increment() {
 
 <h3>预分配切片容量</h3>
 
-<p><pre><code class="language-go">// Bad - 多次扩容
+<p><pre><code class="language-go" data-language="go">// Bad - 多次扩容
 var result []int
 for i := 0; i &lt; 1000; i++ {
     result = append(result, i)
@@ -176,7 +178,7 @@ for i := 0; i &lt; 1000; i++ {
 
 <h3>使用 strings.Builder</h3>
 
-<p><pre><code class="language-go">// Bad
+<p><pre><code class="language-go" data-language="go">// Bad
 var s string
 for i := 0; i &lt; 1000; i++ {
     s += &quot;a&quot;
@@ -193,7 +195,7 @@ result := sb.String()</code></pre></p>
 
 <h3>表驱动测试</h3>
 
-<p><pre><code class="language-go">func TestAdd(t *testing.T) {
+<p><pre><code class="language-go" data-language="go">func TestAdd(t *testing.T) {
     tests := []struct {
         name     string
         a, b     int
@@ -245,7 +247,26 @@ result := sb.String()</code></pre></p>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=39d5852a"></script>
+    <script src="../js/main.js?v=20c0484d"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 常用语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script>
+        // 代码高亮初始化
+        function initHighlight() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+    </script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -258,6 +279,8 @@ result := sb.String()</code></pre></p>
             initCategoryToggle();
             // 初始化展开/收起全部按钮
             initToggleAllButtons();
+            // 初始化代码高亮
+            initHighlight();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -331,6 +354,9 @@ result := sb.String()</code></pre></p>
                 generateTOC();
                 initTocFold();
                 
+                // 重新初始化代码高亮
+                initHighlight();
+                
                 // 滚动到顶部
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -396,16 +422,25 @@ result := sb.String()</code></pre></p>
             }
 
             let tocHtml = '<ul class="toc-list">';
+            
+            // 根据层级选择不同图标
+            const levelIcons = {
+                1: 'fa-folder',      // 一级标题用文件夹图标
+                2: 'fa-file-alt',    // 二级标题用文件图标
+                3: 'fa-code',        // 三级标题用代码图标
+                4: 'fa-minus'        // 四级及以下用横线
+            };
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
                 const id = 'heading-' + index;
                 heading.id = id;
                 const text = heading.textContent;
+                const icon = levelIcons[level] || levelIcons[4];
 
-                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-icon"><i class="fas ${icon}"></i></span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>`;

@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>目录功能测试 - 深度嵌套 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
+    <title>数据结构学习笔记 | 神洛桃玖</title>
+    <link rel="stylesheet" href="../css/style.css?v=20c0484d">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <!-- Highlight.js One Dark 主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -16,10 +18,10 @@
                 <span class="logo-text">神洛桃玖</span>
             </a>
             <div class="nav-menu">
-                <a href="../blog.html" class="nav-link active">
+                <a href="../blog.html" class="nav-link ">
                     <i class="fas fa-blog"></i> <span>博客</span>
                 </a>
-                <a href="../notes.html" class="nav-link ">
+                <a href="../notes.html" class="nav-link active">
                     <i class="fas fa-book"></i> <span>笔记</span>
                 </a>
             </div>
@@ -37,7 +39,7 @@
         <aside class="sidebar-left" id="sidebarLeft">
             <div class="sidebar-header">
                 <i class="fas fa-list"></i>
-                <span>所有文章</span>
+                <span>所有笔记</span>
                 <div class="sidebar-toggle-all">
                     <button id="leftToggleAll" title="展开/收起全部">
                         <i class="fas fa-expand-alt"></i>
@@ -45,11 +47,25 @@
                 </div>
             </div>
             <div class="sidebar-content">
-                <div class="sidebar-year">2026</div>
-<a href="test-toc-1.html" class="sidebar-item active">目录功能测试 - 深度嵌套</a>
-<a href="test-toc-2.html" class="sidebar-item">Web 开发完全指南</a>
-<a href="go-best-practices.html" class="sidebar-item">Go 语言最佳实践指南</a>
-<a href="frontend-performance.html" class="sidebar-item">前端性能优化实战</a>
+                <div class="sidebar-category" data-toggle="sidebar-cat-0"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-tools"></i><span>工具使用</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-0">
+<a href="git-advanced.html" class="sidebar-item">Git 进阶技巧</a>
+<a href="vim-cheatsheet.html" class="sidebar-item">Vim 编辑器速查手册</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-1"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-database"></i><span>数据库</span><span class="sidebar-cat-count">1</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-1">
+<a href="sql-basics.html" class="sidebar-item">SQL 基础语法笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-2">
+<a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
+<a href="data-structures.html" class="sidebar-item active">数据结构学习笔记</a>
+</div>
+<div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
+<div class="sidebar-cat-items" id="sidebar-cat-3">
+<a href="docker-basics.html" class="sidebar-item">Docker 容器化入门</a>
+<a href="linux-commands.html" class="sidebar-item">Linux 常用命令速查</a>
+</div>
             </div>
         </aside>
 
@@ -57,98 +73,216 @@
         <main class="article-main">
             <article class="article-container">
                 <header class="article-header">
-                    <h1 class="article-title">目录功能测试 - 深度嵌套</h1>
+                    <h1 class="article-title">数据结构学习笔记</h1>
                     <div class="article-meta">
-                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-04-07</span>
+                        <span><i class="far fa-calendar-plus"></i> 创建: 2026-04-05</span>
                         <span><i class="far fa-calendar-check"></i> 更新: 2026-04-07</span>
-                        <span><i class="far fa-folder"></i> 技术分享</span>
-                        <span><i class="fas fa-font"></i> 311 字</span>
+                        <span><i class="far fa-folder"></i> 编程语言</span>
+                        <span><i class="fas fa-font"></i> 325 字</span>
                         <span><i class="far fa-clock"></i> 1 分钟</span>
                     </div>
                     <div class="article-tags">
                         
-                        <span class="article-tag">测试</span>
+                        <span class="article-tag">数据结构</span>
                         
-                        <span class="article-tag">目录</span>
+                        <span class="article-tag">算法</span>
                         
                     </div>
                 </header>
 
                 <div class="markdown-body" id="articleContent">
-<p>这是一篇用于测试目录功能的文章，包含多级嵌套标题。</p>
+<p>数据结构是计算机科学的基础。</p>
 
-<h2>第一章：入门</h2>
+<h2>线性结构</h2>
 
-<p>这是第一章的内容，介绍基础概念。</p>
+<p>按顺序存储的数据结构。</p>
 
-<h3>1.1 什么是测试</h3>
+<h3>数组</h3>
 
-<p>测试是验证软件功能的过程。</p>
+<p>固定大小的连续内存。</p>
 
-<h4>1.1.1 单元测试</h4>
+<h4>特点</h4>
 
-<p>单元测试关注单个模块的正确性。</p>
+<ul>
+<li>随机访问 O(1)</li>
+<li>插入删除 O(n)</li>
+<li>内存连续</li>
+</ul>
 
-<h4>1.1.2 集成测试</h4>
+<h4>实现</h4>
 
-<p>集成测试验证多个模块之间的协作。</p>
+<p><pre><code class="language-go" data-language="go">arr := [5]int{1, 2, 3, 4, 5}
+slice := []int{1, 2, 3}</code></pre></p>
 
-<h3>1.2 测试的重要性</h3>
+<h3>链表</h3>
 
-<p>好的测试能够：<br><ul><br><li>提前发现问题</li><br><li>保证代码质量</li><br><li>支持重构</li><br></ul></p>
+<p>节点通过指针连接。</p>
 
-<h2>第二章：进阶</h2>
+<h4>单链表</h4>
 
-<p>进阶内容包含更复杂的主题。</p>
+<p><pre><code class="language-go" data-language="go">type Node struct {
+    Value int
+    Next  *Node
+}</code></pre></p>
 
-<h3>2.1 测试策略</h3>
+<h4>双链表</h4>
 
-<p>选择合适的测试策略很重要。</p>
+<p><pre><code class="language-go" data-language="go">type DNode struct {
+    Value int
+    Prev  *DNode
+    Next  *DNode
+}</code></pre></p>
 
-<h4>2.1.1 金字塔模型</h4>
+<h3>栈</h3>
 
-<p>测试金字塔建议：<br><ol><br><li>大量单元测试</li><br><li>适量集成测试</li><br><li>少量端到端测试</li><br></ol></p>
+<p>后进先出（LIFO）。</p>
 
-<h4>2.1.2 冰淇淋模型</h4>
+<p><pre><code class="language-go" data-language="go">type Stack struct {
+    items []int
+}
 
-<p>这是一种反模式，应该避免。</p>
+func (s *Stack) Push(item int) {
+    s.items = append(s.items, item)
+}
 
-<h3>2.2 测试工具</h3>
+func (s *Stack) Pop() int {
+    n := len(s.items)
+    item := s.items[n-1]
+    s.items = s.items[:n-1]
+    return item
+}</code></pre></p>
 
-<p>常用的测试工具有：</p>
+<h3>队列</h3>
 
-<h4>2.2.1 Go 测试工具</h4>
+<p>先进先出（FIFO）。</p>
 
-<p><pre><code class="language-go">func TestAdd(t *testing.T) {
-    result := Add(1, 2)
-    if result != 3 {
-        t.Errorf(&quot;Expected 3, got %d&quot;, result)
+<h4>普通队列</h4>
+
+<p><pre><code class="language-go" data-language="go">type Queue struct {
+    items []int
+}</code></pre></p>
+
+<h4>优先队列</h4>
+
+<p>按优先级出队。</p>
+
+<h2>树形结构</h2>
+
+<p>层次化的数据结构。</p>
+
+<h3>二叉树</h3>
+
+<p>每个节点最多两个子节点。</p>
+
+<p><pre><code class="language-go" data-language="go">type TreeNode struct {
+    Value int
+    Left  *TreeNode
+    Right *TreeNode
+}</code></pre></p>
+
+<h4>遍历方式</h4>
+
+<ul>
+<li>前序遍历：根-左-右</li>
+<li>中序遍历：左-根-右</li>
+<li>后序遍历：左-右-根</li>
+<li>层序遍历：按层从上到下</li>
+</ul>
+
+<h3>二叉搜索树</h3>
+
+<p>左子树 < 根 < 右子树。</p>
+
+<h3>平衡二叉树</h3>
+
+<h4>AVL 树</h4>
+
+<p>严格平衡，高度差不超过 1。</p>
+
+<h4>红黑树</h4>
+
+<p>宽松平衡，查询性能稍差但插入删除更快。</p>
+
+<h3>B 树</h3>
+
+<p>用于数据库索引。</p>
+
+<h2>图结构</h2>
+
+<p>节点和边组成的网络。</p>
+
+<h3>表示方法</h3>
+
+<h4>邻接矩阵</h4>
+
+<p><pre><code class="language-go" data-language="go">graph := [][]int{
+    {0, 1, 0},
+    {1, 0, 1},
+    {0, 1, 0},
+}</code></pre></p>
+
+<h4>邻接表</h4>
+
+<p><pre><code class="language-go" data-language="go">graph := map[int][]int{
+    0: {1},
+    1: {0, 2},
+    2: {1},
+}</code></pre></p>
+
+<h3>遍历算法</h3>
+
+<h4>DFS 深度优先</h4>
+
+<p><pre><code class="language-go" data-language="go">func dfs(node int, visited map[int]bool, graph map[int][]int) {
+    if visited[node] {
+        return
+    }
+    visited[node] = true
+    for _, neighbor := range graph[node] {
+        dfs(neighbor, visited, graph)
     }
 }</code></pre></p>
 
-<h4>2.2.2 JavaScript 测试工具</h4>
+<h4>BFS 广度优先</h4>
 
-<p><pre><code class="language-javascript">test(&#x27;adds 1 + 2 to equal 3&#x27;, () =&gt; {
-  expect(add(1, 2)).toBe(3);
-});</code></pre></p>
+<p><pre><code class="language-go" data-language="go">func bfs(start int, graph map[int][]int) {
+    queue := []int{start}
+    visited := map[int]bool{start: true}
+    
+    for len(queue) &gt; 0 {
+        node := queue[0]
+        queue = queue[1:]
+        for _, neighbor := range graph[node] {
+            if !visited[neighbor] {
+                visited[neighbor] = true
+                queue = append(queue, neighbor)
+            }
+        }
+    }
+}</code></pre></p>
 
-<h2>第三章：最佳实践</h2>
+<h2>哈希表</h2>
 
-<h3>3.1 测试命名</h3>
+<p>键值对存储，O(1) 查找。</p>
 
-<p>好的测试名称应该描述被测试的行为。</p>
+<h3>实现原理</h3>
 
-<h3>3.2 测试隔离</h3>
+<ul>
+<li>哈希函数</li>
+<li>冲突解决（链地址法、开放寻址法）</li>
+</ul>
 
-<p>每个测试应该独立运行，不依赖其他测试。</p>
+<h3>使用场景</h3>
 
-<h3>3.3 测试覆盖率</h3>
-
-<p>追求有意义的覆盖率，而不是数字。</p>
+<ul>
+<li>缓存</li>
+<li>去重</li>
+<li>计数</li>
+</ul>
 
 <h2>总结</h2>
 
-<p>测试是软件开发中不可或缺的一部分。</p>
+<p>掌握数据结构是编程的基础，不同场景选择合适的数据结构。</p>
                 </div>
             </article>
         </main>
@@ -176,7 +310,26 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=39d5852a"></script>
+    <script src="../js/main.js?v=20c0484d"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 常用语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script>
+        // 代码高亮初始化
+        function initHighlight() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+    </script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -189,6 +342,8 @@
             initCategoryToggle();
             // 初始化展开/收起全部按钮
             initToggleAllButtons();
+            // 初始化代码高亮
+            initHighlight();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -262,6 +417,9 @@
                 generateTOC();
                 initTocFold();
                 
+                // 重新初始化代码高亮
+                initHighlight();
+                
                 // 滚动到顶部
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -327,16 +485,25 @@
             }
 
             let tocHtml = '<ul class="toc-list">';
+            
+            // 根据层级选择不同图标
+            const levelIcons = {
+                1: 'fa-folder',      // 一级标题用文件夹图标
+                2: 'fa-file-alt',    // 二级标题用文件图标
+                3: 'fa-code',        // 三级标题用代码图标
+                4: 'fa-minus'        // 四级及以下用横线
+            };
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
                 const id = 'heading-' + index;
                 heading.id = id;
                 const text = heading.textContent;
+                const icon = levelIcons[level] || levelIcons[4];
 
-                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-icon"><i class="fas ${icon}"></i></span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>`;

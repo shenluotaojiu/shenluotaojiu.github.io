@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Docker 容器化入门 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
+    <link rel="stylesheet" href="../css/style.css?v=20c0484d">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <!-- Highlight.js One Dark 主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -57,7 +59,7 @@
 <div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
 <div class="sidebar-cat-items" id="sidebar-cat-2">
 <a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
-<a href="test-note-toc.html" class="sidebar-item">数据结构学习笔记</a>
+<a href="data-structures.html" class="sidebar-item">数据结构学习笔记</a>
 </div>
 <div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
 <div class="sidebar-cat-items" id="sidebar-cat-3">
@@ -99,17 +101,29 @@
 
 <h4>镜像层</h4>
 
-<p>Docker 镜像由多层组成：<br><ul><br><li>基础层（如 Ubuntu、Alpine）</li><br><li>应用层</li><br><li>配置层</li><br></ul></p>
+<p>Docker 镜像由多层组成：</p>
+
+<ul>
+<li>基础层（如 Ubuntu、Alpine）</li>
+<li>应用层</li>
+<li>配置层</li>
+</ul>
 
 <h4>镜像仓库</h4>
 
-<p>常用的镜像仓库：<br><ul><br><li>Docker Hub</li><br><li>阿里云容器镜像服务</li><br><li>私有 Registry</li><br></ul></p>
+<p>常用的镜像仓库：</p>
+
+<ul>
+<li>Docker Hub</li>
+<li>阿里云容器镜像服务</li>
+<li>私有 Registry</li>
+</ul>
 
 <h3>容器 (Container)</h3>
 
 <p>容器是镜像的运行实例。</p>
 
-<p><pre><code class="language-bash"># 运行容器
+<p><pre><code class="language-bash" data-language="bash"># 运行容器
 docker run -d --name myapp nginx
 
 # 查看容器
@@ -124,18 +138,18 @@ docker stop myapp</code></pre></p>
 
 <h4>绑定挂载</h4>
 
-<p><pre><code class="language-bash">docker run -v /host/path:/container/path nginx</code></pre></p>
+<p><pre><code class="language-bash" data-language="bash">docker run -v /host/path:/container/path nginx</code></pre></p>
 
 <h4>命名卷</h4>
 
-<p><pre><code class="language-bash">docker volume create mydata
+<p><pre><code class="language-bash" data-language="bash">docker volume create mydata
 docker run -v mydata:/data nginx</code></pre></p>
 
 <h2>Dockerfile</h2>
 
 <h3>基本指令</h3>
 
-<p><pre><code class="language-dockerfile"># 基础镜像
+<p><pre><code class="language-dockerfile" data-language="dockerfile"># 基础镜像
 FROM node:18-alpine
 
 # 设置工作目录
@@ -158,7 +172,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]</code></pre></p>
 
 <h3>多阶段构建</h3>
 
-<p><pre><code class="language-dockerfile"># 构建阶段
+<p><pre><code class="language-dockerfile" data-language="dockerfile"># 构建阶段
 FROM node:18 AS builder
 WORKDIR /app
 COPY . .
@@ -172,7 +186,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html</code></pre></p>
 
 <h3>基本配置</h3>
 
-<p><pre><code class="language-yaml">version: &#x27;3.8&#x27;
+<p><pre><code class="language-yaml" data-language="yaml">version: &#x27;3.8&#x27;
 services:
   web:
     build: .
@@ -193,7 +207,7 @@ volumes:
 
 <h3>常用命令</h3>
 
-<p><pre><code class="language-bash"># 启动服务
+<p><pre><code class="language-bash" data-language="bash"># 启动服务
 docker-compose up -d
 
 # 查看日志
@@ -214,7 +228,7 @@ docker-compose down</code></pre></p>
 
 <h3>自定义网络</h3>
 
-<p><pre><code class="language-bash">docker network create mynet
+<p><pre><code class="language-bash" data-language="bash">docker network create mynet
 docker run --network mynet nginx</code></pre></p>
 
 <h2>最佳实践</h2>
@@ -265,7 +279,26 @@ docker run --network mynet nginx</code></pre></p>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=39d5852a"></script>
+    <script src="../js/main.js?v=20c0484d"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 常用语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script>
+        // 代码高亮初始化
+        function initHighlight() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+    </script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -278,6 +311,8 @@ docker run --network mynet nginx</code></pre></p>
             initCategoryToggle();
             // 初始化展开/收起全部按钮
             initToggleAllButtons();
+            // 初始化代码高亮
+            initHighlight();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -351,6 +386,9 @@ docker run --network mynet nginx</code></pre></p>
                 generateTOC();
                 initTocFold();
                 
+                // 重新初始化代码高亮
+                initHighlight();
+                
                 // 滚动到顶部
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -416,16 +454,25 @@ docker run --network mynet nginx</code></pre></p>
             }
 
             let tocHtml = '<ul class="toc-list">';
+            
+            // 根据层级选择不同图标
+            const levelIcons = {
+                1: 'fa-folder',      // 一级标题用文件夹图标
+                2: 'fa-file-alt',    // 二级标题用文件图标
+                3: 'fa-code',        // 三级标题用代码图标
+                4: 'fa-minus'        // 四级及以下用横线
+            };
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
                 const id = 'heading-' + index;
                 heading.id = id;
                 const text = heading.textContent;
+                const icon = levelIcons[level] || levelIcons[4];
 
-                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-icon"><i class="fas ${icon}"></i></span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>`;

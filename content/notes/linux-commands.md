@@ -177,7 +177,7 @@ systemctl enable nginx
 
 ## 网络
 
-### 基本命令
+### 网络基础命令
 
 ```bash
 # IP 地址

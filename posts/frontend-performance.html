@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>前端性能优化实战 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
+    <link rel="stylesheet" href="../css/style.css?v=20c0484d">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <!-- Highlight.js One Dark 主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -46,8 +48,8 @@
             </div>
             <div class="sidebar-content">
                 <div class="sidebar-year">2026</div>
-<a href="test-toc-1.html" class="sidebar-item">目录功能测试 - 深度嵌套</a>
-<a href="test-toc-2.html" class="sidebar-item">Web 开发完全指南</a>
+<a href="software-testing-guide.html" class="sidebar-item">软件测试入门与最佳实践</a>
+<a href="web-development-guide.html" class="sidebar-item">Web 开发完全指南</a>
 <a href="go-best-practices.html" class="sidebar-item">Go 语言最佳实践指南</a>
 <a href="frontend-performance.html" class="sidebar-item active">前端性能优化实战</a>
             </div>
@@ -87,14 +89,14 @@
 <li>压缩图片资源</li>
 </ul>
 
-<p><pre><code class="language-nginx"># Nginx 配置 Gzip
+<p><pre><code class="language-nginx" data-language="nginx"># Nginx 配置 Gzip
 gzip on;
 gzip_types text/plain text/css application/json application/javascript;
 gzip_min_length 1000;</code></pre></p>
 
 <h3>懒加载</h3>
 
-<p><pre><code class="language-javascript">// 图片懒加载
+<p><pre><code class="language-javascript" data-language="javascript">// 图片懒加载
 const img = document.querySelector(&#x27;img[data-src]&#x27;);
 const observer = new IntersectionObserver((entries) =&gt; {
     entries.forEach(entry =&gt; {
@@ -109,7 +111,7 @@ observer.observe(img);</code></pre></p>
 
 <h3>预加载关键资源</h3>
 
-<p><pre><code class="language-html">&lt;link rel=&quot;preload&quot; href=&quot;critical.css&quot; as=&quot;style&quot;&gt;
+<p><pre><code class="language-html" data-language="html">&lt;link rel=&quot;preload&quot; href=&quot;critical.css&quot; as=&quot;style&quot;&gt;
 &lt;link rel=&quot;preload&quot; href=&quot;main.js&quot; as=&quot;script&quot;&gt;
 &lt;link rel=&quot;preconnect&quot; href=&quot;https://api.example.com&quot;&gt;</code></pre></p>
 
@@ -117,7 +119,7 @@ observer.observe(img);</code></pre></p>
 
 <h3>避免强制同步布局</h3>
 
-<p><pre><code class="language-javascript">// Bad - 强制同步布局
+<p><pre><code class="language-javascript" data-language="javascript">// Bad - 强制同步布局
 for (let i = 0; i &lt; elements.length; i++) {
     elements[i].style.width = box.offsetWidth + &#x27;px&#x27;;
 }
@@ -130,7 +132,7 @@ for (let i = 0; i &lt; elements.length; i++) {
 
 <h3>使用 CSS 动画</h3>
 
-<p><pre><code class="language-css">/* Good - 使用 transform 和 opacity */
+<p><pre><code class="language-css" data-language="css">/* Good - 使用 transform 和 opacity */
 .animate {
     transition: transform 0.3s ease;
 }
@@ -147,7 +149,7 @@ for (let i = 0; i &lt; elements.length; i++) {
 
 <p>对于长列表，只渲染可视区域的元素：</p>
 
-<p><pre><code class="language-javascript">class VirtualList {
+<p><pre><code class="language-javascript" data-language="javascript">class VirtualList {
     constructor(container, itemHeight, totalItems) {
         this.container = container;
         this.itemHeight = itemHeight;
@@ -168,7 +170,7 @@ for (let i = 0; i &lt; elements.length; i++) {
 
 <h3>Service Worker</h3>
 
-<p><pre><code class="language-javascript">self.addEventListener(&#x27;fetch&#x27;, (event) =&gt; {
+<p><pre><code class="language-javascript" data-language="javascript">self.addEventListener(&#x27;fetch&#x27;, (event) =&gt; {
     event.respondWith(
         caches.match(event.request).then((response) =&gt; {
             return response || fetch(event.request);
@@ -178,7 +180,7 @@ for (let i = 0; i &lt; elements.length; i++) {
 
 <h3>HTTP 缓存头</h3>
 
-<p><pre><code class="language-nginx"># 静态资源长期缓存
+<p><pre><code class="language-nginx" data-language="nginx"># 静态资源长期缓存
 location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
     expires 1y;
     add_header Cache-Control &quot;public, immutable&quot;;
@@ -196,7 +198,7 @@ location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
 <li><strong>CLS</strong> (Cumulative Layout Shift): < 0.1</li>
 </ul>
 
-<p><pre><code class="language-javascript">import { getLCP, getFID, getCLS } from &#x27;web-vitals&#x27;;
+<p><pre><code class="language-javascript" data-language="javascript">import { getLCP, getFID, getCLS } from &#x27;web-vitals&#x27;;
 
 getLCP(console.log);
 getFID(console.log);
@@ -232,7 +234,26 @@ getCLS(console.log);</code></pre></p>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=39d5852a"></script>
+    <script src="../js/main.js?v=20c0484d"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 常用语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script>
+        // 代码高亮初始化
+        function initHighlight() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+    </script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -245,6 +266,8 @@ getCLS(console.log);</code></pre></p>
             initCategoryToggle();
             // 初始化展开/收起全部按钮
             initToggleAllButtons();
+            // 初始化代码高亮
+            initHighlight();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -318,6 +341,9 @@ getCLS(console.log);</code></pre></p>
                 generateTOC();
                 initTocFold();
                 
+                // 重新初始化代码高亮
+                initHighlight();
+                
                 // 滚动到顶部
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -383,16 +409,25 @@ getCLS(console.log);</code></pre></p>
             }
 
             let tocHtml = '<ul class="toc-list">';
+            
+            // 根据层级选择不同图标
+            const levelIcons = {
+                1: 'fa-folder',      // 一级标题用文件夹图标
+                2: 'fa-file-alt',    // 二级标题用文件图标
+                3: 'fa-code',        // 三级标题用代码图标
+                4: 'fa-minus'        // 四级及以下用横线
+            };
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
                 const id = 'heading-' + index;
                 heading.id = id;
                 const text = heading.textContent;
+                const icon = levelIcons[level] || levelIcons[4];
 
-                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-icon"><i class="fas ${icon}"></i></span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>`;

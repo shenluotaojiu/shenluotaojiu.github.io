@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go 并发编程笔记 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
+    <link rel="stylesheet" href="../css/style.css?v=20c0484d">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <!-- Highlight.js One Dark 主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -57,7 +59,7 @@
 <div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
 <div class="sidebar-cat-items" id="sidebar-cat-2">
 <a href="go-concurrency.html" class="sidebar-item active">Go 并发编程笔记</a>
-<a href="test-note-toc.html" class="sidebar-item">数据结构学习笔记</a>
+<a href="data-structures.html" class="sidebar-item">数据结构学习笔记</a>
 </div>
 <div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
 <div class="sidebar-cat-items" id="sidebar-cat-3">
@@ -97,7 +99,7 @@
 
 <p>Goroutine 是 Go 的轻量级线程，由 Go 运行时管理。</p>
 
-<p><pre><code class="language-go">// 启动一个 goroutine
+<p><pre><code class="language-go" data-language="go">// 启动一个 goroutine
 go func() {
     fmt.Println(&quot;Hello from goroutine&quot;)
 }()</code></pre></p>
@@ -114,7 +116,7 @@ go func() {
 
 <p>Channel 是 goroutine 之间通信的管道。</p>
 
-<p><pre><code class="language-go">// 创建 channel
+<p><pre><code class="language-go" data-language="go">// 创建 channel
 ch := make(chan int)      // 无缓冲
 ch := make(chan int, 10)  // 有缓冲
 
@@ -150,7 +152,7 @@ val := &lt;-ch // 接收</code></pre></p>
 
 <p><code>select</code> 用于同时等待多个 channel 操作。</p>
 
-<p><pre><code class="language-go">select {
+<p><pre><code class="language-go" data-language="go">select {
 case msg1 := &lt;-ch1:
     fmt.Println(&quot;Received from ch1:&quot;, msg1)
 case msg2 := &lt;-ch2:
@@ -165,7 +167,7 @@ default:
 
 <h3>Worker Pool</h3>
 
-<p><pre><code class="language-go">func worker(id int, jobs &lt;-chan int, results chan&lt;- int) {
+<p><pre><code class="language-go" data-language="go">func worker(id int, jobs &lt;-chan int, results chan&lt;- int) {
     for j := range jobs {
         fmt.Printf(&quot;Worker %d processing job %d\n&quot;, id, j)
         results &lt;- j * 2
@@ -195,7 +197,7 @@ func main() {
 
 <h3>Context 控制</h3>
 
-<p><pre><code class="language-go">func doWork(ctx context.Context) {
+<p><pre><code class="language-go" data-language="go">func doWork(ctx context.Context) {
     for {
         select {
         case &lt;-ctx.Done():
@@ -262,7 +264,26 @@ func main() {
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=39d5852a"></script>
+    <script src="../js/main.js?v=20c0484d"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 常用语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script>
+        // 代码高亮初始化
+        function initHighlight() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+    </script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -275,6 +296,8 @@ func main() {
             initCategoryToggle();
             // 初始化展开/收起全部按钮
             initToggleAllButtons();
+            // 初始化代码高亮
+            initHighlight();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -348,6 +371,9 @@ func main() {
                 generateTOC();
                 initTocFold();
                 
+                // 重新初始化代码高亮
+                initHighlight();
+                
                 // 滚动到顶部
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -413,16 +439,25 @@ func main() {
             }
 
             let tocHtml = '<ul class="toc-list">';
+            
+            // 根据层级选择不同图标
+            const levelIcons = {
+                1: 'fa-folder',      // 一级标题用文件夹图标
+                2: 'fa-file-alt',    // 二级标题用文件图标
+                3: 'fa-code',        // 三级标题用代码图标
+                4: 'fa-minus'        // 四级及以下用横线
+            };
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
                 const id = 'heading-' + index;
                 heading.id = id;
                 const text = heading.textContent;
+                const icon = levelIcons[level] || levelIcons[4];
 
-                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-icon"><i class="fas ${icon}"></i></span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>`;

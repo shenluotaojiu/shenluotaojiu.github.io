@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vim 编辑器速查手册 | 神洛桃玖</title>
-    <link rel="stylesheet" href="../css/style.css?v=39d5852a">
+    <link rel="stylesheet" href="../css/style.css?v=20c0484d">
     <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <!-- Highlight.js One Dark 主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -57,7 +59,7 @@
 <div class="sidebar-category" data-toggle="sidebar-cat-2"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-code"></i><span>编程语言</span><span class="sidebar-cat-count">2</span></div>
 <div class="sidebar-cat-items" id="sidebar-cat-2">
 <a href="go-concurrency.html" class="sidebar-item">Go 并发编程笔记</a>
-<a href="test-note-toc.html" class="sidebar-item">数据结构学习笔记</a>
+<a href="data-structures.html" class="sidebar-item">数据结构学习笔记</a>
 </div>
 <div class="sidebar-category" data-toggle="sidebar-cat-3"><i class="fas fa-chevron-down sidebar-cat-arrow"></i><i class="fas fa-cloud"></i><span>运维部署</span><span class="sidebar-cat-count">2</span></div>
 <div class="sidebar-cat-items" id="sidebar-cat-3">
@@ -104,7 +106,7 @@
 
 <h3>进入插入模式</h3>
 
-<p><pre><code>i  - 光标前插入
+<p><pre><code class="language-text" data-language="text">i  - 光标前插入
 a  - 光标后插入
 I  - 行首插入
 A  - 行尾插入
@@ -113,20 +115,20 @@ O  - 上方新行</code></pre></p>
 
 <h3>退出插入模式</h3>
 
-<p><pre><code>Esc 或 Ctrl+[</code></pre></p>
+<p><pre><code class="language-text" data-language="text">Esc 或 Ctrl+[</code></pre></p>
 
 <h2>移动光标</h2>
 
 <h3>基本移动</h3>
 
-<p><pre><code>h  - 左
+<p><pre><code class="language-text" data-language="text">h  - 左
 j  - 下
 k  - 上
 l  - 右</code></pre></p>
 
 <h3>单词移动</h3>
 
-<p><pre><code>w  - 下一个词首
+<p><pre><code class="language-text" data-language="text">w  - 下一个词首
 b  - 上一个词首
 e  - 当前词尾
 W  - 下一个词首（空格分隔）
@@ -134,7 +136,7 @@ B  - 上一个词首（空格分隔）</code></pre></p>
 
 <h3>行内移动</h3>
 
-<p><pre><code>0  - 行首
+<p><pre><code class="language-text" data-language="text">0  - 行首
 ^  - 首个非空字符
 $  - 行尾
 f{char}  - 移动到字符
@@ -145,7 +147,7 @@ t{char}  - 移动到字符前
 
 <h3>屏幕移动</h3>
 
-<p><pre><code>H  - 屏幕顶部
+<p><pre><code class="language-text" data-language="text">H  - 屏幕顶部
 M  - 屏幕中间
 L  - 屏幕底部
 Ctrl+d  - 向下半屏
@@ -155,7 +157,7 @@ Ctrl+b  - 向上一屏</code></pre></p>
 
 <h3>文件移动</h3>
 
-<p><pre><code>gg  - 文件开头
+<p><pre><code class="language-text" data-language="text">gg  - 文件开头
 G   - 文件末尾
 {n}G 或 :{n}  - 第 n 行</code></pre></p>
 
@@ -163,7 +165,7 @@ G   - 文件末尾
 
 <h3>删除</h3>
 
-<p><pre><code>x   - 删除字符
+<p><pre><code class="language-text" data-language="text">x   - 删除字符
 dd  - 删除整行
 dw  - 删除到词尾
 d$  - 删除到行尾
@@ -172,7 +174,7 @@ D   - 删除到行尾（同 d$）</code></pre></p>
 
 <h3>复制粘贴</h3>
 
-<p><pre><code>yy  - 复制整行
+<p><pre><code class="language-text" data-language="text">yy  - 复制整行
 yw  - 复制到词尾
 y$  - 复制到行尾
 p   - 在光标后粘贴
@@ -180,7 +182,7 @@ P   - 在光标前粘贴</code></pre></p>
 
 <h3>修改</h3>
 
-<p><pre><code>r{char}  - 替换单个字符
+<p><pre><code class="language-text" data-language="text">r{char}  - 替换单个字符
 R   - 进入替换模式
 cw  - 修改到词尾
 cc  - 修改整行
@@ -191,7 +193,7 @@ S   - 删除整行并插入</code></pre></p>
 
 <h3>撤销重做</h3>
 
-<p><pre><code>u      - 撤销
+<p><pre><code class="language-text" data-language="text">u      - 撤销
 Ctrl+r - 重做
 .      - 重复上次操作</code></pre></p>
 
@@ -199,13 +201,13 @@ Ctrl+r - 重做
 
 <h3>进入可视模式</h3>
 
-<p><pre><code>v   - 字符选择
+<p><pre><code class="language-text" data-language="text">v   - 字符选择
 V   - 行选择
 Ctrl+v  - 块选择</code></pre></p>
 
 <h3>选择后操作</h3>
 
-<p><pre><code>d  - 删除选中
+<p><pre><code class="language-text" data-language="text">d  - 删除选中
 y  - 复制选中
 c  - 修改选中
 &gt;  - 缩进
@@ -215,7 +217,7 @@ c  - 修改选中
 
 <h3>搜索</h3>
 
-<p><pre><code>/{pattern}  - 向下搜索
+<p><pre><code class="language-text" data-language="text">/{pattern}  - 向下搜索
 ?{pattern}  - 向上搜索
 n   - 下一个匹配
 N   - 上一个匹配
@@ -224,7 +226,7 @@ N   - 上一个匹配
 
 <h3>替换</h3>
 
-<p><pre><code>:s/old/new/      - 替换当前行第一个
+<p><pre><code class="language-vim" data-language="vim">:s/old/new/      - 替换当前行第一个
 :s/old/new/g     - 替换当前行所有
 :%s/old/new/g    - 替换全文所有
 :%s/old/new/gc   - 替换全文，逐个确认</code></pre></p>
@@ -233,7 +235,7 @@ N   - 上一个匹配
 
 <h3>保存退出</h3>
 
-<p><pre><code>:w   - 保存
+<p><pre><code class="language-vim" data-language="vim">:w   - 保存
 :q   - 退出
 :wq  - 保存并退出
 :q!  - 强制退出不保存
@@ -242,7 +244,7 @@ ZQ   - 强制退出不保存</code></pre></p>
 
 <h3>多文件</h3>
 
-<p><pre><code>:e file   - 打开文件
+<p><pre><code class="language-vim" data-language="vim">:e file   - 打开文件
 :bn  - 下一个缓冲区
 :bp  - 上一个缓冲区
 :ls  - 列出缓冲区
@@ -251,7 +253,7 @@ ZQ   - 强制退出不保存</code></pre></p>
 
 <h3>窗口操作</h3>
 
-<p><pre><code>Ctrl+w s  - 水平分屏
+<p><pre><code class="language-text" data-language="text">Ctrl+w s  - 水平分屏
 Ctrl+w v  - 垂直分屏
 Ctrl+w h/j/k/l  - 切换窗口
 Ctrl+w q  - 关闭窗口
@@ -261,20 +263,20 @@ Ctrl+w =  - 均等窗口大小</code></pre></p>
 
 <h3>宏录制</h3>
 
-<p><pre><code>q{register}  - 开始录制到寄存器
+<p><pre><code class="language-text" data-language="text">q{register}  - 开始录制到寄存器
 q            - 停止录制
 @{register}  - 播放宏
 @@           - 重复上次宏</code></pre></p>
 
 <h3>标记</h3>
 
-<p><pre><code>m{a-z}  - 设置标记
+<p><pre><code class="language-text" data-language="text">m{a-z}  - 设置标记
 &#x27;{a-z}  - 跳转到标记行
 `{a-z}  - 跳转到标记位置</code></pre></p>
 
 <h3>折叠</h3>
 
-<p><pre><code>zf{motion}  - 创建折叠
+<p><pre><code class="language-text" data-language="text">zf{motion}  - 创建折叠
 za  - 切换折叠
 zo  - 打开折叠
 zc  - 关闭折叠
@@ -311,7 +313,26 @@ zM  - 关闭所有折叠</code></pre></p>
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="../js/main.js?v=39d5852a"></script>
+    <script src="../js/main.js?v=20c0484d"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- 常用语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script>
+        // 代码高亮初始化
+        function initHighlight() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        }
+    </script>
     <script>
         // 生成目录
         document.addEventListener('DOMContentLoaded', function() {
@@ -324,6 +345,8 @@ zM  - 关闭所有折叠</code></pre></p>
             initCategoryToggle();
             // 初始化展开/收起全部按钮
             initToggleAllButtons();
+            // 初始化代码高亮
+            initHighlight();
         });
 
         // AJAX 无刷新导航 - 点击左侧栏链接时只更新内容区
@@ -397,6 +420,9 @@ zM  - 关闭所有折叠</code></pre></p>
                 generateTOC();
                 initTocFold();
                 
+                // 重新初始化代码高亮
+                initHighlight();
+                
                 // 滚动到顶部
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 
@@ -462,16 +488,25 @@ zM  - 关闭所有折叠</code></pre></p>
             }
 
             let tocHtml = '<ul class="toc-list">';
+            
+            // 根据层级选择不同图标
+            const levelIcons = {
+                1: 'fa-folder',      // 一级标题用文件夹图标
+                2: 'fa-file-alt',    // 二级标题用文件图标
+                3: 'fa-code',        // 三级标题用代码图标
+                4: 'fa-minus'        // 四级及以下用横线
+            };
 
             headings.forEach((heading, index) => {
                 const level = parseInt(heading.tagName.charAt(1));
                 const id = 'heading-' + index;
                 heading.id = id;
                 const text = heading.textContent;
+                const icon = levelIcons[level] || levelIcons[4];
 
-                // 扁平结构，不嵌套，只用class控制缩进
                 tocHtml += `<li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-level="${level}">
+                        <span class="toc-icon"><i class="fas ${icon}"></i></span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>`;

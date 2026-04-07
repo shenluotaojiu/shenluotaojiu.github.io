@@ -1,6 +1,6 @@
 #!/bin/bash
 # 博客发布脚本
-# 用法: ./publish.sh [watch]
+# 用法: ./publish.sh [watch|serve|dev]
 
 cd "$(dirname "$0")"
 
@@ -12,17 +12,10 @@ if [ "$1" = "watch" ]; then
     python3 build.py --watch
 elif [ "$1" = "serve" ]; then
     echo "🌐 启动本地服务器..."
-    python3 build.py
-    echo ""
-    echo "📡 服务器运行在: http://localhost:8888"
-    python3 -m http.server 8888
+    python3 build.py --serve
 elif [ "$1" = "dev" ]; then
-    echo "🔧 开发模式 (构建 + 服务器)..."
-    python3 build.py
-    echo ""
-    echo "📡 服务器运行在: http://localhost:8888"
-    echo "📂 修改 content/ 目录下的 Markdown 文件后，重新运行此脚本"
-    python3 -m http.server 8888
+    echo "🔧 开发模式 (构建 + 监听 + 服务器)..."
+    python3 build.py --serve --watch
 else
     echo "🔨 构建中..."
     python3 build.py
@@ -31,5 +24,5 @@ else
     echo "  ./publish.sh         # 一次性构建"
     echo "  ./publish.sh watch   # 监听模式，自动重新构建"
     echo "  ./publish.sh serve   # 构建并启动本地服务器"
-    echo "  ./publish.sh dev     # 开发模式 (构建+服务器)"
+    echo "  ./publish.sh dev     # 开发模式 (构建+监听+服务器)"
 fi
